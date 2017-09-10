@@ -6,9 +6,14 @@ Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"),
                     email = "saras.windecker@gmail.com"),
                     person("Nick", "Golding", role = "aut",
                     email = "nick.golding.research@gmail.com"))
-Description: This package 
+Description: This package provides an easy and straightforward way to quantify
+    lignocellulosic biomass pseudo-components derived from thermogravimetric analysis
+    (TGA). Mass loss data from TGA outputs are imported, modified, and then modelled 
+    in a three-part mixture model using the four parameter Fraser-Suzuki function. 
+    The output are estimates for mass fractions of pseudo-components corresponding 
+    to hemicellulose, cellulose, and lignin.
 Depends: R (>= 3.4.1)
-Imports: 
+Imports:
     minpack.lm, 
     nloptr
 Collate:
@@ -21,8 +26,13 @@ Collate:
     'fs_model.R'
     'tga_deriv.R'
     'deconvolve.R'
-License: file LICENSE
+    'single_param.R'
+    'mass_fractions.R'
+License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

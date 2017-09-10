@@ -36,6 +36,3 @@ tga_deriv <- function (data, temp, mass_loss, lower, upper) {
   return(data_trunc)
 
 }
-
-
-
