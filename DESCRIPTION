@@ -19,6 +19,7 @@ Collate:
     'fs_mixture.R'
     'fs_mixture_wrap.R'
     'fs_model.R'
+    'deconvolve.R'
 License: file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
