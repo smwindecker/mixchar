@@ -2,22 +2,23 @@
 % Please edit documentation in R/deconvolve.R
 \name{deconvolve}
 \alias{deconvolve}
-\title{Optimise Parameters}
+\title{Deconvolves Thermogravimetric Data}
 \usage{
 deconvolve(data, temp, obs)
 }
 \arguments{
-\item{data}{vector of starting values for each of 12 parameters}
+\item{data}{dataframe}
 
-\item{temp}{temperature values}
+\item{temp}{temperature values in Kelvin}
 
-\item{obs}{DTG mass values}
+\item{obs}{Derivative values of mass loss/K}
 }
 \value{
 model output
 }
 \description{
-This function otimises parameter selection so that the model will ultimately converge.
+This function deconvolves thermogravimetric data using a three-part
+Fraser-Suzuki mixture model
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}

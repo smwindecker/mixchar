@@ -10,7 +10,7 @@
 #' @import minpack.lm
 
 # function to do the nls fit with the correct starting values
-.fsModel <- function (dataframe, params) {
+.fs_model <- function (dataframe, params) {
 
   nlsLM(deriv ~ .fs_mixture_wrap(K, h1, h2, h3, s1, s2, s3, p1, p2, p3, w1, w2, w3),
         start = list(h1 = params[1], h2 = params[2], h3 = params[3],
