@@ -7,6 +7,6 @@
 #' @return root mean squared error
 #' @keywords internal
 
-.rmse <- function (pred, obs) {
+rmse <- function (pred, obs) {
   sqrt(sum((obs - pred) ^ 2))
 }

@@ -9,9 +9,11 @@
 #' @param w width value
 #' @return Fraser-Suzuki model output
 #' @keywords internal
+#'
+#' @export
 
 # Frazer-Suzuki function
-.fs_function <- function (x, h, s, p, w) {
+fs_function <- function (x, h, s, p, w) {
 
   interior <- 2 * s * ((x - p) / w)
   exterior <- -log(2) / s^2

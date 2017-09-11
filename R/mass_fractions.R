@@ -25,20 +25,20 @@ mass_fractions <- function (fit, lower, upper, mass_init, mass_loss_vec) {
   a_j <- vector(length = 3)
 
   for (j in 1:3) {
-    #j <- 1
+
     f_j <- function (x) {
 
-      h <- pEst(fit, 'h', j)
-      s <- pEst(fit, 's', j)
-      p <- pEst(fit, 'p', j)
-      w <- pEst(fit, 'w', j)
+      h <- single_param(fit, 'h', j)
+      s <- single_param(fit, 's', j)
+      p <- single_param(fit, 'p', j)
+      w <- single_param(fit, 'w', j)
 
-      .fs_function(x, h, s, p, w)
+      fs_function(x, h, s, p, w)
 
     }
 
-    a_j[j] <- integrate(Vectorize(f_j), lower = 400,
-                         upper = 900)$value / (W[1] - W[n])
+    a_j[j] <- integrate(Vectorize(f_j), lower = lower,
+                         upper = upper)$value / (W[1] - W[n])
 
   }
 

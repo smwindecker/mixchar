@@ -9,12 +9,12 @@
 #' @return root mean square error of model output
 #' @keywords internal
 
-.objective <- function (params, model, x, obs) {
+objective <- function (params, model, x, obs) {
 
   pred <- model(x, params)
 
   # see how good it is
-  target <- .rmse(pred, obs)
+  target <- deconvolve:::rmse(pred, obs)
 
   target
 

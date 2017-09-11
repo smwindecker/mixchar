@@ -13,7 +13,7 @@
 
 single_param <- function (fit, param, component) {
 
-  coef <- as.data.frame(summary(model)$coefficients[,1])
+  coef <- as.data.frame(summary(fit)$coefficients[,1])
   colnames(coef) <- 'estimate'
   coef$param <- rownames(coef)
   coef$parameter <- substr(coef$param, 1, 1)

@@ -12,7 +12,7 @@
 #' @import nloptr
 
 # create params_opt with this function
-.param_select <- function (theta, lb, model, x, obs, restarts = 300) {
+param_select <- function (theta, lb, model, x, obs, restarts = 300) {
 
   opts <- list("algorithm"="NLOPT_LN_BOBYQA",
                "xtol_rel"=1.0e-12)
@@ -20,7 +20,7 @@
   # fit the model `restarts` times with different starting locations
   o_list <- replicate(restarts,
                       nloptr(x0 = theta,
-                             eval_f = .objective,
+                             eval_f = objective,
                              lb = lb,
                              model = model,
                              x = x,

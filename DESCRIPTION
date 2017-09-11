@@ -1,5 +1,5 @@
 Package: deconvolve
-Title: Deconvolves Thermogravimetric Analysis Data using Fraser-Suzuki Function
+Title: Deconvolves Thermogravimetric Analysis Data using mixture model
 Version: 0.0.0.9000
 Date: 2017-09-10
 Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"), 
@@ -17,6 +17,7 @@ Imports:
     minpack.lm, 
     nloptr
 Collate:
+    'raw_data.R'
     'rmse.R'
     'objective.R'
     'param_select.R'
@@ -24,9 +25,10 @@ Collate:
     'fs_mixture.R'
     'fs_mixture_wrap.R'
     'fs_model.R'
-    'tga_deriv.R'
+    'tga_process.R'
     'deconvolve.R'
     'single_param.R'
+    'decon_plot.R'
     'mass_fractions.R'
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
