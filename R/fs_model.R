@@ -4,7 +4,7 @@
 #' with a three-part mixture model using Fraser-Suzuki equation
 #'
 #' @param dataframe dataframe
-#' @param temp starting parameter values
+#' @param params starting parameter values
 #' @return model output
 #' @keywords internal
 #' @import minpack.lm

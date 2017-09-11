@@ -7,7 +7,7 @@
 #' @param lower lower bound for temperature for cropping dataset
 #' @param upper upper bound for temperature for cropping dataset
 #' @param mass_init numeric value of mg of initial sample
-#' @param mass_loss_col vector of mass loss values from TGA
+#' @param mass_loss_vec vector of mass loss values from TGA
 #' @return list of mg pseudo-component / mg sample for pseudo-components
 #' 1, 2, and 3
 #' @keywords thermogravimetry fraser-suzuki deconvolution
