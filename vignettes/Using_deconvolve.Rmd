@@ -33,6 +33,19 @@ library(deconvolve)
 
 <hr>
 
+## Functions
+tga_process = processing of raw data to get derivatives
+fs_function = Fraser-Suzuki function
+fs_mixture = mixture function
+deconvolve = run non-linear model
+decon_plot = plot outputs
+mass_fractions = calculate mass fractions of each pseudo-component
+
+
+
+
+
+
 ## Using deconvolve package
 
 Traditional methods for calculation of lignocellulosic biomass involve wet chemistry methods that are both costly and involve potentially harmful chemicals. While thermogravimetric analysis (TGA) does not provide exact measurements of carbon components, it can be used to estimate mass fractions of dominant carbon forms. The following is a brief introduction to how to use measurements from TGA to estimate pseudo-components using the deconvolve package. This methodology has been tested on a range of plant litter, whose carbon content is expected to roughly partition into three dominant types: hemicellulose, cellulose, and lignin. It is not suitable for woody material. At this point, the functions contained in this package cannot be used to deconvolve mass decay into further components.
@@ -53,6 +66,8 @@ We can see all the functions here:
 ls('package:deconvolve')
 ```
 
+<hr>
+
 ## Theory
 using mixture model to estimate proportions of components, 
 why fs? -- studies have found that it estimates well. good tie. flexible because has 4 parameters per curve. 
@@ -69,6 +84,7 @@ $\frac{d\alpha}{dT} = h\ exp\bigg\{-\frac{ln2}{s^2}\Big[ln\Big(1 + 2s \frac{T- p
 and then the initial mass to estimate mg/mg 
 Include equation for that part
 
+<hr>
 
 ## Preparing your data
 
@@ -99,6 +115,10 @@ munge_data <- tga_process(raw_data, 'temp_K', 'mass_loss', 18.9615, 400, 900)
 head(munge_data)
 ```
 
+<hr>
+
+## Plot your data 
+
 If our dataset contained many replicate measures per degree we can see that the function has shortened the dataset. We can see that we now have a column for the derivative mass loss rate. At this point we may want to plot this data. We can do so with the base R plot function. 
 
 ```{r}
@@ -108,6 +128,8 @@ plot(munge_data$temp_K, munge_data$deriv, xlab = 'Temperature (K)', ylab = 'DTG 
 ```
 
 We can see that it has plotted both the mass loss against temperature and the derivative curve. The difference here is that the derivative curve places DTG on the y axis, displaying a change in rate. Every curve will look a little different, but you should see a few humps in your DTG curve. These correspond to the underlying mass loss curves of the three pseudo-components. 
+
+<hr>
 
 ## deconvolve
 The next step is to deconvolve the DTG curve. The function `deconvolve()` does so by modelling a three-part non-linear mixture model of Fraser-Suzuki functions. 
