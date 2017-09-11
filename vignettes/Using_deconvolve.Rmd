@@ -39,6 +39,11 @@ Traditional methods for calculation of lignocellulosic biomass involve wet chemi
 
 To start with, I'll show you a brief overview of what you can expect to do with this package, and then I'll go into some detail about how to use each function in the package. This work is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know at saras.windecker@gmail.com, or log a bug on github: http://www.github.com/smwindecker/deconvolve.
 
+```{r echo = F, out.width= '650px', fig.align = "center", fig.cap="*Figure 1. Map of outputs of deconvolution of thermogravimetric curves: mass loss against temperature reflects the raw data we typically export from the TGA processing software (a.), derivative thermogravimetric rate against temperature (b.), and finally, the main output from this package, the deconvolved derivative thermogravimetric curves of each pseudo-component (c.).*"}
+knitr::include_graphics("../vignettes/Figures/three_graphs.png")
+```
+
+
 First I'll introduce a bit of theory, if you'd rather skip straight to the how-to, head to XXX in the sidebar.
 
 The simplest way to use this package is to simply use the main two functions, `deconvolve()` and `mass_frac()` on data that is already formatted to model it and then extract mass fractions. There are also a few helper functions to get the data in the right format and plot the output. We will do a full worked example, starting with a big of background theory. 
@@ -78,20 +83,19 @@ library(devtools)
 
 ``` {r}
 data(raw_data)
-raw_data <- read.csv('../data/example_raw_TGA.csv', header = TRUE)
 head(raw_data)
 ```
 
 First step will be to confirm that your data contains the necessary components for the pre-processing function. We can see that we have mass loss and temperature data. Temperature data is in C, however, so first we will transform the column in K. 
 
 ```{r}
-raw_data$temp_K <- raw_data$Temp_C + 273
+raw_data$temp_K <- raw_data$temp_C + 273
 ```
 
 We are now ready to use `tga_process()`. ** note ** about the lower and upper inputs. It is generally agreed upon that the early stages of TGA measures reflect 
 
 ```{r}
-munge_data <- tga_process(raw_data, 'temp_K', 'Mass_loss', 18.9615, 400, 900)
+munge_data <- tga_process(raw_data, 'temp_K', 'mass_loss', 18.9615, 400, 900)
 head(munge_data)
 ```
 
@@ -127,7 +131,7 @@ Take a look at your plot. Do the estimates seem reasonable? In many cases, the p
 The next thing you may want to do is calculate the mass fractions of your three components. This is not as simple as integrating under each curve, because that would just give us the mass fraction of the mass that was burnt off. We also need to take in to consideration the mass that was remaining at the end of thermal decay. 
 
 ```{r}
-mass_frac <- mass_fractions(fit, 400, 900, 18.9615, munge_data$Mass_loss)
+mass_frac <- mass_fractions(fit, 400, 900, 18.9615, munge_data$mass_loss)
 mass_frac
 ```
 
