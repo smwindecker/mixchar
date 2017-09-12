@@ -1,0 +1,47 @@
+---
+title: "deconvolve: a protocol and R package for thermogravimetric decay curve deconvolution for lignocellulosic biomass trait calculation"
+author: "Saras M Windecker & Nick Golding"
+date: "12/09/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+_Fraser-Suzuki deconvolution_
+This equation flow comes from Chen et al 2017..
+
+
+The key function in the deconvolve package, for which it is eponymously named, executes the three-part Fraser-Suzuki mixture model, using the following math (awkward...). 
+
+The Fraser-Suzuki function, due to its asymmetry, has been found to well predict kinetic curves and therefore be useful for deconvolution of parallel independent processes. The Fraser-Suzuki function is expressed as follows:
+
+$y = h\ exp\bigg\{-\frac{ln2}{s^2}\Big[ln\Big(1 + 2s \frac{x- p}{w}\Big)\Big]^2\bigg\}$
+
+where T is the independent variable, in this case temperature, and the parameters h, s, p, and w are height, skew, position, and width of the curve, respectively. The rate expression ($d\alpha/dT$) for a single curve can be written as follows: 
+
+$\frac{d\alpha}{dT} = h\ exp\bigg\{-\frac{ln2}{s^2}\Big[ln\Big(1 + 2s \frac{T- p}{w}\Big)\Big]^2\bigg\}$
+
+$\alpha = \frac{M_0 - M_T}{M_0 - M_f}$
+
+where $\alpha$ is the conversion of mass from the start to the final temperature, given the initial: M is the dimensionless weight of the sample at initial temperature ($M_0$), at a given temperature ($M_T$), and at final temperature ($M_f$). Because we are assuming independent reactions by the three main pseudo components, mass loss rate is expressed as follows:
+
+$-\frac{dm}{dT} = \sum\limits_{i=1}^3 c_i\frac{d\alpha_{i}}{dT}$
+
+$c_i = M_{0,i} - M_{char,i}$
+
+$m = \frac{M_T}{M_0}$
+
+where $c_i$ is the mass of pseudo component _i_ that is decayed, _i_ = 1, 2, and 3 refer to pseudo hemicellulose, pseudo cellulose, and pseudo lignin, respectively. $M_{0,i}$ and $M_{char,i}$ are the mass of the initial and final pyrolysis of the _i_-th component, respectively. When we introduce the Fraser-Suzuki function, the deconvolution can be expressed as: 
+
+$-\frac{dm}{dT} = \sum\limits_{i=1}^3 c_if_i(T)$
+
+where $f_i(T)$ represents the Fraser-Suzuki function with parameters $h_i$, $s_i$, $p_i$, and $w_i$. In total the model estimates 12 parameters, one of each of the former for each of the three pseudo components. These are estimated using the nls.lm function as part of the minpack.lm package, which minimises the sum square of the vector returned by the function. The objective function used is the root mean square error of the predicted rate compared to the observed. 
+
+** input expression here for rmse? **
+
+The deconvolve function returns a normal model output, from which users can extract parameter estimates themselves. 
+
+(talk about next function and add equations for back calculating the mass of each PC)
+

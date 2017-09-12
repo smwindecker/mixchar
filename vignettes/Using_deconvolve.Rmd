@@ -52,7 +52,7 @@ Traditional methods for calculation of lignocellulosic biomass involve wet chemi
 
 To start with, I'll show you a brief overview of what you can expect to do with this package, and then I'll go into some detail about how to use each function in the package. This work is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know at saras.windecker@gmail.com, or log a bug on github: http://www.github.com/smwindecker/deconvolve.
 
-```{r echo = F, out.width= '650px', fig.align = "center", fig.cap="*Figure 1. Map of outputs of deconvolution of thermogravimetric curves: mass loss against temperature reflects the raw data we typically export from the TGA processing software (a.), derivative thermogravimetric rate against temperature (b.), and finally, the main output from this package, the deconvolved derivative thermogravimetric curves of each pseudo-component (c.).*"}
+```{r echo = F, out.width= '750px', fig.align = "center", fig.cap="*Figure 1. Map of outputs of deconvolution of thermogravimetric curves: mass loss against temperature reflects the raw data we typically export from the TGA processing software (a.), derivative thermogravimetric rate against temperature (b.), and finally, the main output from this package, the deconvolved derivative thermogravimetric curves of each pseudo-component (c.).*"}
 knitr::include_graphics("../vignettes/Figures/three_graphs.png")
 ```
 
