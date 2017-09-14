@@ -18,6 +18,9 @@ fs_function <- function (x, h, s, p, w) {
   interior <- 2 * s * ((x - p) / w)
   exterior <- -log(2) / s^2
 
-  ifelse(interior > -1, h * exp(exterior * (log(1 + interior)^2)), 0)
+  answer <- rep(0, length(interior))
+  valid <- interior >= -1
+  answer[valid] <- h * exp(exterior * (log(1 + interior[valid])^2))
+  answer
 
 }
