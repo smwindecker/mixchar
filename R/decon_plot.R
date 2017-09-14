@@ -9,6 +9,7 @@
 #' @param upper upper bound for temperature for cropping dataset
 #' @return plot of DTG against K, with curve for each pseudo-component included
 #' @keywords thermogravimetry fraser-suzuki deconvolution
+#' @importFrom graphics curve legend plot
 
 #' @export
 
