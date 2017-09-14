@@ -1,13 +1,11 @@
-#' Fraser-Suzuki three-part mixture
-#'
-#' This function combines three Fraser-Suzuki functions for the total mixture model.
-#'
-#' @param x temperature values
-#' @param params parameter starting values
-#' @return Fraser-Suzuki mixture model output
-#' @keywords internal
-#'
-#' @export
+# Fraser-Suzuki three-part mixture
+#
+# This function combines three Fraser-Suzuki functions for the total mixture model.
+#
+# @param x temperature values
+# @param params parameter starting values
+# @return Fraser-Suzuki mixture model output
+# @keywords internal
 
 # combine the FS function three times for the three pseudo-components
 fs_mixture <- function (x, params) {

@@ -1,13 +1,13 @@
-#' Non-linear model using Fraser-Suzuki mixture model
-#'
-#' Non-linear model output using optimised parameter values
-#' with a three-part mixture model using Fraser-Suzuki equation
-#'
-#' @param dataframe dataframe
-#' @param params starting parameter values
-#' @return model output
-#' @keywords internal
-#' @import minpack.lm
+# Non-linear model using Fraser-Suzuki mixture model
+#
+# Non-linear model output using optimised parameter values
+# with a three-part mixture model using Fraser-Suzuki equation
+#
+# @param dataframe dataframe
+# @param params starting parameter values
+# @return model output
+# @keywords internal
+# @import minpack.lm
 
 # function to do the nls fit with the correct starting values
 fs_model <- function (dataframe, params) {

@@ -1,16 +1,14 @@
-#' Fraser-Suzuki function
-#'
-#' This function calculates the Fraser-Suzuki function.
-#'
-#' @param x temperature values
-#' @param h height value
-#' @param s shape value
-#' @param p position value
-#' @param w width value
-#' @return Fraser-Suzuki model output
-#' @keywords internal
-#'
-#' @export
+# Fraser-Suzuki function
+#
+# This function calculates the Fraser-Suzuki function.
+#
+# @param x temperature values
+# @param h height value
+# @param s shape value
+# @param p position value
+# @param w width value
+# @return Fraser-Suzuki model output
+# @keywords internal
 
 # Frazer-Suzuki function
 fs_function <- function (x, h, s, p, w) {
