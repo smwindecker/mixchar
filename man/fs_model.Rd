@@ -9,7 +9,7 @@ fs_model(dataframe, params)
 \arguments{
 \item{dataframe}{dataframe}
 
-\item{temp}{starting parameter values}
+\item{params}{starting parameter values}
 }
 \value{
 model output
