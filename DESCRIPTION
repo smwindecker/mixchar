@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Date: 2017-09-10
 Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"), 
                     email = "saras.windecker@gmail.com"),
-                    person("Nick", "Golding", role = "aut",
+             person("Nick", "Golding", role = "aut",
                     email = "nick.golding.research@gmail.com"))
 Description: This package provides an easy and straightforward way to quantify
     lignocellulosic biomass pseudo-components derived from thermogravimetric analysis
@@ -15,26 +15,15 @@ Description: This package provides an easy and straightforward way to quantify
 Depends: R (>= 3.4.1)
 Imports:
     minpack.lm, 
-    nloptr
-Collate:
-    'raw_data.R'
-    'rmse.R'
-    'objective.R'
-    'param_select.R'
-    'fs_function.R'
-    'fs_mixture.R'
-    'fs_mixture_wrap.R'
-    'fs_model.R'
-    'tga_process.R'
-    'deconvolve.R'
-    'single_param.R'
-    'decon_plot.R'
-    'mass_fractions.R'
+    nloptr,
+    plyr
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Suggests:
+    knitr,
+    rmarkdown,
+    devtools
 VignetteBuilder: knitr

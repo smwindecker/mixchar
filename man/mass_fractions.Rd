@@ -15,7 +15,7 @@ mass_fractions(fit, lower, upper, mass_init, mass_loss_vec)
 
 \item{mass_init}{numeric value of mg of initial sample}
 
-\item{mass_loss_col}{vector of mass loss values from TGA}
+\item{mass_loss_vec}{vector of mass loss values from TGA}
 }
 \value{
 list of mg pseudo-component / mg sample for pseudo-components
