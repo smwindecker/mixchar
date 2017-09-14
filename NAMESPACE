@@ -2,8 +2,6 @@
 
 export(decon_plot)
 export(deconvolve)
-export(fs_function)
-export(fs_mixture)
 export(mass_fractions)
 export(single_param)
 export(tga_process)

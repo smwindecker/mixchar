@@ -8,6 +8,7 @@
 #' @param obs Derivative values of mass loss/K
 #' @return model output
 #' @keywords thermogravimetry fraser-suzuki deconvolution
+#' @import minpack.lm nloptr
 
 #' @export
 
