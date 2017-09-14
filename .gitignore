@@ -1,5 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
+.DS_Store
 inst/doc
 vignettes/Using_deconvolve_cache
