@@ -15,7 +15,7 @@ This equation flow comes from Chen et al 2017..
 
 The key function in the deconvolve package, for which it is eponymously named, executes the three-part Fraser-Suzuki mixture model, using the following math (awkward...). 
 
-The Fraser-Suzuki function, due to its asymmetry, has been found to well predict kinetic curves and therefore be useful for deconvolution of parallel independent processes. The Fraser-Suzuki function is expressed as follows:
+The Fraser-Suzuki function, due to its asymmetry, is useful for predicting kinetic curves and therefore useful for the deconvolution of parallel independent processes. The Fraser-Suzuki function is expressed as follows:
 
 $y = h\ exp\bigg\{-\frac{ln2}{s^2}\Big[ln\Big(1 + 2s \frac{x- p}{w}\Big)\Big]^2\bigg\}$
 
