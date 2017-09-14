@@ -13,7 +13,7 @@
 #' @return new dataframe
 #' @keywords derivative
 #' @import plyr
-
+#'
 #' @export
 
 tga_process <- function (data, temp, mass_loss, mass_init, lower, upper) {

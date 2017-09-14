@@ -12,6 +12,7 @@
 #' 1, 2, and 3
 #' @keywords thermogravimetry fraser-suzuki deconvolution
 #' @importFrom stats integrate setNames
+#'
 #' @export
 
 #t <- mass_fractions(model, 400, 900, 18.9615, test$m_T)
