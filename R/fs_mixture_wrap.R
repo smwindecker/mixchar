@@ -22,6 +22,6 @@
 fs_mixture_wrap <- function (x, h1, h2, h3, s1, s2, s3, p1, p2, p3, w1, w2, w3) {
 
   params <- c(h1, h2, h3, s1, s2, s3, p1, p2, p3, w1, w2, w3)
-  deconvolve:::fs_mixture(x, params)
+  fs_mixture(x, params)
 
 }

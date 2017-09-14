@@ -17,7 +17,7 @@ deconvolve <- function (data, temp, obs) {
 
   theta <- c(.015, .013, .01, -.15, -.15, -.15, 540, 600, 700, 50, 30, 200)
   lb <- c(0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0)
-  params_opt <- deconvolve:::param_select(theta, lb, deconvolve:::fs_mixture, temp, obs, restarts = 300)
-  deconvolve:::fs_model(data, params_opt)
+  params_opt <- param_select(theta, lb, fs_mixture, temp, obs, restarts = 300)
+  fs_model(data, params_opt)
 
 }
