@@ -15,21 +15,8 @@ Description: This package provides an easy and straightforward way to quantify
 Depends: R (>= 3.4.1)
 Imports:
     minpack.lm, 
-    nloptr
-Collate:
-    'raw_data.R'
-    'rmse.R'
-    'objective.R'
-    'param_select.R'
-    'fs_function.R'
-    'fs_mixture.R'
-    'fs_mixture_wrap.R'
-    'fs_model.R'
-    'tga_process.R'
-    'deconvolve.R'
-    'single_param.R'
-    'decon_plot.R'
-    'mass_fractions.R'
+    nloptr,
+    plyr
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
