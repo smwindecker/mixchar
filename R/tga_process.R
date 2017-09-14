@@ -18,8 +18,6 @@
 
 tga_process <- function (data, temp, mass_loss, mass_init, lower, upper) {
 
-  require(plyr)
-
   if (data[1, temp]%%1!=0) {
     data$roundK <- round_any(data[,temp], 1)
     data_1 <- data[!duplicated(data[,'roundK']),]
