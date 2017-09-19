@@ -4,21 +4,38 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(data, temp, obs)
+deconvolve(data, temp_col, massloss_col, massinit_value, temp_type = NULL,
+  start_vec = "theta", lower = 400, upper = 900)
 }
 \arguments{
 \item{data}{dataframe}
 
-\item{temp}{temperature values in Kelvin}
+\item{temp_col}{column name containing temperature values}
 
-\item{obs}{Derivative values of mass loss/K}
+\item{massloss_col}{column name containing mass loss values in grams}
+
+\item{massinit_value}{numeric value of initial sample mass in grams}
+
+\item{temp_type}{specify units of temperature, default = Kelvin. specify 'C' if in Celsius}
+
+\item{start_vec}{vector of starting values for parameter optimisation in following order:
+h1, h2, h3, s1, s2, s3, p1, p2, p3, w1, w2, w3.}
+
+\item{lower}{lower bound to crop temperature data in Kelvin. Defaults to 400.}
+
+\item{upper}{upper bound to crop temperature data in Kelvin. Defaults to 900.}
 }
 \value{
-model output
+decon list containing amended dataframe, bounds, model output, mass fractions
 }
 \description{
 This function deconvolves thermogravimetric data using a three-part
 Fraser-Suzuki mixture model
+}
+\examples{
+data(raw_data)
+output <- deconvolve(raw_data, 'temp_C', 'mass_loss', 16.85, 'C')
+
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}

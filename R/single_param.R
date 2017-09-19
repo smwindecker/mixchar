@@ -1,15 +1,14 @@
-#' Calculate single parameter estimates
-#'
-#' This function gives single parameter estimates for given
-#' parameter and pseudo-component.
-#'
-#' @param fit model fit output from deconvolve function
-#' @param param parameter value of interest
-#' @param component Number of pseudo-component of interest
-#' @return parameter estimate value
-#' @keywords thermogravimetry fraser-suzuki deconvolution
+# Calculate single parameter estimates
+#
+# This function gives single parameter estimates for given
+# parameter and pseudo-component.
+#
+# @param fit model fit output from deconvolve function
+# @param param parameter value of interest
+# @param component Number of pseudo-component of interest
+# @return parameter estimate value
+# @keywords thermogravimetry fraser-suzuki deconvolution
 
-#' @export
 
 single_param <- function (fit, param, component) {
 
