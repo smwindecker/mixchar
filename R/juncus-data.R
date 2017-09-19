@@ -4,12 +4,14 @@
 #'
 #' @docType data
 #'
-#' @usage data(raw_data)
+#' @usage data(juncus)
 #'
-#' @format An object of class \code{"cross"}
+#' @format An object of class \code{'cross'}
 #'
 #' @keywords datasets
 #'
 #' @source Saras M Windecker
+#' @examples
+#' data(juncus)
 
-'raw_data'
+'juncus'
