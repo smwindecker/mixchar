@@ -33,8 +33,8 @@ This function deconvolves thermogravimetric data using a three-part
 Fraser-Suzuki mixture model
 }
 \examples{
-data(raw_data)
-output <- deconvolve(raw_data, 'temp_C', 'mass_loss', 16.85, 'C')
+data(juncus)
+output <- deconvolve(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
 
 }
 \keyword{deconvolution}
