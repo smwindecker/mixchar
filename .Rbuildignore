@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 writing
 vignettes/Using_deconvolve_cache
+tests

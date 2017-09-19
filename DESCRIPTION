@@ -16,7 +16,8 @@ Depends: R (>= 3.4.1)
 Imports:
     minpack.lm, 
     nloptr,
-    plyr
+    plyr,
+    pryr
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
@@ -25,5 +26,7 @@ RoxygenNote: 6.0.1
 Suggests:
     knitr,
     rmarkdown,
-    devtools
+    devtools,
+    testthat,
+    shiny
 VignetteBuilder: knitr
