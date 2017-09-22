@@ -13,7 +13,11 @@ r_packages:
   - devtools
   - testthat
   - shiny
+  - covr
 
 email:
   on_success: change
   on_failure: change
+
+after_success:
+  - Rscript -e 'library(covr); codecov()'
