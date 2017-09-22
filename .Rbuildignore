@@ -3,3 +3,4 @@
 writing
 vignettes/Using_deconvolve_cache
 tests
+.travis.yml

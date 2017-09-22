@@ -1,5 +1,19 @@
-language: ruby
-rvm:
- - 2.2
- - jruby
- - rbx-2
+sudo: required
+language: r
+warnings_are_errors: false
+dist: trusty
+
+r_packages:
+  - minpack.lm
+  - nloptr
+  - plyr
+  - pryr
+  - knitr
+  - rmarkdown
+  - devtools
+  - testthat
+  - shiny
+
+email:
+  on_success: change
+  on_failure: change
