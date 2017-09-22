@@ -15,7 +15,7 @@
 
 plot.decon <- function (x, plot_type = NULL, ...) {
 
-  x <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
+  temp <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
   data <- x$data
   fit <- x$minpack.lm_object
 
@@ -29,27 +29,27 @@ plot.decon <- function (x, plot_type = NULL, ...) {
     par(xpd = T, mar = par()$mar + c(0,0,0,2))
     plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
 
-    y1 <- fs_mixture_wrap(x,
+    y1 <- fs_mixture_wrap(temp,
                           single_param(fit, 'h', '1'), single_param(fit, 'h', '2'), single_param(fit, 'h', '3'),
                           single_param(fit, 's', '1'), single_param(fit, 's', '2'), single_param(fit, 's', '3'),
                           single_param(fit, 'p', '1'), single_param(fit, 'p', '2'), single_param(fit, 'p', '3'),
                           single_param(fit, 'w', '1'), single_param(fit, 'w', '2'), single_param(fit, 'w', '3'))
-    lines(x, y1, col = 'red')
+    lines(temp, y1, col = 'red')
 
-    y2 <- fs_function(x,
+    y2 <- fs_function(temp,
                       single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
                       single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-    lines(x, y2, col = 'blue')
+    lines(temp, y2, col = 'blue')
 
-    y3 <- fs_function(x,
+    y3 <- fs_function(temp,
                       single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
                       single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-    lines(x, y3, col = 'green')
+    lines(temp, y3, col = 'green')
 
-    y4 <- fs_function(x,
+    y4 <- fs_function(temp,
                       single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
                       single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-    lines(x, y4, col = 'orange')
+    lines(temp, y4, col = 'orange')
 
     legend(x$bounds[2]+50, max(data$deriv), legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
            col = c('red', 'blue', 'green', 'orange'), lty = 1, cex=0.8)
