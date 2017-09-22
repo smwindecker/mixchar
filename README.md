@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/smwindecker/deconvolve.svg?branch=master)](https://travis-ci.org/smwindecker/deconvolve)
+[![codecov.io](https://codecov.io/gh/smwindecker/deconvolve/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/deconvolve)
 
 # deconvolve
 Repository for the R package 'deconvolve'
