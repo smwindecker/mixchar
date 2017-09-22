@@ -18,7 +18,6 @@ single_param <- function (fit, param, component) {
   coef$parameter <- substr(coef$param, 1, 1)
   coef$component <- substr(coef$param, 2, 2)
 
-  value <- coef$estimate[coef$parameter == param & coef$component == component]
-  print(value)
+  coef$estimate[coef$parameter == param & coef$component == component]
 
 }
