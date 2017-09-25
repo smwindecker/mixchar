@@ -4,26 +4,19 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(data, temp_col, massloss_col, massinit_value, temp_type = NULL,
-  start_vec = "theta", lower = 400, upper = 900)
+deconvolve(process_object, start_height = "height", start_skew = "skew",
+  start_position = "position", start_width = "width")
 }
 \arguments{
-\item{data}{dataframe}
+\item{process_object}{process object obtained from process function}
 
-\item{temp_col}{column name containing temperature values}
+\item{start_height}{vector of height starting values for parameter optimisation in order of curve}
 
-\item{massloss_col}{column name containing mass loss values in grams}
+\item{start_skew}{vector of skew starting values for parameter optimisation in order of curve}
 
-\item{massinit_value}{numeric value of initial sample mass in grams}
+\item{start_position}{vector of position starting values for parameter optimisation in order of curve}
 
-\item{temp_type}{specify units of temperature, default = Kelvin. specify 'C' if in Celsius}
-
-\item{start_vec}{vector of starting values for parameter optimisation in following order:
-h1, h2, h3, s1, s2, s3, p1, p2, p3, w1, w2, w3.}
-
-\item{lower}{lower bound to crop temperature data in Kelvin. Defaults to 400.}
-
-\item{upper}{upper bound to crop temperature data in Kelvin. Defaults to 900.}
+\item{start_width}{vector of width starting values for parameter optimisation in order of curve}
 }
 \value{
 decon list containing amended dataframe, bounds, model output, mass fractions
@@ -34,7 +27,8 @@ Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
-output <- deconvolve(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
+output <- deconvolve(munge, c(0.015, 0.013, 0.01), c(-0.15, -0.15, -0.15),
+c(540, 600, 700), c(50, 30, 200))
 
 }
 \keyword{deconvolution}

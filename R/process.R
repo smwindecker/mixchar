@@ -1,0 +1,54 @@
+#' Processes Thermogravimetric Data
+#'
+#' This function processes thermogravimetric data by calculating
+#' the derivative of mass loss
+#'
+#' @param data dataframe
+#' @param temp_col column name containing temperature values
+#' @param massloss_col column name containing mass loss values in grams
+#' @param massinit_value numeric value of initial sample mass in grams
+#' @param temp_type specify units of temperature, default = Kelvin. specify 'C' if in Celsius
+#' @param lower lower bound to crop temperature data in Kelvin. Defaults to 400.
+#' @param upper upper bound to crop temperature data in Kelvin. Defaults to 900.
+#' @return decon list containing amended dataframe, bounds, model output, mass fractions
+#' @keywords thermogravimetry fraser-suzuki deconvolution
+#' @import plyr
+#' @importFrom stats integrate setNames
+#' @examples
+#' data(juncus)
+#' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
+#'
+#' @export
+
+process <- function (data, temp_col, massloss_col, massinit_value,
+                        temp_type = NULL, lower = 400, upper = 900) {
+
+  if (temp_type == 'C') {
+    data$temp_K <- data[, temp_col] + 273
+  } else {
+    data$temp_K <- data[, temp_col]
+  }
+
+  if (data[1, 'temp_K']%%1!=0) {
+    data$roundK <- round_any(data$temp_K, 1)
+    data_1 <- data[!duplicated(data$roundK),]
+  } else {
+    data_1 <- data[!duplicated(data$temp_K),]
+  }
+
+  d <- -as.data.frame(diff(data_1[, massloss_col])/diff(data_1$temp_K))
+  x <- rep(NA, ncol(d))
+  deriv <- rbind(x, d)
+  colnames(deriv) <- 'deriv'
+  data_2 <- cbind(data_1, deriv)
+  data_sub <- data_2[!(data_2$temp_K < lower | data_2$temp_K > upper),]
+  data_sub$mass_T <- data_sub[, massloss_col] + massinit_value
+
+  #####
+  output <- list(data = data_sub, bounds = c(lower, upper))
+
+  class(output) <- 'process'
+  output
+
+}
+
