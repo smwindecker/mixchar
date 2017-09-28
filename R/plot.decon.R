@@ -13,13 +13,14 @@
 #' @export
 
 plot.decon <- function (x, ...) {
-
+x <- decon
   temp <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
   data <- x$data
-  fit <- x$minpack.lm_object
+  fit <- x$minpack.lm
 
-  par(xpd = T, mar = par()$mar + c(0,0,0,2))
-  plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
+  par(xpd = T, par = mar(0,1,0,0))
+  plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)',
+       yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)))
 
   y1 <- fs_mixture_wrap(temp,
                         single_param(fit, 'h', '1'), single_param(fit, 'h', '2'), single_param(fit, 'h', '3'),
@@ -43,8 +44,14 @@ plot.decon <- function (x, ...) {
                     single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
   lines(temp, y4, col = 'orange')
 
-  legend(x$bounds[2]+50, max(data$deriv), legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
-         col = c('red', 'blue', 'green', 'orange'), lty = 1, cex=0.8)
+  legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
+         yjust = 0,
+         legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
+         ncol = 4,
+         cex = 0.6,
+         bty = 'n',
+         col = c('red', 'blue', 'green', 'orange'),
+         lty = 1, lwd = 2)
 
 }
 

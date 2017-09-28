@@ -12,14 +12,10 @@
 
 print.process <- function (x, ...) {
 
-  cat(paste('processed thermogravimetry data
+  cat(paste('Derivative thermogravimetry data (DTG)
+            calculated for', nrow(x$data), 'datapoints from', x$bounds[1],
+            'to', x$bounds[2], 'degrees K.'
 
-            DTG calculated for', nrow(x$data), 'datapoints from', x$bounds[1],
-            'to', x$bounds[2], 'degrees K.
-
-            process object contains the following attributes:
-            $data dataframe with original data as well as modified temperature and derivative values
-            $bounds selected temperature bounds for model'
           )
      )
 }

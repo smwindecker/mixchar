@@ -18,7 +18,6 @@
 
 plot.process <- function (x, plot_type = NULL, ...) {
 
-  temp <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
   df <- x$data
 
   p_massloss <- function (data) {

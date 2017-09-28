@@ -12,17 +12,7 @@
 
 print.decon <- function (x, ...) {
 
-cat(paste('deconvolution model
-
-      Fraser-suzuki mixture model fitted to', nrow(x$data), 'datapoints from', x$bounds[1],
-'to', x$bounds[2], 'degrees K.
-
-      decon object contains the following attributes:
-          $data dataframe with original data as well as modified temperature and derivative values
-          $bounds selected temperature bounds for model
-          $start_vec vector of starting values used in model parameterisation
-          $minpack.lm_object model output showing parameter estimates
-          $mass_fractions lists the fractions of initial mass of each pseudo-component'
-      )
+cat(paste('Deconvolution by Fraser-suzuki mixture model fitted to', nrow(x$data), 'datapoints from', x$bounds[1],
+'to', x$bounds[2], 'degrees K.')
 )
 }
