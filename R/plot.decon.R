@@ -13,45 +13,94 @@
 #' @export
 
 plot.decon <- function (x, ...) {
-x <- decon
+
   temp <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
   data <- x$data
   fit <- x$minpack.lm
 
-  par(xpd = T, par = mar(0,1,0,0))
+  #par(xpd = T, par(mar(0,1,0,0)))
+  par(xpd = TRUE, mar=par()$mar + c(0, 1, 0, 0))
   plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)',
        yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)))
 
-  y1 <- fs_mixture_wrap(temp,
-                        single_param(fit, 'h', '1'), single_param(fit, 'h', '2'), single_param(fit, 'h', '3'),
-                        single_param(fit, 's', '1'), single_param(fit, 's', '2'), single_param(fit, 's', '3'),
-                        single_param(fit, 'p', '1'), single_param(fit, 'p', '2'), single_param(fit, 'p', '3'),
-                        single_param(fit, 'w', '1'), single_param(fit, 'w', '2'), single_param(fit, 'w', '3'))
-  lines(temp, y1, col = 'red')
-
-  y2 <- fs_function(temp,
-                    single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
-                    single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-  lines(temp, y2, col = 'blue')
-
-  y3 <- fs_function(temp,
-                    single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
-                    single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-  lines(temp, y3, col = 'green')
-
-  y4 <- fs_function(temp,
-                    single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
-                    single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-  lines(temp, y4, col = 'orange')
-
-  legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
-         yjust = 0,
-         legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
-         ncol = 4,
-         cex = 0.6,
-         bty = 'n',
-         col = c('red', 'blue', 'green', 'orange'),
-         lty = 1, lwd = 2)
-
+  if (x$n_curves == 4) {
+    
+    y1 <- fs_mixture_wrap_4(temp,
+                          single_param(fit, 'h', '1'), single_param(fit, 'h', '2'), 
+                          single_param(fit, 'h', '3'), single_param(fit, 'h', '4'),
+                          single_param(fit, 's', '1'), single_param(fit, 's', '2'), 
+                          single_param(fit, 's', '3'), single_param(fit, 's', '4'),
+                          single_param(fit, 'p', '1'), single_param(fit, 'p', '2'),
+                          single_param(fit, 'p', '3'), single_param(fit, 'p', '4'),
+                          single_param(fit, 'w', '1'), single_param(fit, 'w', '2'), 
+                          single_param(fit, 'w', '3'), single_param(fit, 'w', '4'))
+    lines(temp, y1, col = 'black')
+    
+    y2 <- fs_function(temp,
+                      single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
+                      single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
+    lines(temp, y2, col = 'red')
+    
+    y3 <- fs_function(temp,
+                      single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
+                      single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
+    lines(temp, y3, col = 'blue')
+    
+    y4 <- fs_function(temp,
+                      single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
+                      single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
+    lines(temp, y4, col = 'green')
+    
+    y5 <- fs_function(temp,
+                      single_param(fit, 'h', '4'), single_param(fit, 's', '4'),
+                      single_param(fit, 'p', '4'), single_param(fit, 'w', '4'))
+    lines(temp, y5, col = 'orange')
+    
+    legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
+           yjust = 0,
+           legend = c('Total DTG', 'P-SC', 'P-HC', 'P-CL', 'P-LG'),
+           ncol = 5,
+           cex = 0.4,
+           bty = 'n',
+           col = c('black', 'red', 'blue', 'green', 'orange'),
+           lty = 1, lwd = 2)
+  
+  } else {
+    
+    y1 <- fs_mixture_wrap(temp,
+                          single_param(fit, 'h', '1'), single_param(fit, 'h', '2'), 
+                          single_param(fit, 'h', '3'), single_param(fit, 's', '1'), 
+                          single_param(fit, 's', '2'), single_param(fit, 's', '3'),
+                          single_param(fit, 'p', '1'), single_param(fit, 'p', '2'), 
+                          single_param(fit, 'p', '3'), single_param(fit, 'w', '1'), 
+                          single_param(fit, 'w', '2'), single_param(fit, 'w', '3'))
+    lines(temp, y1, col = 'black')
+    
+    y2 <- fs_function(temp,
+                      single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
+                      single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
+    lines(temp, y2, col = 'blue')
+    
+    y3 <- fs_function(temp,
+                      single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
+                      single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
+    lines(temp, y3, col = 'green')
+    
+    y4 <- fs_function(temp,
+                      single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
+                      single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
+    lines(temp, y4, col = 'orange')
+    
+    legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
+           yjust = 0,
+           legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
+           ncol = 4,
+           cex = 0.6,
+           bty = 'n',
+           col = c('black', 'blue', 'green', 'orange'),
+           lty = 1, lwd = 2)
+    
+  }
+  
 }
 

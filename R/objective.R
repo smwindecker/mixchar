@@ -9,9 +9,9 @@
 # @return root mean square error of model output
 # @keywords internal
 
-objective <- function (params, model, x, obs) {
+objective <- function (theta, model, x, obs) {
 
-  pred <- model(x, params)
+  pred <- model(x, theta)
 
   # see how good it is
   target <- rmse(pred, obs)
@@ -19,3 +19,4 @@ objective <- function (params, model, x, obs) {
   target
 
 }
+

@@ -4,19 +4,16 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(process_object, start_height = "height", start_skew = "skew",
-  start_position = "position", start_width = "width")
+deconvolve(process_object, n_curves = 3, lower = 400, upper = 900)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
 
-\item{start_height}{vector of height starting values for parameter optimisation in order of curve}
+\item{n_curves}{number of curves}
 
-\item{start_skew}{vector of skew starting values for parameter optimisation in order of curve}
+\item{lower}{lower temperature bound to crop dataset}
 
-\item{start_position}{vector of position starting values for parameter optimisation in order of curve}
-
-\item{start_width}{vector of width starting values for parameter optimisation in order of curve}
+\item{upper}{upper temperature bound to crop dataset}
 }
 \value{
 decon list containing amended dataframe, bounds, model output, mass fractions
@@ -27,8 +24,8 @@ Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
-output <- deconvolve(munge, c(0.015, 0.013, 0.01), c(-0.15, -0.15, -0.15),
-c(540, 600, 700), c(50, 30, 200))
+munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
+output <- deconvolve(munge, n_curves = 3, lower = 420, upper = 860)
 
 }
 \keyword{deconvolution}

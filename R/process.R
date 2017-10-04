@@ -8,12 +8,10 @@
 #' @param massloss_col column name containing mass loss values in grams
 #' @param massinit_value numeric value of initial sample mass in grams
 #' @param temp_type specify units of temperature, default = Kelvin. specify 'C' if in Celsius
-#' @param lower lower bound to crop temperature data in Kelvin. Defaults to 400.
-#' @param upper upper bound to crop temperature data in Kelvin. Defaults to 900.
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @import plyr
-#' @importFrom stats integrate setNames
+#' @import plyr zoo
+#' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
 #' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
@@ -21,7 +19,7 @@
 #' @export
 
 process <- function (data, temp_col, massloss_col, massinit_value,
-                        temp_type = NULL, lower = 400, upper = 900) {
+                        temp_type = NULL) {
 
   if (temp_type == 'C') {
     data$temp_K <- data[, temp_col] + 273
@@ -41,11 +39,19 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   deriv <- rbind(x, d)
   colnames(deriv) <- 'deriv'
   data_2 <- cbind(data_1, deriv)
-  data_sub <- data_2[!(data_2$temp_K < lower | data_2$temp_K > upper),]
-  data_sub$mass_T <- data_sub[, massloss_col] + massinit_value
+  data_2$mass_T <- data_2[, massloss_col] + massinit_value
+
+  lower <- min(data_2$temp_K)
+  upper <- max(data_2$temp_K)
+
+  data_3 <- data_2[-1, ]
+  x <- data_3$temp_K[data_3$temp_K < 500]
+  y <- data_3$deriv[data_3$temp_K < 500]
+
+  peak <- !is.na(argmax(x, y, w = 10, span = 0.1)$x)
 
   #####
-  output <- list(data = data_sub, bounds = c(lower, upper))
+  output <- list(data = data_2, mass_init = massinit_value, bounds = c(lower, upper), fourth_peak = peak)
 
   class(output) <- 'process'
   output

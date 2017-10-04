@@ -4,8 +4,7 @@
 \alias{process}
 \title{Processes Thermogravimetric Data}
 \usage{
-process(data, temp_col, massloss_col, massinit_value, temp_type = NULL,
-  lower = 400, upper = 900)
+process(data, temp_col, massloss_col, massinit_value, temp_type = NULL)
 }
 \arguments{
 \item{data}{dataframe}
@@ -17,10 +16,6 @@ process(data, temp_col, massloss_col, massinit_value, temp_type = NULL,
 \item{massinit_value}{numeric value of initial sample mass in grams}
 
 \item{temp_type}{specify units of temperature, default = Kelvin. specify 'C' if in Celsius}
-
-\item{lower}{lower bound to crop temperature data in Kelvin. Defaults to 400.}
-
-\item{upper}{upper bound to crop temperature data in Kelvin. Defaults to 900.}
 }
 \value{
 decon list containing amended dataframe, bounds, model output, mass fractions
