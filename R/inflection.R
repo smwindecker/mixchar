@@ -1,4 +1,4 @@
-# Function to determine whether there is a fourth peak
+# Function to determine x-value of peak < 500 K
 #
 # @param x x-values
 # @param y y-values
@@ -6,7 +6,7 @@
 # @import zoo
 ## script cred https://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset
 
-argmax <- function(x, y, w=1, ...) {
+inflection <- function(x, y, w=1, ...) {
   n <- length(y)
   y.smooth <- loess(y ~ x, ...)$fitted
   y.max <- rollapply(zoo(y.smooth), 2*w+1, max, align="center")

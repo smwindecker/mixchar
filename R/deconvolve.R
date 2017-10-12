@@ -9,26 +9,32 @@
 #' @param upper upper temperature bound to crop dataset
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @import minpack.lm nloptr plyr
-#' @importFrom stats integrate setNames
+#' @import minpack.lm nloptr plyr zoo
+#' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
 #' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
-#' output <- deconvolve(munge, n_curves = 3, lower = 420, upper = 860)
+#' output <- deconvolve(munge, lower = 420, upper = 860)
 #'
-#' data(cyperus)
-#' munge <- process(cyperus, 'temp_C', 'mass_loss', 10.92, 'C')
-#' output <- deconvolve(munge, n_curves = 4, lower == 400, upper = 900)
+#' data(marsilea)
+#' munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92, 'C')
+#' output <- deconvolve(munge)
 #'
 #' @export
 
-deconvolve <- function (process_object, n_curves = 3, lower = 400, upper = 900) {
+deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NULL) {
 
   # identify dataframe
   mod_df <- ModData(process_object)
 
   # crop dataset at bounds
   mod_df <- mod_df[!(mod_df$temp_K < lower | mod_df$temp_K > upper),]
+
+  # figure out peaks
+  x <- mod_df$temp_K[mod_df$temp_K < 500]
+  y <- mod_df$deriv[mod_df$temp_K < 500]
+
+  fourth_peak <- !three_peaks(inflection(x, y, w = 10, span = 0.1)$x)
 
   # name variables
   temp <- mod_df$temp_K
@@ -39,7 +45,32 @@ deconvolve <- function (process_object, n_curves = 3, lower = 400, upper = 900) 
   W <- mod_df$mass_T
   n <- length(W)
 
-  if (n_curves == 4 || process_object$fourth_peak == TRUE) {
+  if (is.null(n_curves) & fourth_peak == FALSE) {
+    n_peaks <- 3
+  } else if (is.null(n_curves) & fourth_peak == TRUE) {
+    n_peaks <- 4
+  } else if (n_curves == 3) {
+    n_peaks <- 3
+  } else if (n_curves == 4) {
+    n_peaks <- 4
+  } else {
+    stop('Manually select peak')
+  }
+
+  if (n_peaks == 3) {
+
+    theta <- c(0.015, 0.013, 0.01, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
+    lb <- c(0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0)
+
+    # parameter optimisation
+    params_opt <- param_select(theta, lb, fs_mixture, temp, obs, restarts = 300)
+
+    # model fit
+    fit <- fs_model(mod_df, params_opt, lb)
+
+    mass_frac <- list('P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
+
+  } else if (n_peaks == 4) {
 
     theta <- c(0.02, 0.03, 0.07, 0.01, -0.15, -0.15, -0.15, -0.15,
                480, 540, 580, 680, 50, 50, 30, 200)
@@ -49,30 +80,18 @@ deconvolve <- function (process_object, n_curves = 3, lower = 400, upper = 900) 
     params_opt <- param_select(theta, lb, fs_mixture_4, temp, obs, restarts = 300)
 
     # model fit
-    fit <- fs_model_4(mod_df, params_opt)
+    fit <- fs_model_4(mod_df, params_opt, lb)
 
-    n_curves <- 4
     mass_frac <- list('P-SC' = NA, 'P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
 
-  } else { ## with three curves
-    theta <- c(0.015, 0.013, 0.01, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
-    lb <- c(0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0)
-
-    # parameter optimisation
-    params_opt <- param_select(theta, lb, fs_mixture, temp, obs, restarts = 300)
-
-    # model fit
-    fit <- fs_model(mod_df, params_opt)
-
-    n_curves <- 3
-    mass_frac <- list('P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
-
+  } else {
+    stop('specify either three or four curves')
   }
 
   # get the proportions of the pseudo-components
-  a_j <- vector(length = n_curves)
+  a_j <- vector(length = n_peaks)
 
-  for (j in 1:n_curves) {
+  for (j in 1:n_peaks) {
 
     f_j <- function (x) {
 
@@ -97,7 +116,7 @@ deconvolve <- function (process_object, n_curves = 3, lower = 400, upper = 900) 
 
   # output
   output <- list(data = mod_df, bounds = c(lower, upper),
-                 minpack.lm = fit, mass_fractions = mass_frac, n_curves = n_curves)
+                 minpack.lm = fit, mass_fractions = mass_frac, n_peaks = n_peaks)
 
   class(output) <- 'decon'
   output

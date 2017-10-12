@@ -10,8 +10,8 @@
 #' @param temp_type specify units of temperature, default = Kelvin. specify 'C' if in Celsius
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @import plyr zoo
-#' @importFrom stats integrate setNames loess
+#' @import plyr
+#' @importFrom stats integrate setNames
 #' @examples
 #' data(juncus)
 #' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
@@ -44,14 +44,7 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   lower <- min(data_2$temp_K)
   upper <- max(data_2$temp_K)
 
-  data_3 <- data_2[-1, ]
-  x <- data_3$temp_K[data_3$temp_K < 500]
-  y <- data_3$deriv[data_3$temp_K < 500]
-
-  peak <- !is.na(argmax(x, y, w = 10, span = 0.1)$x)
-
-  #####
-  output <- list(data = data_2, mass_init = massinit_value, bounds = c(lower, upper), fourth_peak = peak)
+  output <- list(data = data_2, mass_init = massinit_value, bounds = c(lower, upper))
 
   class(output) <- 'process'
   output
