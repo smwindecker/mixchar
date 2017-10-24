@@ -34,7 +34,7 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
   x <- mod_df$temp_K[mod_df$temp_K < 500]
   y <- mod_df$deriv[mod_df$temp_K < 500]
 
-  fourth_peak <- !three_peaks(inflection(x, y, w = 10, span = 0.1)$x)
+  fourth_peak <- !three_peaks(inflection(x, y, w = 15, span = 0.1)$x)
 
   # name variables
   temp <- mod_df$temp_K
@@ -59,28 +59,32 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
 
   if (n_peaks == 3) {
 
-    theta <- c(0.015, 0.013, 0.01, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
-    lb <- c(0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0)
+    theta <- c(0.05, 0.1, 0.02, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
+    
+    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 600, 0, 0, 160)
+    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 550, 650, 700, 100, 80, 250)
 
     # parameter optimisation
-    params_opt <- param_select(theta, lb, fs_mixture, temp, obs, restarts = 300)
+    params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
 
     # model fit
-    fit <- fs_model(mod_df, params_opt, lb)
+    fit <- fs_model(mod_df, params_opt, lb, ub)
 
     mass_frac <- list('P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
 
   } else if (n_peaks == 4) {
 
-    theta <- c(0.02, 0.03, 0.07, 0.01, -0.15, -0.15, -0.15, -0.15,
-               480, 540, 580, 680, 50, 50, 30, 200)
-    lb <- c(0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0)
+    theta <- c(0.02, 0.05, 0.1, 0.02, -0.15, -0.15, -0.15, -0.15,
+               480, 540, 580, 700, 50, 50, 30, 200)
 
+    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 600, 0, 0, 0, 160)
+    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 480, 550, 650, 700, 80, 100, 80, 250)
+    
     # parameter optimisation
-    params_opt <- param_select(theta, lb, fs_mixture_4, temp, obs, restarts = 300)
+    params_opt <- param_select(theta, lb, ub, fs_mixture_4, temp, obs, restarts = 300)
 
     # model fit
-    fit <- fs_model_4(mod_df, params_opt, lb)
+    fit <- fs_model_4(mod_df, params_opt, lb, ub)
 
     mass_frac <- list('P-SC' = NA, 'P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
 

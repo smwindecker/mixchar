@@ -19,8 +19,10 @@ plot.decon <- function (x, ...) {
   fit <- x$minpack.lm
 
   par(xpd = TRUE, mar=par()$mar + c(0, 1, 0, 0))
+
   plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)',
-       yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)))
+       yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)),
+       pch = 20, cex = 0.3, cex.axis = 1.2)
 
   if (x$n_peaks == 4) {
 
@@ -33,36 +35,36 @@ plot.decon <- function (x, ...) {
                           single_param(fit, 'p', '3'), single_param(fit, 'p', '4'),
                           single_param(fit, 'w', '1'), single_param(fit, 'w', '2'),
                           single_param(fit, 'w', '3'), single_param(fit, 'w', '4'))
-    lines(temp, y1, col = 'black')
+    lines(temp, y1, lty = 1, lwd = 1.7)
 
     y2 <- fs_function(temp,
                       single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
                       single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-    lines(temp, y2, col = 'red')
+    lines(temp, y2, lty = 6, lwd = 2)
 
     y3 <- fs_function(temp,
                       single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
                       single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-    lines(temp, y3, col = 'blue')
+    lines(temp, y3, lty = 3, lwd = 2)
 
     y4 <- fs_function(temp,
                       single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
                       single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-    lines(temp, y4, col = 'green')
+    lines(temp, y4, lty = 4, lwd = 2)
 
     y5 <- fs_function(temp,
                       single_param(fit, 'h', '4'), single_param(fit, 's', '4'),
                       single_param(fit, 'p', '4'), single_param(fit, 'w', '4'))
-    lines(temp, y5, col = 'orange')
+    lines(temp, y5, lty = 5, lwd = 2)
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
            legend = c('Total DTG', 'P-SC', 'P-HC', 'P-CL', 'P-LG'),
            ncol = 5,
-           cex = 0.4,
+           cex = 1,
            bty = 'n',
-           col = c('black', 'red', 'blue', 'green', 'orange'),
-           lty = 1, lwd = 2)
+           lty = c(1, 6, 3, 4, 5),
+           lwd = 2)
 
   } else {
 
@@ -73,31 +75,30 @@ plot.decon <- function (x, ...) {
                           single_param(fit, 'p', '1'), single_param(fit, 'p', '2'),
                           single_param(fit, 'p', '3'), single_param(fit, 'w', '1'),
                           single_param(fit, 'w', '2'), single_param(fit, 'w', '3'))
-    lines(temp, y1, col = 'black')
+    lines(temp, y1, lty = 1, lwd = 1.7)
 
     y2 <- fs_function(temp,
                       single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
                       single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-    lines(temp, y2, col = 'blue')
+    lines(temp, y2, lty = 3, lwd = 2)
 
     y3 <- fs_function(temp,
                       single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
                       single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-    lines(temp, y3, col = 'green')
+    lines(temp, y3, lty = 4, lwd = 2)
 
     y4 <- fs_function(temp,
                       single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
                       single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-    lines(temp, y4, col = 'orange')
+    lines(temp, y4, lty = 5, lwd = 2)
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
            legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
            ncol = 4,
-           cex = 0.6,
+           cex = 1,
            bty = 'n',
-           col = c('black', 'blue', 'green', 'orange'),
-           lty = 1, lwd = 2)
+           lty = c(1, 3, 4, 5), lwd = 2)
 
   }
 

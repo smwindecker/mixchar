@@ -39,6 +39,7 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   deriv <- rbind(x, d)
   colnames(deriv) <- 'deriv'
   data_2 <- cbind(data_1, deriv)
+  data_2 <- data_2[-1,]
   data_2$mass_T <- data_2[, massloss_col] + massinit_value
 
   lower <- min(data_2$temp_K)

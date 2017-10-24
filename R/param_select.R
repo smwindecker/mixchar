@@ -12,7 +12,7 @@
 # @import nloptr
 
 # create params_opt with this function
-param_select <- function (theta, lb, model, x, obs, restarts = 300) {
+param_select <- function (theta, lb, ub, model, x, obs, restarts = 300) {
 
   #free_params <- free(theta)
 
@@ -24,6 +24,7 @@ param_select <- function (theta, lb, model, x, obs, restarts = 300) {
                       nloptr(x0 = theta,
                              eval_f = objective,
                              lb = lb,
+                             ub = ub,
                              model = model,
                              x = x,
                              obs = obs,
