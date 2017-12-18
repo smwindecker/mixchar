@@ -34,36 +34,21 @@ library(deconvolve)
 
 ## Why deconvolution?
 
-Ecologists are interested in determining the composition of plant cell wall biomass, primarily hemicellulose, cellulose, and lignin carbon types (collectively termed lignocellulosic biomass). Proportions of these carbon types are useful for estimating kinetic parameters, such as in the biofuel field, for calculation of traits, and for intrinsic knowledge. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry methods that are costly both monetarily and in environmental impact. Thermogravimetric analysis (TGA) is an alternative method, primarily used in the biofuel field, to approximate these carbon compounds from data of mass loss during heating (in a $N_2$ environment, termed pyrolysis). 
+Ecologists are interested in determining the composition of plant cell wall biomass, primarily hemicellulose, cellulose, and lignin carbon types (collectively termed lignocellulosic biomass). Proportions of these carbon types are useful for estimating kinetic parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis (TGA) is an alternative method, primarily used in the biofuel field, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a $N_2$ environment, termed pyrolysis). 
 
-Raw TGA output is a mass loss curve (Figure 1a). Carbon forms are known to pyrolyse primarily at different temperature intervals, mostly independent from one another. Therefore if we plot the derivative thermogravimetric curve (DTG curve; Figure 1b) we can visualises the multi-peaked rate of mass loss with temperature increase (Figure 1b). This multi-peaked DTG curve can be modelled as a mixture of three independent curves, which correspond to 'pseudo-hemicellulose' (P-HC), 'pseudo-cellulose' (P-CL), and 'pseudo-lignin' (P-LG; Figure 1c). We term these 'pseudo' components since these curves only approximately correspond to the three compounds. The overall DTG curve is not solely composed of these three pseudo-components, but it is a good approximation within an intermediate temperature range (roughly 120C to 650C). Lower than 120C mass loss is likely composed primarily of dehydration from water loss, and above 650C, the mass loss may be interacting with volatiles, producing an additional peak that does not correspond to one of the three main components. Resolving the form of the three independent curves, termed 'deconvolution', allows us to estimate the mass of carbon forms in the original sample by integrating the area under each curve. Biofuel researchers use this deconvolution to estimate kinetic parameters of each independent curve, allowing approximation of the kinetic parameters of the overall curve. 
+Thermogravimetry output consists of mass loss data, which can be converted to mass at each degree by adding the initial sample mass (Figures 1a, 1d). Carbon forms are known to pyrolyse at distinct temperature intervals, mostly independent from one another. Therefore if we plot the derivative thermogravimetric curve (DTG curve; Figure 1b), we can visualise the multi-peaked rate of mass loss with temperature increase (Figures 1b, 1e). This multi-peaked DTG curve can be modelled as a mixture of three  independent curves, which correspond to 'pseudo-hemicellulose' (P-HC), 'pseudo-cellulose' (P-CL), and 'pseudo-lignin' (P-LG; Figure 1c). In some plant material, thermal decay also produces a fourth peak that corresponds to soluble carbohydrates (P-SC; Figure 1f). We term these 'pseudo' components since these curves only approximately correspond to the mass fractions of each compound. The overall DTG curve is not solely composed of these pseudo-components, but it is a good approximation within an intermediate temperature range (roughly 400K to 900K). Lower than 400K mass loss is likely composed primarily of dehydration from water loss, and above 900K, mass lost may interact with volatiles, producing additional mass loss peaks that do not correspond to one of the primary biomass components. Resolving the form of the independent curves, termed 'deconvolution', allows us to estimate the mass of carbon types in the original sample by integrating the area under each curve.
 
-```{r echo = F, cache = FALSE, out.width= '750px', fig.align = "center", fig.cap="*Figure 1. Map of outputs of deconvolution of thermogravimetric curves: mass loss against temperature reflects the raw data we typically export from the TGA processing software (a.), derivative thermogravimetric rate against temperature (b.), and finally, the main output from this package, the deconvolved derivative thermogravimetric curves of each pseudo-component (c.).*"}
+```{r echo = F, cache = FALSE, out.width= '750px', fig.align = "center", fig.cap="*Figure 1. Outputs of deconvolution of thermogravimetric curves: mass against temperature (a, d), derivative thermogravimetric rate against temperature (b, e), and the deconvolved derivative thermogravimetric curves of each pseudo-component (c, e) for _Juncus usitatus_ (a-c) and _Marsilea drumondii_ (d-f).*"}
 knitr::include_graphics("Figures/three_graphs.png")
 ```
 
-This peak deconvolution is typically conducted in peak-fitting softwares, which while effective, do not allow for transparent or reproducible workflows. This package seeks to provide a platform for reproducible workflows using R. This methodology has been tested on a range of plant litter composed primarily of hemicellulose, cellulose, and lignin, but will not be suitable for woody material, for example, that may be composed of more than three independent DTG curves due to presence of other dominant carbon forms. 
+This peak deconvolution is typically conducted in peak-fitting softwares, which, while effective, do not allow for transparent or reproducible workflows. This package seeks to provide a platform for reproducible deconvolution using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin. The functions will not be suitable for woody material, for example, that may be composed of other dominant carbon forms. 
 
-## `deconvolve()`
-
-There is one primary function in the deconvolve package, `deconvolve()`, that takes raw thermogram data and produces four key outputs. Outputs and internal steps to calculation listed below: 
-
-1. A data frame of modified data
-    - Temperature converted to K, if necessary
-    - Derivative mass loss calculated
-2. Temperature bounds
-    - Print your selected lower and upper bounds, or else the defaults (400K and 900K)
-3. Model parameter estimates for the three-part mixture model (details below)
-    - Using default or user-added starting values, parameter selection is optimised
-    - Three-part mixture model fit to optimised parameter values using minpack.lm
-4. Mass fractions of P-HC, P-CL, P-LG (details below)
-    - Individual curves for each pseudo-component calculated using parameter estimates from minpack.lm model
-    - Curves integrated to calculate mass of component out of total mass lost from sample
-    - Mass fraction of component out of total mass of sample calculated by incorporating mass lost in the upper and lower ranges of curve
+<hr>
 
 ## Mixture model
 
-The meat of this package is in the three-part mixture model used to deconvolve the DTG curve. Many different mathematical models have been proposed to fit the form of the independent curves in a DTG curve, including Gassian, Lorentzian, Weibull, the asymmetric bi-Gaussian, and the Frazer-Suzuki distributions. Symmetric curves such as the Gaussian and Lorentzian curves struggle to model these kinetic curves because they are often asymmetric. The four-parameter Fraser-Suzuki function (\ref{single-fs})has been identified as very useful function to deconvolve kinetic curves because it is highly flexible. You can play around with the four parameters, corresponding to height, skew, position, and width, in the widget below. 
+The meat of this package is in the mixture model used to deconvolve the DTG curve. Many different mathematical models have been proposed to fit the form of the independent curves in a DTG curve, including Gassian, Lorentzian, Weibull, the asymmetric bi-Gaussian, and the Frazer-Suzuki distributions. Symmetric curves such as the Gaussian and Lorentzian curves struggle to model these kinetic curves because they are often asymmetric. The four-parameter Fraser-Suzuki function (\ref{single-fs}) is highly flexible and therefore performs well. You can play around with the four parameters, corresponding to height, skew, position, and width, in the widget below. 
 
 \begin{equation}
 \label{single-fs}
@@ -85,83 +70,95 @@ shinyAppFile('shiny-app/single_fs/app.R')
 shinyAppFile('shiny-app/mixture_fs/app.R')
 ```
 
-## Example 1
+<hr>
 
-In the first example we will execute the TGA deconvolution workflow using data provided with the package, `juncus`, which is the raw TGA data from a sample of _Juncus usitatus_. Let's load our data and take a look at what it contains. 
+## Workflow
+
+A suggested workflow to deconvolve thermogram data is presented below using data provided with the package, called `juncus`. This dataset contains raw TGA data from a sample of _Juncus usitatus_ and will fit a three-part mixture model. 
+
+### 1. Load data
+
+The juncus dataset contains temperature, in Celsius, as well as mass loss. When this dataset was downloaded from the TGA processing software it also contained several lines of information about the machine, the setting used, and the initial mass. To prep the data these lines had to be removed before the data was read into R.
 
 ``` {r}
-data(juncus)
 head(juncus)
 ```
 
-The juncus dataset contains temperature, in Celsius, as well as mass loss. When this dataset was downloaded from the TGA processing software it also contained several lines of information about the machine, the setting used, and the initial mass. We need to prep the data by removing this information lines when data is read into R. 
+### 2. `process` data
 
-The deconvolve package is set up to be as simple as possible, so one function, `deconvolve()`, will execute most of the important functions for deconvolving TGA curves. This function requires the data frame, the name of the temperature column, the name of the mass loss column, the initial mass of your sample, as well as optional inputs for the bounds and starting values. The function defaults to temperature in Kelvin, but we can specify degrees Celsius by adding `temp_type = 'C'`. Here I am sticking with the default lower and upper bounds of 400 and 900, we could also change them by specifying them directly. We can also specify our own starting values if the default ones do not perform well. Example 2 illustrates this. 
+The `process` function converts raw thermogram data to DTG data. If necessary, it will first convert temperature data to Kelvin and round temperature values so that the derivative can be accurately calculated.
+
+This function requires the data frame, the name of the temperature column, the name of the mass loss column, the initial mass of your sample, as well as optional inputs for the temperature bounds to crop the data. The function defaults to temperature in Kelvin, but we can specify degrees Celsius by adding `temp_type = 'C'`. Here I am sticking with the default lower and upper bounds of 400 K and 900 K, but we could also change them by specifying them directly.
 
 ```{r}
-output <- deconvolve(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
+munge <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
+munge
+```
+
+### 3. Plot mass loss and DTG curve
+
+It is useful to examine your examine your DTG curve so that you can get a sense of the properties of your curve. You should look for where to crop your dataset (your 'bounds').
+
+The default plotting option for your processed data is the DTG curve:
+
+```{r}
+plot(munge)
+```
+
+If you'd like to specify either the mass loss curve, or both curves, you can do so by modifying `plot_type`:
+
+```{r}
+plot(munge, plot_type = 'both')
+```
+
+### 4. `deconvolve` data
+
+The `deconvolve` function takes default or user-defined lower and upper bounds and clips the dataset. It uses default or user-defined starting values to optimise parameter selection for the 12 parameters in the three-part mixture model. These optimised parameters are then used as the starting values in the nls model. Mass fractions of each of the three pseudo-components are calculated by taking the integral under each respective curve and expanding the mass of each fraction out of the total mass lost to the mass of each fraction of total sample mass.
+
+```{r}
+output <- deconvolve(munge)
 output
 ```
 
-### data output
-As we can see from the print summary, the output object is a list of four key outputs that we will use to understand our data. `$data` allows us to access our modified data frame. The deconvolve function has added several columns to it. This is provided so that you can play with the data yourself if you'd like.
+### 5. Examine outputs
+
+#### modified dataframe output
+The output object is a list of four key outputs that we will use to understand our data. `$data` allows us to access our modified data frame. The deconvolve function has added several columns to it. This is provided so that you can play with the data yourself if you'd like.
 
 ```{r}
-head(output$data)
+head(ModData(output))
 ```
 
-### bounds output
+#### bounds output
 This shows us again the bounds we placed on our data, a helpful way to check what we included, or importantly, excluded.
 
 ```{r}
-output$bounds
+Bounds(output)
 ```
 
-### minpack.lm model output
+#### minpack.lm model output
 This is the guts of our deconvolution. This presents the main output of the Fraser-Suzuki mixture model. We can see the 12 estimated parameter values. As a recap, 'h' indicates curve height, 's', curve skew, 'p' curve position', and 'w' curve width. The numbers 1, 2, and 3 refer to P-Hemicellulose, P-Cellulose, and P-Lignin, respectively.
 
 ```{r}
-output$minpack.lm_object
+Model(output)
 ```
 
-### mass fractions output
+#### mass fractions output
 If you are using the package to calculate mass fraction of the three pseudo-components, this is your main output of interest. This output lists the mass fraction for each.
 
 ```{r}
-output$mass_fractions
+MassFrac(output)
 ```
 
-<hr>
+### 6. Plot deconvolved curve
 
-## Visualising your outputs
-There are two in-built options for plotting the deconvolution data. The default `plot()` function of your output object will produce the following
+Take a look at your plot. Do the estimates seem reasonable? In many cases, the peak of P-HC occurs at the lowest temperature, followed by P-CL and finally P-LG. If your plot doesn't follow this pattern, can you think of an ecological explanation given your species/plant material type?
 
 ```{r}
 plot(output)
 ```
 
-Take a look at your plot. Do the estimates seem reasonable? In many cases, the peak of P-HC occurs at the lowest temperature, followed by P-CL and finally P-LG. If your plot doesn't follow this pattern, can you think of an ecological explanation given your species/plant material type?
-
-If you want to take a look at your raw mass loss curve and DTG curves, you can do so by:
-
-```{r}
-plot(output, 'raw')
-```
-
-We can see that it has plotted both the mass loss against temperature and the derivative curve. The difference here is that the derivative curve places DTG on the y axis, displaying a change in rate. Every curve will look a little different, but you should see a few humps in your DTG curve. These correspond to the underlying mass loss curves of the three pseudo-components.
-
-
 <hr>
-
-## Example 2
-
-In some cases the default provided starting values will not be close enough to your curve parameters to produce good estimates. In this case you can use the function, `start_values()` to load a Shiny gadget in your viewer panel. This gadget will help you select starting values interactively. You can also use it to execute the full workflow. 
-
-
-
-
-
-#######
 
 This work is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know at saras.windecker@gmail.com, or log a bug on github: http://www.github.com/smwindecker/deconvolve.
 
