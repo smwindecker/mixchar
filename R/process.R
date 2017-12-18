@@ -34,7 +34,10 @@ process <- function (data, temp_col, massloss_col, massinit_value,
     data_1 <- data[!duplicated(data$temp_K),]
   }
 
-  d <- -as.data.frame(diff(data_1[, massloss_col])/diff(data_1$temp_K))
+  # adjust mass loss given initial mass, use this for derivative
+  data_1$adj_massloss <- data_1[, massloss_col] / massinit_value
+
+  d <- -as.data.frame(diff(data_1$adj_massloss)/diff(data_1$temp_K))
   x <- rep(NA, ncol(d))
   deriv <- rbind(x, d)
   colnames(deriv) <- 'deriv'

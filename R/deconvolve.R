@@ -59,8 +59,8 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
 
   if (n_peaks == 3) {
 
-    theta <- c(0.05, 0.1, 0.02, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
-    
+    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
+
     lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 600, 0, 0, 160)
     ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 550, 650, 700, 100, 80, 250)
 
@@ -74,12 +74,12 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
 
   } else if (n_peaks == 4) {
 
-    theta <- c(0.02, 0.05, 0.1, 0.02, -0.15, -0.15, -0.15, -0.15,
+    theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
                480, 540, 580, 700, 50, 50, 30, 200)
 
     lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 600, 0, 0, 0, 160)
     ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 480, 550, 650, 700, 80, 100, 80, 250)
-    
+
     # parameter optimisation
     params_opt <- param_select(theta, lb, ub, fs_mixture_4, temp, obs, restarts = 300)
 
@@ -109,12 +109,13 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
     }
 
     # area under the curves
-    a_j[j] <- integrate(Vectorize(f_j), lower = lower,
-                        upper = upper)$value / (W[1] - W[n])
+    a_j[j] <- (integrate(Vectorize(f_j), lower = lower,
+                         upper = upper)$value) / (W[1] - W[n])
 
     # calculate mass fraction using proportion of total mass loss and
-    # mass of remaining char
-    mass_frac[j] <- a_j[j] * (W[1] - W[n]) / mass_init
+    # mass of remaining char. do not need to adjust for initial mass, since
+    # derivative mass was as proportion of initial mass
+    mass_frac[j] <- a_j[j] * (W[1] - W[n])
 
   }
 
