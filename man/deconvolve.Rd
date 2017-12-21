@@ -4,7 +4,7 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(process_object, lower = 400, upper = 900, n_curves = NULL)
+deconvolve(process_object, lower = 120, upper = 700, n_curves = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
@@ -24,11 +24,11 @@ Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
-output <- deconvolve(munge, lower = 420, upper = 860)
+munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+output <- deconvolve(munge)
 
 data(marsilea)
-munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92, 'C')
+munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92)
 output <- deconvolve(munge)
 
 }

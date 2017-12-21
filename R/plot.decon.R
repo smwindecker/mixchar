@@ -18,9 +18,9 @@ plot.decon <- function (x, ...) {
   data <- x$data
   fit <- x$minpack.lm
 
-  par(xpd = TRUE, mar=par()$mar + c(0, 1, 0, 0))
+  par(xpd = TRUE, mar = par()$mar + c(0, 1, 0, 0))
 
-  plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)',
+  plot(data$temp_C, data$deriv, xlab = 'Temperature (C)', ylab = 'DTG (dm/dT) (C-1)',
        yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)),
        pch = 20, cex = 0.3, cex.axis = 1.2)
 
@@ -59,7 +59,7 @@ plot.decon <- function (x, ...) {
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
-           legend = c('Total DTG', 'P-SC', 'P-HC', 'P-CL', 'P-LG'),
+           legend = c('Total DTG', 'HC-1', 'HC-2', 'CL', 'LG'),
            ncol = 5,
            cex = 1,
            bty = 'n',
@@ -94,7 +94,7 @@ plot.decon <- function (x, ...) {
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
-           legend = c('Total DTG', 'P-HC', 'P-CL', 'P-LG'),
+           legend = c('Total DTG', 'HC', 'CL', 'LG'),
            ncol = 4,
            cex = 1,
            bty = 'n',

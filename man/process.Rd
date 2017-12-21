@@ -4,7 +4,7 @@
 \alias{process}
 \title{Processes Thermogravimetric Data}
 \usage{
-process(data, temp_col, massloss_col, massinit_value, temp_type = NULL)
+process(data, temp_col, massloss_col, massinit_value, temp_type = "C")
 }
 \arguments{
 \item{data}{dataframe}
@@ -15,7 +15,7 @@ process(data, temp_col, massloss_col, massinit_value, temp_type = NULL)
 
 \item{massinit_value}{numeric value of initial sample mass in grams}
 
-\item{temp_type}{specify units of temperature, default = Kelvin. specify 'C' if in Celsius}
+\item{temp_type}{specify units of temperature, default = Celsius. Specify 'K' if in Kelvin}
 }
 \value{
 decon list containing amended dataframe, bounds, model output, mass fractions
@@ -26,7 +26,7 @@ the derivative of mass loss
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
+munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
 
 }
 \keyword{deconvolution}

@@ -13,31 +13,31 @@
 #' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
-#' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85, 'C')
-#' output <- deconvolve(munge, lower = 420, upper = 860)
+#' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+#' output <- deconvolve(munge)
 #'
 #' data(marsilea)
-#' munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92, 'C')
+#' munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92)
 #' output <- deconvolve(munge)
 #'
 #' @export
 
-deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NULL) {
+deconvolve <- function (process_object, lower = 120, upper = 700, n_curves = NULL) {
 
   # identify dataframe
   mod_df <- ModData(process_object)
 
   # crop dataset at bounds
-  mod_df <- mod_df[!(mod_df$temp_K < lower | mod_df$temp_K > upper),]
+  mod_df <- mod_df[!(mod_df$temp_C < lower | mod_df$temp_C > upper),]
 
   # figure out peaks
-  x <- mod_df$temp_K[mod_df$temp_K < 500]
-  y <- mod_df$deriv[mod_df$temp_K < 500]
+  x <- mod_df$temp_C[mod_df$temp_C < 220]
+  y <- mod_df$deriv[mod_df$temp_C < 220]
 
   fourth_peak <- !three_peaks(inflection(x, y, w = 15, span = 0.1)$x)
 
   # name variables
-  temp <- mod_df$temp_K
+  temp <- mod_df$temp_C
   obs <- mod_df$deriv
 
   # init mass
@@ -59,10 +59,10 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
 
   if (n_peaks == 3) {
 
-    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 540, 600, 700, 50, 30, 200)
+    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 270, 330, 410, 50, 30, 200)
 
-    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 600, 0, 0, 160)
-    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 550, 650, 700, 100, 80, 250)
+    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 330, 0, 0, 160)
+    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 80, 250)
 
     # parameter optimisation
     params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
@@ -70,15 +70,15 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
     # model fit
     fit <- fs_model(mod_df, params_opt, lb, ub)
 
-    mass_frac <- list('P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
+    mass_frac <- list('HC' = NA, 'CL' = NA, 'LG' = NA)
 
   } else if (n_peaks == 4) {
 
     theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
-               480, 540, 580, 700, 50, 50, 30, 200)
+               210, 270, 310, 410, 50, 50, 30, 200)
 
-    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 600, 0, 0, 0, 160)
-    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 480, 550, 650, 700, 80, 100, 80, 250)
+    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 330, 0, 0, 0, 160)
+    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 100, 80, 250)
 
     # parameter optimisation
     params_opt <- param_select(theta, lb, ub, fs_mixture_4, temp, obs, restarts = 300)
@@ -86,7 +86,7 @@ deconvolve <- function (process_object, lower = 400, upper = 900, n_curves = NUL
     # model fit
     fit <- fs_model_4(mod_df, params_opt, lb, ub)
 
-    mass_frac <- list('P-SC' = NA, 'P-HC' = NA, 'P-CL' = NA, 'P-LG' = NA)
+    mass_frac <- list('HC_1' = NA, 'HC_2' = NA, 'CL' = NA, 'LG' = NA)
 
   } else {
     stop('specify either three or four curves')
