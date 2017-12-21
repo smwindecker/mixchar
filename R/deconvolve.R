@@ -13,7 +13,7 @@
 #' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
-#' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+#' munge <- process(juncus, 'temp_C', 'mass_loss', 18.96)
 #' output <- deconvolve(munge)
 #'
 #' data(marsilea)
@@ -93,8 +93,6 @@ deconvolve <- function (process_object, lower = 120, upper = 700, n_curves = NUL
   }
 
   # get the proportions of the pseudo-components
-  a_j <- vector(length = n_peaks)
-
   for (j in 1:n_peaks) {
 
     f_j <- function (x) {
@@ -109,13 +107,8 @@ deconvolve <- function (process_object, lower = 120, upper = 700, n_curves = NUL
     }
 
     # area under the curves
-    a_j[j] <- (integrate(Vectorize(f_j), lower = lower,
-                         upper = upper)$value) / (W[1] - W[n])
-
-    # calculate mass fraction using proportion of total mass loss and
-    # mass of remaining char. do not need to adjust for initial mass, since
-    # derivative mass was as proportion of initial mass
-    mass_frac[j] <- a_j[j] * (W[1] - W[n])
+    mass_frac[j] <- (integrate(Vectorize(f_j), lower = lower,
+                               upper = upper)$value) * 100
 
   }
 
@@ -127,4 +120,3 @@ deconvolve <- function (process_object, lower = 120, upper = 700, n_curves = NUL
   output
 
 }
-

@@ -24,7 +24,7 @@ Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+munge <- process(juncus, 'temp_C', 'mass_loss', 18.96)
 output <- deconvolve(munge)
 
 data(marsilea)
