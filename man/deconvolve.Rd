@@ -4,16 +4,27 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(process_object, lower = 120, upper = 700, n_curves = NULL)
+deconvolve(process_object, n_curves = NULL, lower_temp = 120,
+  upper_temp = 700, start_vec = NULL, lower_vec = NULL,
+  upper_vec = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
 
-\item{lower}{lower temperature bound to crop dataset}
-
-\item{upper}{upper temperature bound to crop dataset}
-
 \item{n_curves}{number of curves}
+
+\item{lower_temp}{lower temperature bound to crop dataset}
+
+\item{upper_temp}{upper temperature bound to crop dataset}
+
+\item{start_vec}{vector of starting values for nls function. Only specify this vector if
+you have selected the number of curves in the n_curves parameter.}
+
+\item{lower_vec}{vector of lower bound values for nls. Only specify this vector if
+you have selected the number of curves in the n_curves parameter.}
+
+\item{upper_vec}{vector of upper bound values for nls. Only specify this vector if
+you have selected the number of curves in the n_curves parameter.}
 }
 \value{
 decon list containing amended dataframe, bounds, model output, mass fractions

@@ -5,14 +5,8 @@
 #'
 #' @param process_object process object obtained from process function
 #' @param n_curves number of curves
-#' @param lower_temp lower temperature bound to crop dataset
-#' @param upper_temp upper temperature bound to crop dataset
-#' @param start_vec vector of starting values for nls function. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
-#' @param lower_vec vector of lower bound values for nls. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
-#' @param upper_vec vector of upper bound values for nls. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
+#' @param lower lower temperature bound to crop dataset
+#' @param upper upper temperature bound to crop dataset
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
 #' @import minpack.lm nloptr plyr zoo
@@ -28,14 +22,13 @@
 #'
 #' @export
 
-deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper_temp = 700,
-                                start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
+deconvolve_old <- function (process_object, lower = 120, upper = 700, n_curves = NULL) {
 
   # identify dataframe
   mod_df <- ModData(process_object)
 
   # crop dataset at bounds
-  mod_df <- mod_df[!(mod_df$temp_C < lower_temp | mod_df$temp_C > upper_temp),]
+  mod_df <- mod_df[!(mod_df$temp_C < lower | mod_df$temp_C > upper),]
 
   # figure out peaks
   x <- mod_df$temp_C[mod_df$temp_C < 220]
@@ -64,32 +57,12 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     stop('Manually select peak')
   }
 
-  if (is.null(start_vec) & n_peaks == 3) {
-    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 260, 320, 390, 50, 30, 200)
-  } else if (is.null(start_vec) & n_peaks == 4) {
-    theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
-               210, 270, 310, 410, 50, 50, 30, 200)
-  } else if (!is.null(start_vec)) {
-    theta <- start_vec
-  }
-
-  if (is.null(lower_vec) & n_peaks == 3) {
-    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 330, 0, 0, 160)
-  } else if (is.null(lower_vec) & n_peaks == 4) {
-    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 330, 0, 0, 0, 160)
-  } else if (!is.null(lower_vec)) {
-    lb <- lower_vec
-  }
-
-  if (is.null(upper_vec) & n_peaks == 3) {
-    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 80, 250)
-  } else if (is.null(upper_vec) & n_peaks == 4) {
-    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 100, 80, 250)
-  } else if (!is.null(upper_vec)) {
-    ub <- upper_vec
-  }
-
   if (n_peaks == 3) {
+
+    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 270, 330, 410, 50, 30, 200)
+
+    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 330, 0, 0, 160)
+    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 80, 250)
 
     # parameter optimisation
     params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
@@ -101,6 +74,12 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
 
   } else if (n_peaks == 4) {
 
+    theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
+               210, 270, 310, 410, 50, 50, 30, 200)
+
+    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 330, 0, 0, 0, 160)
+    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 100, 80, 250)
+
     # parameter optimisation
     params_opt <- param_select(theta, lb, ub, fs_mixture_4, temp, obs, restarts = 300)
 
@@ -110,7 +89,7 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     mass_frac <- list('HC_1' = NA, 'HC_2' = NA, 'CL' = NA, 'LG' = NA)
 
   } else {
-    stop('Specify either three or four curves')
+    stop('specify either three or four curves')
   }
 
   # get the proportions of the pseudo-components
@@ -128,13 +107,13 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     }
 
     # area under the curves
-    mass_frac[j] <- (integrate(Vectorize(f_j), lower = lower_temp,
-                               upper = upper_temp)$value) * 100
+    mass_frac[j] <- (integrate(Vectorize(f_j), lower = lower,
+                               upper = upper)$value) * 100
 
   }
 
   # output
-  output <- list(data = mod_df, bounds = c(lower_temp, upper_temp),
+  output <- list(data = mod_df, bounds = c(lower, upper),
                  minpack.lm = fit, mass_fractions = mass_frac, n_peaks = n_peaks)
 
   class(output) <- 'decon'
