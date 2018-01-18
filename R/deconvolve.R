@@ -65,7 +65,7 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   }
 
   if (is.null(start_vec) & n_peaks == 3) {
-    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 260, 320, 390, 50, 30, 200)
+    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 250, 320, 390, 50, 30, 200)
   } else if (is.null(start_vec) & n_peaks == 4) {
     theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
                210, 270, 310, 410, 50, 50, 30, 200)
@@ -74,17 +74,17 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   }
 
   if (is.null(lower_vec) & n_peaks == 3) {
-    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 0, 330, 0, 0, 160)
+    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 290, 330, 50, 0, 160)
   } else if (is.null(lower_vec) & n_peaks == 4) {
-    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 0, 330, 0, 0, 0, 160)
+    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 290, 330, 0, 0, 0, 160)
   } else if (!is.null(lower_vec)) {
     lb <- lower_vec
   }
 
   if (is.null(upper_vec) & n_peaks == 3) {
-    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 80, 250)
+    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 50, 250)
   } else if (is.null(upper_vec) & n_peaks == 4) {
-    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 100, 80, 250)
+    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 90, 50, 250)
   } else if (!is.null(upper_vec)) {
     ub <- upper_vec
   }
@@ -114,6 +114,8 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   }
 
   # get the proportions of the pseudo-components
+  a_j <- vector(length = n_peaks)
+
   for (j in 1:n_peaks) {
 
     f_j <- function (x) {
@@ -128,8 +130,10 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     }
 
     # area under the curves
-    mass_frac[j] <- (integrate(Vectorize(f_j), lower = lower_temp,
-                               upper = upper_temp)$value) * 100
+    a_j[j] <- integrate(Vectorize(f_j), lower = lower_temp,
+                               upper = upper_temp)$value / (W[1] - W[n])
+
+    mass_frac[j] <- a_j[j] * ((W[1] - W[n]) / mass_init) * 100
 
   }
 
