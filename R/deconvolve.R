@@ -47,11 +47,6 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   temp <- mod_df$temp_C
   obs <- mod_df$deriv
 
-  # init mass
-  mass_init <- process_object$mass_init
-  W <- mod_df$mass_T
-  n <- length(W)
-
   if (is.null(n_curves) & fourth_peak == FALSE) {
     n_peaks <- 3
   } else if (is.null(n_curves) & fourth_peak == TRUE) {
@@ -97,8 +92,6 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     # model fit
     fit <- fs_model(mod_df, params_opt, lb, ub)
 
-    wt_percent <- list('HC' = NA, 'CL' = NA, 'LG' = NA)
-
   } else if (n_peaks == 4) {
 
     # parameter optimisation
@@ -107,38 +100,19 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
     # model fit
     fit <- fs_model_4(mod_df, params_opt, lb, ub)
 
-    wt_percent <- list('HC_1' = NA, 'HC_2' = NA, 'CL' = NA, 'LG' = NA)
-
   } else {
     stop('Specify either three or four curves')
   }
 
-  # get the proportions of the pseudo-components
-  for (j in 1:n_peaks) {
-
-    f_j <- function (x) {
-
-      h <- single_param(fit, 'h', j)
-      s <- single_param(fit, 's', j)
-      p <- single_param(fit, 'p', j)
-      w <- single_param(fit, 'w', j)
-
-      fs_function(x, h, s, p, w)
-
-    }
-
-    # weight percent of each component, where the integral is the fraction
-    # of initial mass of that compoenent.
-    wt_percent[j] <- integrate(Vectorize(f_j), lower = lower_temp,
-                              upper = upper_temp)$value * 100
-
-  }
-
   # output
   output <- list(data = mod_df, bounds = c(lower_temp, upper_temp),
-                 minpack.lm = fit, wt_percents = wt_percent, n_peaks = n_peaks)
+                 minpack.lm = fit, n_peaks = n_peaks)
 
-  class(output) <- 'decon'
-  output
+  weights <- weight_quantiles(output)
+
+  decon_output <- c(output, weights)
+
+  class(decon_output) <- 'decon'
+  decon_output
 
 }

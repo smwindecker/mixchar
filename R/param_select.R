@@ -14,8 +14,6 @@
 # create params_opt with this function
 param_select <- function (theta, lb, ub, model, x, obs, restarts = 300) {
 
-  #free_params <- free(theta)
-
   opts <- list("algorithm"="NLOPT_LN_BOBYQA",
                "xtol_rel"=1.0e-12)
 
@@ -39,6 +37,5 @@ param_select <- function (theta, lb, ub, model, x, obs, restarts = 300) {
   o <- o_list[[best]]
 
   o$solution
-  #constrain(o$solution)
 
 }
