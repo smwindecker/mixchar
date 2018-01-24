@@ -11,7 +11,15 @@ weight_quantiles <- function (output) {
   vcov <- sry$cov.unscaled * residvar
 
   # random draws of parameters, proportional to likelihood
-  draws <- MASS::mvrnorm(1000, est, vcov)
+  if (length(est) == 12) {
+    lower <- c(0, 0, 0, -Inf, -Inf, -Inf, 0, 0, 0, 0, 0, 0)
+    upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
+  }
+  if (length(est) == 16) {
+    lower <- c(0, 0, 0, 0, -Inf, -Inf, -Inf, -Inf, 0, 0, 0, 0, 0, 0, 0, 0)
+    upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
+  }
+  draws <- tmvtnorm::rtmvrnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
 
   # equivalent random draws of weight estimates
   weights_draws <- t(apply(draws, 1, get_weights, output))
