@@ -19,7 +19,7 @@ weight_quantiles <- function (output) {
     lower <- c(0, 0, 0, 0, -Inf, -Inf, -Inf, -Inf, 0, 0, 0, 0, 0, 0, 0, 0)
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
-  draws <- tmvtnorm::rtmvrnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
+  draws <- tmvtnorm::rtmvnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
 
   # equivalent random draws of weight estimates
   weights_draws <- t(apply(draws, 1, get_weights, output))
