@@ -5,7 +5,7 @@ weight_quantiles <- function (output) {
   # least squares estimate:
   est <- coef(output$minpack.lm)
 
-  # varaince-covariance matrix, assuming multivariate normal distribution over LS surface
+  # variance-covariance matrix, assuming truncated multivariate normal distribution over LS surface
   sry <- summary(output$minpack.lm)
   residvar <- deviance(output$minpack.lm) / sry$df[2]
   vcov <- sry$cov.unscaled * residvar
@@ -20,6 +20,8 @@ weight_quantiles <- function (output) {
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
   draws <- tmvtnorm::rtmvnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
+  colnames(draws) <- names(est)
+  # draws_mvnorm <- MASS::mvnorm(1000, est, vcov)
 
   # equivalent random draws of weight estimates
   weights_draws <- t(apply(draws, 1, get_weights, output))
