@@ -11,8 +11,6 @@
 
 objective <- function (theta, model, x, obs) {
 
-  #params <- constrain(free_params)
-
   pred <- model(x, theta)
 
   # see how good it is
