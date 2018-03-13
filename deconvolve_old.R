@@ -20,7 +20,7 @@
 #' munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92)
 #' output <- deconvolve(munge)
 #'
-#' @export
+
 
 deconvolve_old <- function (process_object, lower = 120, upper = 700, n_curves = NULL) {
 
