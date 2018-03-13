@@ -18,6 +18,8 @@ plot.decon <- function (x, ...) {
   data <- x$data
   fit <- x$minpack.lm
 
+  params <- as.data.frame(summary(fit)$coefficients[,1])
+
   par(xpd = TRUE, mar = par()$mar + c(0, 1, 0, 0))
 
   plot(data$temp_C, data$deriv, xlab = 'Temperature (C)', ylab = 'DTG (dm/dT) (C-1)',
@@ -25,36 +27,19 @@ plot.decon <- function (x, ...) {
        pch = 20, cex = 0.3, cex.axis = 1.2)
 
   if (x$n_peaks == 4) {
+    y1 <- fs_mixture(x = temp,
+                     h1 = params['h1',], s1 = params['s1',],
+                     p1 = params['p1',], w1 = params['w1',],
+                     h2 = params['h2',], s2 = params['s2',],
+                     p2 = params['p2',], w2 = params['w2',],
+                     h3 = params['h3',], s3 = params['s3',],
+                     p3 = params['p3',], w3 = params['w3',],
+                     h4 = params['h4',], s4 = params['s4',],
+                     p4 = params['p4',], w4 = params['w4',])
 
-    y1 <- fs_mixture_wrap_4(temp,
-                          single_param(fit, 'h', '1'), single_param(fit, 'h', '2'),
-                          single_param(fit, 'h', '3'), single_param(fit, 'h', '4'),
-                          single_param(fit, 's', '1'), single_param(fit, 's', '2'),
-                          single_param(fit, 's', '3'), single_param(fit, 's', '4'),
-                          single_param(fit, 'p', '1'), single_param(fit, 'p', '2'),
-                          single_param(fit, 'p', '3'), single_param(fit, 'p', '4'),
-                          single_param(fit, 'w', '1'), single_param(fit, 'w', '2'),
-                          single_param(fit, 'w', '3'), single_param(fit, 'w', '4'))
-    lines(temp, y1, lty = 1, lwd = 1.7)
-
-    y2 <- fs_function(temp,
-                      single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
-                      single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-    lines(temp, y2, lty = 6, lwd = 2)
-
-    y3 <- fs_function(temp,
-                      single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
-                      single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-    lines(temp, y3, lty = 3, lwd = 2)
-
-    y4 <- fs_function(temp,
-                      single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
-                      single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-    lines(temp, y4, lty = 4, lwd = 2)
-
-    y5 <- fs_function(temp,
-                      single_param(fit, 'h', '4'), single_param(fit, 's', '4'),
-                      single_param(fit, 'p', '4'), single_param(fit, 'w', '4'))
+    y5 <- fs_function(x = temp,
+                      h = params['h4',], s = params['s4',],
+                      p = params['p4',], w = params['w4',])
     lines(temp, y5, lty = 5, lwd = 2)
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
@@ -66,31 +51,17 @@ plot.decon <- function (x, ...) {
            lty = c(1, 6, 3, 4, 5),
            lwd = 2)
 
-  } else {
+  }
 
-    y1 <- fs_mixture_wrap(temp,
-                          single_param(fit, 'h', '1'), single_param(fit, 'h', '2'),
-                          single_param(fit, 'h', '3'), single_param(fit, 's', '1'),
-                          single_param(fit, 's', '2'), single_param(fit, 's', '3'),
-                          single_param(fit, 'p', '1'), single_param(fit, 'p', '2'),
-                          single_param(fit, 'p', '3'), single_param(fit, 'w', '1'),
-                          single_param(fit, 'w', '2'), single_param(fit, 'w', '3'))
-    lines(temp, y1, lty = 1, lwd = 1.7)
+  if (x$n_peaks == 3) {
 
-    y2 <- fs_function(temp,
-                      single_param(fit, 'h', '1'), single_param(fit, 's', '1'),
-                      single_param(fit, 'p', '1'), single_param(fit, 'w', '1'))
-    lines(temp, y2, lty = 3, lwd = 2)
-
-    y3 <- fs_function(temp,
-                      single_param(fit, 'h', '2'), single_param(fit, 's', '2'),
-                      single_param(fit, 'p', '2'), single_param(fit, 'w', '2'))
-    lines(temp, y3, lty = 4, lwd = 2)
-
-    y4 <- fs_function(temp,
-                      single_param(fit, 'h', '3'), single_param(fit, 's', '3'),
-                      single_param(fit, 'p', '3'), single_param(fit, 'w', '3'))
-    lines(temp, y4, lty = 5, lwd = 2)
+    y1 <- fs_mixture(x = temp,
+                     h1 = params['h1',], s1 = params['s1',],
+                     p1 = params['p1',], w1 = params['w1',],
+                     h2 = params['h2',], s2 = params['s2',],
+                     p2 = params['p2',], w2 = params['w2',],
+                     h3 = params['h3',], s3 = params['s3',],
+                     p3 = params['p3',], w3 = params['w3',])
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
@@ -101,6 +72,23 @@ plot.decon <- function (x, ...) {
            lty = c(1, 3, 4, 5), lwd = 2)
 
   }
+
+  lines(temp, y1, lty = 1, lwd = 1.7)
+
+  y2 <- fs_function(x = temp,
+                    h = params['h1',], s = params['s1',],
+                    p = params['p1',], w = params['w1',])
+  lines(temp, y2, lty = 3, lwd = 2)
+
+  y3 <- fs_function(x = temp,
+                    h = params['h2',], s = params['s2',],
+                    p = params['p2',], w = params['w2',])
+  lines(temp, y3, lty = 4, lwd = 2)
+
+  y4 <- fs_function(x = temp,
+                    h = params['h3',], s = params['s3',],
+                    p = params['p3',], w = params['w3',])
+  lines(temp, y4, lty = 5, lwd = 2)
 
 }
 
