@@ -60,49 +60,49 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   }
 
   if (is.null(start_vec) & n_peaks == 3) {
-    theta <- c(0.003, 0.006, 0.001, -0.15, -0.15, -0.15, 250, 320, 390, 50, 30, 200)
+    theta <- c(0.003, -0.15, 250, 50,
+               0.006, -0.15, 320, 30,
+               0.001, -0.15, 390, 200)
   } else if (is.null(start_vec) & n_peaks == 4) {
-    theta <- c(0.002, 0.003, 0.006, 0.001, -0.15, -0.15, -0.15, -0.15,
-               210, 270, 310, 410, 50, 50, 30, 200)
+    theta <- c(0.002, -0.15, 210, 50,
+               0.003, -0.15, 270, 50,
+               0.006, -0.15, 310, 30,
+               0.001, -0.15, 410, 200)
   } else if (!is.null(start_vec)) {
     theta <- start_vec
   }
 
   if (is.null(lower_vec) & n_peaks == 3) {
-    lb <- c(0, 0, 0, -0.33, -0.33, -0.29, 0, 290, 330, 50, 0, 160)
+    lb <- c(0, -0.33, 0, 50,
+            0, -0.33, 290, 0,
+            0, -0.29, 330, 160)
   } else if (is.null(lower_vec) & n_peaks == 4) {
-    lb <- c(0, 0, 0, 0, -0.33, -0.33, -0.33, -0.29, 0, 0, 290, 330, 0, 0, 0, 160)
+    lb <- c(0, -0.33, 0, 0,
+            0, -0.33, 0, 0,
+            0, -0.33, 290, 0,
+            0, -0.29, 330, 160)
   } else if (!is.null(lower_vec)) {
     lb <- lower_vec
   }
 
   if (is.null(upper_vec) & n_peaks == 3) {
-    ub <- c(2, 2, 2, 0.25, 0.25, 0.25, 280, 380, 430, 100, 50, 250)
+    ub <- c(2, 0.25, 280, 100,
+            2, 0.25, 380, 50,
+            2, 0.25, 430, 250)
   } else if (is.null(upper_vec) & n_peaks == 4) {
-    ub <- c(2, 2, 2, 2, 0.2, 0.2, 0.2, 0.2, 210, 280, 380, 430, 80, 90, 50, 250)
+    ub <- c(2, 0.2, 210, 80,
+            2, 0.2, 280, 90,
+            2, 0.2, 380, 50,
+            2, 0.2, 430, 250)
   } else if (!is.null(upper_vec)) {
     ub <- upper_vec
   }
 
-  if (n_peaks == 3) {
+  # parameter optimisation
+  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
 
-    # parameter optimisation
-    params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
-
-    # model fit
-    fit <- fs_model(mod_df, params_opt, lb, ub)
-
-  } else if (n_peaks == 4) {
-
-    # parameter optimisation
-    params_opt <- param_select(theta, lb, ub, fs_mixture_4, temp, obs, restarts = 300)
-
-    # model fit
-    fit <- fs_model_4(mod_df, params_opt, lb, ub)
-
-  } else {
-    stop('Specify either three or four curves')
-  }
+  # model fit
+  fit <- fs_model(mod_df, params_opt, lb, ub)
 
   # output
   output <- list(data = mod_df, bounds = c(lower_temp, upper_temp),
