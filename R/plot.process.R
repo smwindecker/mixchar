@@ -21,17 +21,17 @@ plot.process <- function (x, plot_type = NULL, ...) {
   df <- x$data
 
   p_massloss <- function (data) {
-    plot(data$temp_K, data$mass_T, xlab = 'Temperature (K)', ylab = 'Mass Remaining (mg)')
+    plot(data$temp_C, data$mass_T, xlab = 'Temperature (K)', ylab = 'Mass Remaining (mg)')
   }
 
   p_dtg <- function (data) {
-    plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
+    plot(data$temp_C, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
   }
 
   p_both <- function (data) {
     par(mfrow=c(1,2))
-    plot(data$temp_K, data$mass_T, xlab = 'Temperature (K)', ylab = 'Mass Remaining (mg)')
-    plot(data$temp_K, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
+    plot(data$temp_C, data$mass_T, xlab = 'Temperature (K)', ylab = 'Mass Remaining (mg)')
+    plot(data$temp_C, data$deriv, xlab = 'Temperature (K)', ylab = 'DTG (dm/dT) (K-1)')
   }
 
   if (!is.null(plot_type) && plot_type == 'mass_loss') {
