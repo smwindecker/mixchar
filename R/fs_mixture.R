@@ -36,3 +36,4 @@ fs_mixture <- function (x, h1, s1, p1, w1,
 
   output
 }
+
