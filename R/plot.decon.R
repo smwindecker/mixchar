@@ -28,14 +28,14 @@ plot.decon <- function (x, ...) {
 
   if (x$n_peaks == 4) {
     y1 <- fs_mixture(x = temp,
-                     h0 = params['h0',], s0 = params['s0',],
-                     p0 = params['p0',], w0 = params['w0',],
                      h1 = params['h1',], s1 = params['s1',],
                      p1 = params['p1',], w1 = params['w1',],
                      h2 = params['h2',], s2 = params['s2',],
                      p2 = params['p2',], w2 = params['w2',],
                      h3 = params['h3',], s3 = params['s3',],
-                     p3 = params['p3',], w3 = params['w3',])
+                     p3 = params['p3',], w3 = params['w3',],
+                     h0 = params['h0',], s0 = params['s0',],
+                     p0 = params['p0',], w0 = params['w0',])
 
     y5 <- fs_function(x = temp,
                       h = params['h0',], s = params['s0',],
