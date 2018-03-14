@@ -4,8 +4,8 @@
 \alias{fs_mixture}
 \title{Mixture model for TGA data}
 \usage{
-fs_mixture(x, h1, s1, p1, w1, h2, s2, p2, w2, h3, s3, p3, w3, h4 = NULL,
-  s4 = NULL, p4 = NULL, w4 = NULL)
+fs_mixture(x, h1, s1, p1, w1, h2, s2, p2, w2, h3, s3, p3, w3, h0 = NULL,
+  s0 = NULL, p0 = NULL, w0 = NULL)
 }
 \arguments{
 \item{x}{temperature values}
@@ -34,13 +34,13 @@ fs_mixture(x, h1, s1, p1, w1, h2, s2, p2, w2, h3, s3, p3, w3, h4 = NULL,
 
 \item{w3}{width value for curve 3}
 
-\item{h4}{height value for curve 4, if present}
+\item{h0}{height value for curve 0, if present}
 
-\item{s4}{shape value for curve 4, if present}
+\item{s0}{shape value for curve 0, if present}
 
-\item{p4}{position value for curve 4, if present}
+\item{p0}{position value for curve 0, if present}
 
-\item{w4}{width value for curve 4, if present}
+\item{w0}{width value for curve 0, if present}
 }
 \value{
 Fraser-Suzuki model output
