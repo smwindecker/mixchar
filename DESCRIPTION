@@ -18,7 +18,8 @@ Imports:
     nloptr,
     plyr,
     pryr,
-    zoo
+    zoo,
+    tmvtnorm
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
 Encoding: UTF-8
