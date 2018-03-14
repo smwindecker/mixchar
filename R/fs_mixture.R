@@ -21,17 +21,18 @@
 #'
 #' @export
 
-fs_mixture <- function (x, h1, s1, p1, w1,
+fs_mixture <- function (x,
+                        h0 = NULL, s0 = NULL, p0 = NULL, w0 = NULL,
+                        h1, s1, p1, w1,
                         h2, s2, p2, w2,
-                        h3, s3, p3, w3,
-                        h4 = NULL, s4 = NULL, p4 = NULL, w4 = NULL) {
+                        h3, s3, p3, w3) {
 
   output <- fs_function(x, h1, s1, p1, w1) +
     fs_function(x, h2, s2, p2, w2) +
     fs_function(x, h3, s3, p3, w3)
 
-  if (!is.null(h4) & !is.null(s4) & !is.null(p4) & !is.null(w4)) {
-    output <- output + fs_function(x, h4, s4, p4, w4)
+  if (!is.null(h0) & !is.null(s0) & !is.null(p0) & !is.null(w0)) {
+    output <- output + fs_function(x, h0, s0, p0, w0)
   }
 
   output
