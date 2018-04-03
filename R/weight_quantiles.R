@@ -12,11 +12,11 @@ weight_quantiles <- function (output) {
 
   # random draws of parameters, proportional to likelihood
   if (length(est) == 12) {
-    lower <- c(0, 0, 0, -Inf, -Inf, -Inf, 0, 0, 0, 0, 0, 0)
+    lower <- c(0, -Inf, 0, 0, 0, -Inf, 0, 0, 0, -Inf, 0, 0)
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
   if (length(est) == 16) {
-    lower <- c(0, 0, 0, 0, -Inf, -Inf, -Inf, -Inf, 0, 0, 0, 0, 0, 0, 0, 0)
+    lower <- c(0, -Inf, 0, 0, 0, -Inf, 0, 0, 0, -Inf, 0, 0, 0, -Inf, 0, 0)
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
   draws <- tmvtnorm::rtmvnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
