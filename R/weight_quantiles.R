@@ -1,13 +1,19 @@
-# Monte Carlo
+#' Calculate weight quantiles
+#'
+#' @param output dataframe
+#' @importFrom stats coef deviance
+#' @importFrom tmvtnorm rtmvnorm
+#' @return list of means and confidence intervals of weight estimates
+#'
 
 weight_quantiles <- function (output) {
 
   # least squares estimate:
-  est <- coef(output$minpack.lm)
+  est <- stats::coef(output$minpack.lm)
 
   # variance-covariance matrix, assuming truncated multivariate normal distribution over LS surface
   sry <- summary(output$minpack.lm)
-  residvar <- deviance(output$minpack.lm) / sry$df[2]
+  residvar <- stats::deviance(output$minpack.lm) / sry$df[2]
   vcov <- sry$cov.unscaled * residvar
 
   # random draws of parameters, proportional to likelihood
@@ -19,6 +25,7 @@ weight_quantiles <- function (output) {
     lower <- c(0, -Inf, 0, 0, 0, -Inf, 0, 0, 0, -Inf, 0, 0, 0, -Inf, 0, 0)
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
+
   draws <- tmvtnorm::rtmvnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
   colnames(draws) <- names(est)
   # draws_mvnorm <- MASS::mvnorm(1000, est, vcov)
@@ -34,7 +41,6 @@ weight_quantiles <- function (output) {
   means <- get_weights(est, output)
 
   list(CI_weights = CIs, mean_weights = means)
-
 }
 
 
