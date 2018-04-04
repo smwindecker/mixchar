@@ -15,7 +15,7 @@
 #' you have selected the number of curves in the n_curves parameter.
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @import minpack.lm nloptr plyr zoo tmvtnorm
+#' @import minpack.lm nloptr plyr zoo
 #' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
