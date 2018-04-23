@@ -4,18 +4,17 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(process_object, n_curves = NULL, lower_temp = 120,
-  upper_temp = 700, start_vec = NULL, lower_vec = NULL,
-  upper_vec = NULL)
+deconvolve(process_object, lower_temp = 120, upper_temp = 700,
+  n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
 
-\item{n_curves}{number of curves}
+\item{lower_temp}{lower temperature bound to crop dataset, default to 120}
 
-\item{lower_temp}{lower temperature bound to crop dataset}
+\item{upper_temp}{upper temperature bound to crop dataset, default to 700}
 
-\item{upper_temp}{upper temperature bound to crop dataset}
+\item{n_curves}{number of curves optional specification}
 
 \item{start_vec}{vector of starting values for nls function. Only specify this vector if
 you have selected the number of curves in the n_curves parameter.}
@@ -35,12 +34,8 @@ Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 18.96)
-output <- deconvolve(munge)
-
-data(marsilea)
-munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92)
-output <- deconvolve(munge)
+tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+output <- deconvolve(tmp)
 
 }
 \keyword{deconvolution}

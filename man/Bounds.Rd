@@ -7,20 +7,21 @@
 Bounds(object)
 }
 \arguments{
-\item{object}{a process object}
+\item{object}{the output of either the process or deconvolve functions}
 }
 \value{
-$bounds of the object
+Temperature bounds of the data in the object
 }
 \description{
 Accessor function to extract selected bounds
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
-Bounds(munge)
+tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
+Bounds(tmp)
 
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}
+\keyword{temperature}
 \keyword{thermogravimetry}
