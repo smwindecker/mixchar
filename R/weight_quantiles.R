@@ -1,7 +1,7 @@
 #' Calculate weight quantiles
 #'
 #' @param output dataframe
-#' @importFrom stats coef deviance
+#' @importFrom stats coef deviance quantile
 #' @importFrom tmvtnorm rtmvnorm
 #' @return list of means and confidence intervals of weight estimates
 #'

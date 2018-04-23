@@ -13,9 +13,6 @@
 #'
 #' @export
 
-### need to make so if plot window too small it automatically pops up in pop up?
-### otherwise just get 'error in plot.new() : figure margins too large'
-
 plot.process <- function (x, plot_type = NULL, ...) {
 
   df <- x$data

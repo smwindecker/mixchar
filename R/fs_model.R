@@ -7,7 +7,7 @@
 #' @param params starting parameter values
 #' @param lb lower bounds for model
 #' @param ub upper bounds for model
-#' @importFrom minpack.lm nlsLM
+#' @importFrom minpack.lm nlsLM nls.lm.control
 #' @return model output
 #'
 #' @export
@@ -35,11 +35,11 @@ fs_model <- function (dataframe, params, lb, ub) {
 
   }
 
-  nlsLM(frm,
-        start = start_list,
-        data = dataframe,
-        control = nls.lm.control(maxiter = 1024, maxfev = 1e6),
-        lower = lb,
-        upper = ub)
+  minpack.lm::nlsLM(frm,
+                    start = start_list,
+                    data = dataframe,
+                    control = minpack.lm::nls.lm.control(maxiter = 1024, maxfev = 1e6),
+                    lower = lb,
+                    upper = ub)
 
 }
