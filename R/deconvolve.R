@@ -4,9 +4,9 @@
 #' Fraser-Suzuki mixture model
 #'
 #' @param process_object process object obtained from process function
-#' @param n_curves number of curves
-#' @param lower_temp lower temperature bound to crop dataset
-#' @param upper_temp upper temperature bound to crop dataset
+#' @param n_curves number of curves optional specification
+#' @param lower_temp lower temperature bound to crop dataset, default to 120
+#' @param upper_temp upper temperature bound to crop dataset, default to 700
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
 #' you have selected the number of curves in the n_curves parameter.
 #' @param lower_vec vector of lower bound values for nls. Only specify this vector if
@@ -15,20 +15,16 @@
 #' you have selected the number of curves in the n_curves parameter.
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @import minpack.lm nloptr plyr zoo
+#' @import plyr
 #' @importFrom stats integrate setNames loess
 #' @examples
 #' data(juncus)
-#' munge <- process(juncus, 'temp_C', 'mass_loss', 18.96)
-#' output <- deconvolve(munge)
-#'
-#' data(marsilea)
-#' munge <- process(marsilea, 'temp_C', 'mass_loss', 10.92)
-#' output <- deconvolve(munge)
+#' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+#' output <- deconvolve(tmp)
 #'
 #' @export
 
-deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper_temp = 700,
+deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, n_curves = NULL,
                                 start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
 
   # identify dataframe
@@ -56,7 +52,7 @@ deconvolve <- function (process_object, n_curves = NULL, lower_temp = 120, upper
   } else if (n_curves == 4) {
     n_peaks <- 4
   } else {
-    stop('Manually select peak')
+    stop('Manually select peaks')
   }
 
   if (is.null(start_vec) & n_peaks == 3) {
