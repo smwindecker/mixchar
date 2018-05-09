@@ -1,7 +1,9 @@
 #' Calculate weight single component
 #'
-#' @param j component number
-#' @param fxn function to integrate over
+#' @param j component
+#' @param param_vec vector of parameters
+#' @param lower_temp lower temperature bound
+#' @param upper_temp upper temperature bound
 #' @return weight of component
 #'
 
