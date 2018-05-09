@@ -5,7 +5,7 @@
 #' @return weight of component
 #'
 
-wt_component <- function (j, fxn, param_vec, lower_temp, upper_temp) {
+wt_component <- function (j, param_vec, lower_temp, upper_temp) {
 
   # extract relevant parameter vector
   names <- paste0(c("h", "s", "p", "w"), j)
