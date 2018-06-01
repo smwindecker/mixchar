@@ -1,6 +1,6 @@
-context("Test for rmse")
+context("Test for model parameterisation")
 
-test_that("function returns correct value", {
+test_that("rmse returns correct value", {
 
   set.seed <- 1234
   obs <- rnorm(1000, 8.3, .9)

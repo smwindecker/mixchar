@@ -1,6 +1,18 @@
-context("Test for get_weights")
+context("Test for extracting weights of components")
 
-test_that("function returns correct weight values", {
+test_that("wt_component returns correct weight", {
+
+  param_vec <- c(10, .3, 600, 200)
+  lower <- 120
+  upper <- 700
+
+  val <- integrate(fs_function(x, 10, .3, 600, 200), lower, upper)
+
+  expect_equal(wt_component(1, param_vec, lower, upper), val)
+
+})
+
+test_that("get_weights returns correct weight values for each component", {
 
   params3 <- c(h1 = .1, s1 = .3, p1 = 200, w1 = 100,
                h2 = .2, s2 = .25, p2 = 400, w2 = 60,
