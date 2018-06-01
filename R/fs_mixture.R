@@ -33,8 +33,8 @@ fs_mixture <- function (x,
 
   n_params <- length(c(h1, s1, p1, w1, h2, s2, p2, w2, h3, s3, p3, w3, h0, s0, p0, w0))
 
-  if (n_params != (12 | 16)) {
-    stop('Specify correct number of parameters parameters')
+  if (n_params != 12 & n_params != 16) {
+    stop('Specify correct number of parameters')
   }
 
   if (!is.null(h0) & !is.null(s0) & !is.null(p0) & !is.null(w0)) {
