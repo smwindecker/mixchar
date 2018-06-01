@@ -12,7 +12,7 @@ Description: This package provides an easy and straightforward way to quantify
     in a three-part mixture model using the four parameter Fraser-Suzuki function. 
     The output are estimates for mass fractions of pseudo-components corresponding 
     to hemicellulose, cellulose, and lignin.
-Depends: R (>= 3.4.1)
+Depends: R (>= 3.4.0)
 Imports:
     minpack.lm, 
     nloptr,

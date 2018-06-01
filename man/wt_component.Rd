@@ -4,12 +4,16 @@
 \alias{wt_component}
 \title{Calculate weight single component}
 \usage{
-wt_component(j, fxn, param_vec, lower_temp, upper_temp)
+wt_component(j, param_vec, lower_temp, upper_temp)
 }
 \arguments{
-\item{j}{component number}
+\item{j}{component}
 
-\item{fxn}{function to integrate over}
+\item{param_vec}{vector of parameters}
+
+\item{lower_temp}{lower temperature bound}
+
+\item{upper_temp}{upper temperature bound}
 }
 \value{
 weight of component

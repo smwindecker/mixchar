@@ -11,6 +11,9 @@ inflection(x, y, w = 1, ...)
 
 \item{y}{y-values}
 }
+\value{
+returns a list of values. $x returns the inflections points within x.
+}
 \description{
 Function to determine x-value of peak < 500 K
 }
