@@ -19,7 +19,7 @@ Accessor function to extract mean weights
 data(juncus)
 tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
 output <- deconvolve(tmp)
-MeanWeights(output)
+Weights(output)
 
 }
 \keyword{deconvolution}
