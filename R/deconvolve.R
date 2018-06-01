@@ -106,7 +106,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, n_cu
 
   weights <- weight_quantiles(output)
 
-  decon_output <- c(output, weights)
+  decon_output <- c(output, weights = weights)
 
   class(decon_output) <- 'decon'
   decon_output
