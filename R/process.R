@@ -45,10 +45,12 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   data_2 <- data_2[-1,]
   data_2$mass_T <- data_2[, massloss_col] + massinit_value
 
-  lower <- min(data_2$temp_C)
-  upper <- max(data_2$temp_C)
+  mod_data <- data_2[,c('temp_C', 'deriv', 'mass_T')]
 
-  output <- list(data = data_2, mass_init = massinit_value, bounds = c(lower, upper))
+  lower <- min(mod_data$temp_C)
+  upper <- max(mod_data$temp_C)
+
+  output <- list(data = mod_data, mass_init = massinit_value, bounds = c(lower, upper))
 
   class(output) <- 'process'
   output
