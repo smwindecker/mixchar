@@ -20,4 +20,4 @@ email:
   on_failure: change
 
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'covr::codecov()'

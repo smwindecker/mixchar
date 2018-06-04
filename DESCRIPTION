@@ -30,5 +30,6 @@ Suggests:
     rmarkdown,
     devtools,
     testthat,
-    shiny
+    shiny,
+    covr
 VignetteBuilder: knitr
