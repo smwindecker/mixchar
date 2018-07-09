@@ -26,7 +26,7 @@ the derivative of mass loss
 }
 \examples{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+tmp <- process(juncus, 'temp_C', 'mass_loss', 16.85)
 
 }
 \keyword{deconvolution}

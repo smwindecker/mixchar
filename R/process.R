@@ -14,7 +14,7 @@
 #' @importFrom stats integrate setNames
 #' @examples
 #' data(juncus)
-#' munge <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+#' tmp <- process(juncus, 'temp_C', 'mass_loss', 16.85)
 #'
 #' @export
 
