@@ -4,9 +4,7 @@
 # deconvolve
 Repository for the R package 'deconvolve'
 
-This package was designed so that there would be a reproducible method for deconvolving derivative thergravimetric data into pseudo-components. 
+This package provides an easy and straightforward way to quantify lignocellulosic biomass pseudo-components derived from thermogravimetric analysis (TGA). Mass loss data from TGA outputs are imported, modified, and then modelled in a three- or four- part  mixture model using the Fraser-Suzuki function. The output is estimates for mass fractions of pseudo-components corresponding to hemicellulose, cellulose, and lignin.
 
-Thermogravimetric Analysis (TGA) is a method to estimate biomass fractions. After pyrolysing dried samples in the machine, a derivative curve is calculated. This curve is deconvolved using the three-part Fraser-Suzuki mixture model. 
-
-It is designed for anyone to use, but will only work, for now, for material that needs to be deconvolved into three portions corresponding to hemicellulose, cellulose, and lignin. 
+Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
 
