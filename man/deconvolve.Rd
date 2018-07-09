@@ -5,7 +5,8 @@
 \title{Deconvolves Thermogravimetric Data}
 \usage{
 deconvolve(process_object, lower_temp = 120, upper_temp = 700,
-  n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL)
+  ranseed = 3718, n_curves = NULL, start_vec = NULL, lower_vec = NULL,
+  upper_vec = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
@@ -13,6 +14,8 @@ deconvolve(process_object, lower_temp = 120, upper_temp = 700,
 \item{lower_temp}{lower temperature bound to crop dataset, default to 120}
 
 \item{upper_temp}{upper temperature bound to crop dataset, default to 700}
+
+\item{ranseed}{random seed for nloptr optimiser}
 
 \item{n_curves}{number of curves optional specification}
 

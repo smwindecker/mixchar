@@ -7,6 +7,7 @@
 #' @param n_curves number of curves optional specification
 #' @param lower_temp lower temperature bound to crop dataset, default to 120
 #' @param upper_temp upper temperature bound to crop dataset, default to 700
+#' @param ranseed random seed for nloptr optimiser
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
 #' you have selected the number of curves in the n_curves parameter.
 #' @param lower_vec vector of lower bound values for nls. Only specify this vector if
@@ -24,8 +25,8 @@
 #'
 #' @export
 
-deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, n_curves = NULL,
-                                start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
+deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, ranseed = 1,
+                        n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
 
   # identify dataframe
   mod_df <- ModData(process_object)
@@ -95,7 +96,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, n_cu
   }
 
   # parameter optimisation
-  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, restarts = 300)
+  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, ranseed = ranseed, restarts = 300)
 
   # model fit
   fit <- fs_model(mod_df, params_opt, lb, ub)

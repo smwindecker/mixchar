@@ -4,7 +4,7 @@
 \alias{param_select}
 \title{Optimise parameters}
 \usage{
-param_select(theta, lb, ub, model, x, obs, restarts = 300)
+param_select(theta, lb, ub, model, x, obs, restarts = 300, ranseed = 2718)
 }
 \arguments{
 \item{theta}{vector of starting values for each of 12 parameters}
@@ -18,6 +18,8 @@ param_select(theta, lb, ub, model, x, obs, restarts = 300)
 \item{obs}{DTG mass values}
 
 \item{restarts}{number of times for optimiser to restart}
+
+\item{ranseed}{random seed for optimiser}
 }
 \value{
 optimised starting parameter values
