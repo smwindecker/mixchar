@@ -12,7 +12,7 @@
 
 print.decon <- function (x, ...) {
 
-  cat(paste0('Deconvolution by ', x$n_peaks,'-part Fraser-Suzuki mixture model fitted to',
-             nrow(x$data), 'datapoints from', x$bounds[1], 'to', x$bounds[2], 'degrees C.'))
+  cat(paste0('Deconvolution by ', x$n_peaks,'-part Fraser-Suzuki mixture model fitted to ',
+             nrow(x$data), ' datapoints from ', x$bounds[1], ' to ', x$bounds[2], ' degrees C.'))
 
 }
