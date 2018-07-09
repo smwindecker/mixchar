@@ -5,7 +5,7 @@
 \title{Deconvolves Thermogravimetric Data}
 \usage{
 deconvolve(process_object, lower_temp = 120, upper_temp = 700,
-  ranseed = 3718, n_curves = NULL, start_vec = NULL, lower_vec = NULL,
+  ranseed = 1, n_curves = NULL, start_vec = NULL, lower_vec = NULL,
   upper_vec = NULL)
 }
 \arguments{
