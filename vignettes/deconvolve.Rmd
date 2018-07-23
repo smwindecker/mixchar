@@ -2,14 +2,19 @@
 title: "Using deconvolve for lignocellulosic biomass estimates"
 author: "Saras M. Windecker"
 output:
-  html_vignette:
+  html_document:
     css: deconvolve.css
+    theme: lumen
+    toc: yes
+    toc_float:
+      collapsed: no
+      toc_depth: 4
     fig_caption: yes
 runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Using deconvolve for lignocellulosic biomass estimates}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ## Why deconvolution?
