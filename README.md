@@ -29,10 +29,11 @@ Processed data then simply needs to be deconvolved into its constituent parts. T
 output <- deconvolve(tmp)
 ```
 
-Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you override it by modifying the `ncurves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those or the upper and lower bounds for the estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`. You can plot the resulting output using the default plotting function. 
+Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you override it by modifying the `ncurves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those or the upper and lower bounds for the estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`. 
+
+The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `Weights()` will display the weights of each carbon component, `ModData()` will show you the modified dataset used for fitting, `Model()` will show you the model fit, and `Bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function. 
 ```{r}
 plot(output)
 ```
 
 Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. Please get in touch or log an issue if you are having any trouble. 
-
