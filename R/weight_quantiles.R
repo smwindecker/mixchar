@@ -1,12 +1,13 @@
 #' Calculate weight quantiles
 #'
 #' @param output dataframe
+#' @param seed seed
 #' @importFrom stats coef deviance quantile
 #' @importFrom tmvtnorm rtmvnorm
 #' @return list of means and confidence intervals of weight estimates
 #'
 
-weight_quantiles <- function (output) {
+weight_quantiles <- function (output, seed) {
 
   # least squares estimate:
   est <- stats::coef(output$minpack.lm)
@@ -26,6 +27,7 @@ weight_quantiles <- function (output) {
     upper <- c(Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf, Inf)
   }
 
+  set.seed(seed)
   draws <- tmvtnorm::rtmvnorm(1000, mean = est, sigma = vcov, lower = lower, upper = upper)
   colnames(draws) <- names(est)
   # draws_mvnorm <- MASS::mvnorm(1000, est, vcov)
