@@ -2,8 +2,6 @@
 [![codecov](https://codecov.io/gh/smwindecker/deconvolve/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/deconvolve)
 
 # deconvolve
-Repository for the R package 'deconvolve'
-
 This package provides an easy and straightforward way to quantify proportions of lignocellulosic biomass components (typically considered hemicellulose, cellulose, and lignin) from the mass loss data generated during thermogravimetric analysis (TGA). 
 
 Proportions of the main carbon types in litter can be used as functional traits to understand ecosystem processes such as litter decomposition, or to aid in calculation of kinetic decay constants. Thermogravimetric analysis is the process of pyrolysing dry, ground plant litter, and results in mass loss data across a temperature range. Since different carbon types break down during different temperature phases, we can separate the multi-peaked rate of mass loss curve into independent decay phases and estimate proportions of each carbon type by integrating under their respective individual decay curve. This package conducts this analysis in an open-source and reproducible fashion. 

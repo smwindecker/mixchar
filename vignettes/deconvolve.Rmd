@@ -1,32 +1,16 @@
 ---
 title: "Using deconvolve for lignocellulosic biomass estimates"
 author: "Saras M. Windecker"
-date: ""
 output:
-  html_document:
+  html_vignette:
     css: deconvolve.css
     fig_caption: yes
-    theme: lumen
-    toc: yes
-    toc_float:
-      collapsed: no
-      toc_depth: 4
 runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Using deconvolve for lignocellulosic biomass estimates}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r knitr_options, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
-# set up knitr options
-knitr::opts_chunk$set(message = FALSE,
-                      warning = FALSE,
-                      dev = c('png'),
-                      fig.align = "center",
-                      cache = TRUE,
-                      comment = NA)
-```
 
 ## Why deconvolution?
 
