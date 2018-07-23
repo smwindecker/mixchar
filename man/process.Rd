@@ -4,7 +4,7 @@
 \alias{process}
 \title{Processes Thermogravimetric Data}
 \usage{
-process(data, temp_col, massloss_col, massinit_value, temp_type = "C")
+process(data, temp_col, massloss_col, init_mass, temp_type = "C")
 }
 \arguments{
 \item{data}{dataframe}
@@ -13,7 +13,7 @@ process(data, temp_col, massloss_col, massinit_value, temp_type = "C")
 
 \item{massloss_col}{column name containing mass loss values in grams}
 
-\item{massinit_value}{numeric value of initial sample mass in grams}
+\item{init_mass}{numeric value of initial sample mass in grams}
 
 \item{temp_type}{specify units of temperature, default = Celsius. Specify 'K' if in Kelvin}
 }

@@ -4,10 +4,12 @@
 \alias{weight_quantiles}
 \title{Calculate weight quantiles}
 \usage{
-weight_quantiles(output)
+weight_quantiles(output, seed)
 }
 \arguments{
 \item{output}{dataframe}
+
+\item{seed}{seed}
 }
 \value{
 list of means and confidence intervals of weight estimates
