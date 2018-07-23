@@ -8,9 +8,14 @@ This package provides an easy and straightforward way to quantify proportions of
 
 Proportions of the main carbon types in litter can be used as functional traits to understand ecosystem processes such as litter decomposition, or to aid in calculation of kinetic decay constants. Thermogravimetric analysis is the process of pyrolysing dry, ground plant litter, and results in mass loss data across a temperature range. Since different carbon types break down during different temperature phases, we can separate the multi-peaked rate of mass loss curve into independent decay phases and estimate proportions of each carbon type by integrating under their respective individual decay curve. This package conducts this analysis in an open-source and reproducible fashion. 
 
+You can download `deconvolve` from Github, using:
+```{r}
+devtools::install_github('smwindecker/deconvolve')
+library(deconvolve)
+```
+
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus usitatus* is included in the package:
 ```{r}
-library(deconvolve)
 data(juncus)
 ```
 
@@ -29,7 +34,7 @@ Processed data then simply needs to be deconvolved into its constituent parts. T
 output <- deconvolve(tmp)
 ```
 
-Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you override it by modifying the `ncurves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those or the upper and lower bounds for the estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`. 
+Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you can override it by modifying the `n_curves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those or the upper and lower bounds for the estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`. 
 
 The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `Weights()` will display the weights of each carbon component, `ModData()` will show you the modified dataset used for fitting, `Model()` will show you the model fit, and `Bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function. 
 ```{r}

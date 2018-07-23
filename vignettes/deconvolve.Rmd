@@ -1,0 +1,136 @@
+---
+title: "Using deconvolve for lignocellulosic biomass estimates"
+author: "Saras M. Windecker"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    css: deconvolve.css
+    fig_caption: yes
+    theme: lumen
+    toc: yes
+    toc_float:
+      collapsed: no
+      toc_depth: 4
+runtime: shiny
+vignette: >
+  %\VignetteIndexEntry{Using deconvolve for lignocellulosic biomass estimates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitr_options, eval = TRUE, echo = FALSE, warning = FALSE, message = FALSE}
+# set up knitr options
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE,
+                      dev = c('png'),
+                      fig.align = "center",
+                      cache = TRUE,
+                      comment = NA)
+```
+
+## Why deconvolution?
+
+Ecologists are often interested in determining the composition of plant cell wall biomass, primarily hemicellulose, cellulose, and lignin carbon types (collectively termed lignocellulosic biomass). Proportions of these carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis (TGA) is an alternative method, already used in the biofuel field, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a $N_2$ environment, termed pyrolysis). 
+
+To estimate carbon components from this mass loss data we have to take the derivative, to find the rate of mass loss across temperature, and then use a mixture model to separate the multi-peaked derivative curve into constituent parts. This process is called deconvolution, and is typically conducted in proprietary peak-fitting softwares, which, while effective, are not open source. This package seeks to provide a platform for reproducible deconvolution using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin. For more details (link paper here). 
+
+<hr>
+
+## Mixture model
+
+The meat of this package is in the mixture model used to deconvolve the derivative rate curve. Many different mathematical models have been proposed to fit the form of the independent curves, including Gassian, Lorentzian, Weibull, the asymmetric bi-Gaussian, and the Frazer-Suzuki distributions. Symmetric curves such as the Gaussian and Lorentzian curves struggle to model these kinetic curves because they are often asymmetric. The four-parameter Fraser-Suzuki function is highly flexible and therefore performs well. 
+
+\begin{equation}
+\frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
+\end{equation}
+
+Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the widget below:
+
+```{r, echo = FALSE, cache = FALSE}
+shinyAppFile('shiny-app/mixture_fs/app.R')
+```
+
+<hr>
+
+## Workflow
+
+### 1. Load data
+
+To use the deconvolve package, first you'll need to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which output the data as a table with temperature and mass loss. If your TGA machine outputs data in another format, you'll need to reformat like the example below, or get in touch with us, and we'll add new functionality to accommodate your data formats. 
+
+We have included an example dataset in this package, called `juncus`, that we will use for this demonstration and that you can have a look at to check if your data is in the right format. The `juncus` dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, *Juncus amabilis*. 
+
+``` {r}
+library(deconvolve)
+data(juncus)
+head(juncus)
+```
+
+### 2. `process` data
+
+The `process` function takes the derivative of our mass loss data, resulting in rate of mass loss over temperature data. To use this function you simply need to specify the dataset, identify which columns contain temperature and mass loss data, and provide a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument `temp_type = 'K`. 
+
+```{r}
+tmp <- process(juncus, 
+               temp_col = 'temp_C', 
+               massloss_col = 'mass_loss', 
+               init_mass = 18.96)
+tmp
+```
+
+### 3. Plot mass loss and DTG curve
+
+The default plotting option for your processed data is the DTG curve, but you can check out the original mass loss curve on its own or together with the DTG curve by specifying the `plot_type` argument. 
+
+```{r}
+plot(tmp, plot_type = 'both')
+```
+
+### 4. `deconvolve` data
+
+Processed data then simply needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude the early mass loss from dehydration and then running the Fraser-Suzuki mixture model. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The second example dataset `marsilea` is an example of this. The deconvolve function will decide whether three or four curves are best, but you can override it by modifying the `n_curves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those, or the upper and lower bounds for the parameter estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`. 
+
+```{r}
+output <- deconvolve(tmp)
+output
+```
+
+### 5. Examine outputs
+The `deconvolve()` function results in a few different outputs. You can look at each output individually using accessor functions.
+
+#### modified dataframe output
+`ModData()` will show you the modified dataset used for fitting:
+```{r}
+head(ModData(output))
+```
+
+#### bounds output
+`Bounds()` will print the temperature values at which the data were cropped for analysis:
+```{r}
+Bounds(output)
+```
+
+#### minpack.lm model output
+`Model()` will show you the output of the Fraser-Suzuki mixture model: 
+```{r}
+Model(output)
+```
+We can see the estimated parameter values (h = height, s = skew, p = position, and w = width) for each curve. Curve 1 is hemicellulose, curve 2 is cellulose, and curve 3 is lignin. If present, the optional fourth curve located at the lowest temperature interval will be listed as curve 0.
+
+#### mass fractions output
+`Weights()` will display the mean proportions as well as estimated upper and lower confidence intervals of each carbon component:
+```{r}
+Weights(output)
+```
+
+### 6. Plot deconvolved curve
+Take a look at your plot. Do the estimates seem reasonable? In many cases, the peak of HC occurs at the lowest temperature, followed by CL and finally LG. If your plot doesn't follow this pattern, can you think of an ecological explanation given your species/plant material type?
+
+```{r}
+plot(output)
+```
+
+<hr>
+
+This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know by logging a bug on the issues page of the github: http://www.github.com/smwindecker/deconvolve. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
+
