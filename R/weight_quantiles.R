@@ -37,12 +37,19 @@ weight_quantiles <- function (output, seed) {
 
   # means and uncertainty intervals of weight estimates calculated from MC
   # simulation
-  CIs <- apply(weights_draws, 2, quantile, c(0.025, 0.975))
+  CI <- apply(weights_draws, 2, quantile, c(0.025, 0.975))
+  CI_df <- as.data.frame(CI)
 
   # weights calculated from the maximum likelihood estimates
   means <- get_weights(est, output)
 
-  list(CI_weights = CIs, mean_weights = means)
+  all_weights <- rbind(CI_df, means)
+  all_weights$value_type <- row.names(all_weights)
+  all_weights$value_type[all_weights$value_type == 3] <- 'mean'
+
+  rownames(all_weights) <- c()
+
+  list(weights = all_weights)
 }
 
 
