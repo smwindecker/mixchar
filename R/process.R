@@ -6,7 +6,7 @@
 #' @param data dataframe
 #' @param temp_col column name containing temperature values
 #' @param massloss_col column name containing mass loss values in grams
-#' @param massinit_value numeric value of initial sample mass in grams
+#' @param init_mass numeric value of initial sample mass in grams
 #' @param temp_type specify units of temperature, default = Celsius. Specify 'K' if in Kelvin
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
@@ -18,7 +18,7 @@
 #'
 #' @export
 
-process <- function (data, temp_col, massloss_col, massinit_value,
+process <- function (data, temp_col, massloss_col, init_mass,
                         temp_type = 'C') {
 
   if (temp_type == 'K') {
@@ -35,7 +35,7 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   }
 
   # adjust mass loss given initial mass, use this for derivative
-  data_1$adj_massloss <- data_1[, massloss_col] / massinit_value
+  data_1$adj_massloss <- data_1[, massloss_col] / init_mass
 
   d <- -as.data.frame(diff(data_1$adj_massloss)/diff(data_1$temp_C))
   x <- rep(NA, ncol(d))
@@ -43,14 +43,14 @@ process <- function (data, temp_col, massloss_col, massinit_value,
   colnames(deriv) <- 'deriv'
   data_2 <- cbind(data_1, deriv)
   data_2 <- data_2[-1,]
-  data_2$mass_T <- data_2[, massloss_col] + massinit_value
+  data_2$mass_T <- data_2[, massloss_col] + init_mass
 
   mod_data <- data_2[,c('temp_C', 'deriv', 'mass_T')]
 
   lower <- min(mod_data$temp_C)
   upper <- max(mod_data$temp_C)
 
-  output <- list(data = mod_data, mass_init = massinit_value, bounds = c(lower, upper))
+  output <- list(data = mod_data, mass_init = init_mass, bounds = c(lower, upper))
 
   class(output) <- 'process'
   output
