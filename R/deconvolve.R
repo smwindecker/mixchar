@@ -1,13 +1,12 @@
 #' Deconvolves Thermogravimetric Data
 #'
-#' This function deconvolves thermogravimetric data using a three-part
-#' Fraser-Suzuki mixture model
+#' This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture model
 #'
 #' @param process_object process object obtained from process function
-#' @param n_curves number of curves optional specification
 #' @param lower_temp lower temperature bound to crop dataset, default to 120
 #' @param upper_temp upper temperature bound to crop dataset, default to 700
 #' @param ranseed random seed for nloptr optimiser
+#' @param n_curves number of curves optional specification
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
 #' you have selected the number of curves in the n_curves parameter.
 #' @param lower_vec vector of lower bound values for nls. Only specify this vector if

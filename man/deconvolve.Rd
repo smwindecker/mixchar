@@ -32,8 +32,7 @@ you have selected the number of curves in the n_curves parameter.}
 decon list containing amended dataframe, bounds, model output, mass fractions
 }
 \description{
-This function deconvolves thermogravimetric data using a three-part
-Fraser-Suzuki mixture model
+This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture model
 }
 \examples{
 data(juncus)
