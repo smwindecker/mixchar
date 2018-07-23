@@ -105,9 +105,9 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
   output <- list(data = mod_df, bounds = c(lower_temp, upper_temp),
                  minpack.lm = fit, n_peaks = n_peaks)
 
-  weights <- weight_quantiles(output)
+  weights <- weight_quantiles(output, ranseed)
 
-  decon_output <- c(output, weights = weights)
+  decon_output <- c(output, weights)
 
   class(decon_output) <- 'decon'
   decon_output
