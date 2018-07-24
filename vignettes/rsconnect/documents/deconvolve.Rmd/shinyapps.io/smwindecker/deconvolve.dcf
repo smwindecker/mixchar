@@ -1,0 +1,12 @@
+name: deconvolve
+title: deconvolve
+username:
+account: smwindecker
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 386817
+bundleId: 1496413
+url: https://smwindecker.shinyapps.io/deconvolve/
+when: 1532405528.29029
+asMultiple: FALSE
+asStatic: FALSE
