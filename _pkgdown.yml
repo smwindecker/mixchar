@@ -1,0 +1,48 @@
+title: deconvolve
+url: http://smwindecker.github.io/deconvolve
+template:
+  params:
+    bootswatch: flatly
+    ganalytics: UA-84499524-2
+reference:
+  - title: Data
+    desc: ~
+    contents:
+      - '`juncus`'
+      - '`marsilea`'
+  - title: Basic use
+    desc: ~
+    contents:
+      - '`process`'
+      - '`deconvolve`'
+  - title: Accessor functions
+    desc: ~
+    contents:
+      - '`Bounds`'
+      - '`ModData`'
+      - '`Model`'
+      - '`Weights`'
+  - title: Internal functions
+    desc: ~
+    contents:
+      - '`fs_function`'
+      - '`fs_mixture`'
+      - '`fs_model`'
+      - '`get_weights`'
+      - '`weight_quantiles`'
+      - '`wt_component`'
+navbar:
+  type: inverse
+  left:
+    - icon: fa-home
+      href: index.html
+  right:
+    - text: "Get started"
+      icon: fas fa-book
+      href: articles/deconvolve.html
+    - icon: fa-file-code-o
+      text: "functions"
+      href: reference/index.html
+    - icon: fa-github fa-lg
+      text: "github"
+      href: https://github.com/smwindecker/deconvolve/
