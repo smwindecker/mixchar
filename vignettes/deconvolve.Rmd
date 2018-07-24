@@ -32,6 +32,7 @@ The meat of this package is in the mixture model used to deconvolve the derivati
 \frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
 \end{equation}
 
+
 Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/deconvolve/). 
 <hr>
 
