@@ -1,7 +1,7 @@
 ---
 title: "Using deconvolve for lignocellulosic biomass estimates"
 author: "Saras M. Windecker"
-output:
+output: 
   html_document:
     css: deconvolve.css
     theme: lumen
@@ -35,10 +35,10 @@ The meat of this package is in the mixture model used to deconvolve the derivati
 
 Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the widget below:
 
-```{r, echo = FALSE, cache = FALSE}
-shiny::shinyAppFile('shiny-app/mixture_fs/app.R')
+```{r, echo = FALSE}
+library("shiny")
+shiny::shinyAppFile("shiny-app/mixture_fs/app.R")
 ```
-
 <hr>
 
 ## Workflow
@@ -71,7 +71,7 @@ tmp
 
 The default plotting option for your processed data is the DTG curve, but you can check out the original mass loss curve on its own or together with the DTG curve by specifying the `plot_type` argument. 
 
-```{r}
+```{r, fig.height = 3.7}
 plot(tmp, plot_type = 'both')
 ```
 
