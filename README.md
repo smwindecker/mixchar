@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/smwindecker/deconvolve.svg?branch=master)](https://travis-ci.org/smwindecker/deconvolve)
+[![Build Status](https://travis-ci.com/smwindecker/deconvolve.svg?branch=master)](https://travis-ci.org/smwindecker/deconvolve)
 [![codecov](https://codecov.io/gh/smwindecker/deconvolve/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/deconvolve)
 
 # deconvolve
@@ -8,7 +8,7 @@ Proportions of the main carbon types in litter can be used as functional traits 
 
 ## Installation
 
-You can download `deconvolve` from Github, using:
+You can download `deconvolve` from Github, with the following code straight into your R console:
 ```{r}
 devtools::install_github('smwindecker/deconvolve', build_vignettes = TRUE)
 library(deconvolve)
@@ -37,10 +37,10 @@ Although most biomass samples have only three main components (corresponding to 
 
 The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `Weights()` will display the weights of each carbon component, `ModData()` will show you the modified dataset used for fitting, `Model()` will show you the model fit, and `Bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function. 
 
-You can see the full worked example in the vignette:
+You can see the full worked example in the vignette, which you can access on the [website](http://smwindecker.github.io/deconvolve/) or in R: 
 ```{r}
-browseVignettes
+vignette('deconvolve')
 ```
 
 ## Get involved
-This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know by logging a bug on the [issues page](http://www.github.com/smwindecker/deconvolve/issues) on Github. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
+This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know by logging a bug on the [issues page](http://www.github.com/smwindecker/deconvolve/issues). Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 

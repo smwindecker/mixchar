@@ -20,4 +20,4 @@ email:
   on_failure: change
 
 after_success:
-  - Rscript -e "covr::codecov(token = '8fb3369b-e9f8-4235-b076-1619432c12c9')"
+  - Rscript -e "library(covr); codecov(token = '9e2041f6-3c11-42e8-adb8-7fbe31abe822')"
