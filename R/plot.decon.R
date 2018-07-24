@@ -22,7 +22,8 @@ plot.decon <- function (x, ...) {
 
   par(xpd = TRUE, mar = par()$mar + c(0, 1, 0, 0))
 
-  plot(data$temp_C, data$deriv, xlab = 'Temperature (C)', ylab = 'DTG (dm/dT) (C-1)',
+  plot(data$temp_C, data$deriv, xlab = 'Temperature (C)',
+       ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
        yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)),
        pch = 20, cex = 0.3, cex.axis = 1.2)
 
