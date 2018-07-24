@@ -36,6 +36,7 @@ The meat of this package is in the mixture model used to deconvolve the derivati
 Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the widget below:
 
 ```{r, echo = FALSE, cache = FALSE}
+library("shiny")
 shiny::shinyAppFile('shiny-app/mixture_fs/app.R')
 ```
 
