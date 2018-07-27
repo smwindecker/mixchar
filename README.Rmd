@@ -15,18 +15,17 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/smwindecker/deconvolve/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/deconvolve)
 [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-# deconvolve
-notes to self: avoid 'easy' 'simple' etc
-don't go into so much jargon so early!
-convince reader of the problem
+## Why deconvolution?
 
-This package provides an easy and straightforward way to quantify proportions of lignocellulosic biomass components (typically considered hemicellulose, cellulose, and lignin) from the mass loss data generated during thermogravimetric analysis (TGA).
+Ecologists are often interested in determining the composition of plant cell wall biomass, primarily hemicellulose, cellulose, and lignin carbon types. Proportions of these carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis (TGA) is an alternative method, already used in the biofuel field, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a $N_2$ environment, termed pyrolysis). 
 
-Proportions of the main carbon types in litter can be used as functional traits to understand ecosystem processes such as litter decomposition, or to aid in calculation of kinetic decay constants. Thermogravimetric analysis is the process of pyrolysing dry, ground plant litter, and results in mass loss data across a temperature range. Since different carbon types break down during different temperature phases, we can separate the multi-peaked rate of mass loss curve into independent decay phases and estimate proportions of each carbon type by integrating under their respective individual decay curve. This package conducts this analysis in an open-source and reproducible fashion.
+To estimate carbon components from this mass loss data we have to take the derivative, to find the rate of mass loss across temperature, and then use a mixture model to separate the multi-peaked derivative curve into constituent parts. This process is called deconvolution, and is typically conducted in proprietary peak-fitting softwares, which, while effective, are not open source. This package seeks to provide a platform for reproducible deconvolution using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin. For more details (link paper here). 
+
+<hr>
 
 ## Installation
 
-You can install deconvolve from [GitHub](https://github.com/) with:
+You can install `deconvolve` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -36,12 +35,14 @@ devtools::install_github("smwindecker/deconvolve", build_vignettes = TRUE)
 
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
 ```{r}
-data(juncus)
+library(deconvolve)
+head(juncus)
 ```
 
 We can use the function `process()` to take the derivative of this mass loss data, resulting in rate of mass loss over temperature data. To do so you simply need to specify the dataset, identify which columns contain temperature and mass loss data, and provide a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by adding `temp_type = 'K'`.
 ```{r}
 tmp <- process(juncus, temp = 'temp_C', mass = 'mass_loss', init_mass = 16.85)
+tmp
 ```
 
 The default plot function for the derivative data shows you both the original mass loss curve and the derivative rate of mass loss curve.
@@ -60,9 +61,9 @@ You can see the full worked example in the vignette, which you can access on the
 vignette('deconvolve')
 ```
 
-This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let me know by logging a bug on the [issues page](http://www.github.com/smwindecker/deconvolve/issues). 
+This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/deconvolve/issues). 
 
 ## Acknowledgements
-Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. Nick Tierney for valuable feedback during development. 
+Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
 
 
