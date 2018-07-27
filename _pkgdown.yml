@@ -1,44 +1,57 @@
-title: deconvolve
 url: http://smwindecker.github.io/deconvolve
+
+authors:
+  Saras Windecker:
+    href: "https://github.com/smwindecker"
+  Nick Golding:
+    href: "https://github.com/goldingn"
+
 template:
   params:
     bootswatch: flatly
-    ganalytics: UA-84499524-2
+
 reference:
   - title: Data
-    desc: ~
+    desc: Example datasets
     contents:
-      - '`juncus`'
-      - '`marsilea`'
+    - '`juncus`'
+    - '`marsilea`'
   - title: Key basic use functions
-    desc: ~
     contents:
-      - '`process`'
-      - '`deconvolve`'
+    - '`process`'
+    - '`deconvolve`'
   - title: Accessor functions
-    desc: ~
+    desc: Used to access the outpus of basic use functions
     contents:
-      - '`temp_bounds`'
-      - '`rate_data`'
-      - '`model_fit`'
-      - '`component_weights`'
+    - '`temp_bounds`'
+    - '`rate_data`'
+    - '`model_fit`'
+    - '`component_weights`'
   - title: Fraser-Suzuki equation functions
-    desc: ~
+    desc: Used to customise plotting methods
     contents:
-      - '`fs_function`'
-      - '`fs_mixture`'
-      - '`fs_model`'
-  - title: Internal functions
-    desc: ~
+    - '`fs_function`'
+    - '`fs_mixture`'
+    - '`fs_model`'
+  - title: S3 methods
+    desc: Default print and plot methods
     contents:
-      - '`inflection`'
-      - '`get_weights`'
-      - '`objective`'
-      - '`param_select`'
-      - '`rmse`'
-      - '`three_peaks`'
-      - '`weight_quantiles`'
-      - '`wt_component`'
+    - '`print.process`'
+    - '`plot.process`'
+    - '`print.decon`'
+    - '`plot.decon`'
+  - title: Internals
+    desc: Internal functions and helpers
+    contents:
+    - '`inflection`'
+    - '`get_weights`'
+    - '`objective`'
+    - '`param_select`'
+    - '`rmse`'
+    - '`three_peaks`'
+    - '`weight_quantiles`'
+    - '`wt_component`'
+
 navbar:
   type: inverse
   left:
@@ -48,18 +61,13 @@ navbar:
     - text: "Articles"
       icon: fas fa-book
       menu:
-      - title: Introduction to carbon component estimation with `deconvolve`
-      - href: articles/deconvolve.html
-      - title: Workflow
-      - href: articles/workflow.html
+      - text: Introduction to `deconvolve`
+        href: articles/deconvolve.html
+      - text: Workflow
+        href: articles/Workflow.html
     - icon: fa-file-code-o
       text: "functions"
       href: reference/index.html
     - icon: fa-github fa-lg
       text: "github"
-      href: https://github.com/smwindecker/deconvolve/
-authors:
-  Saras Windecker:
-    href: "https://github.com/smwindecker"
-  Nick Golding:
-    href: "https://github.com/goldingn"
+      href: https://github.com/smwindecker/deconvolve
