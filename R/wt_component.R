@@ -4,13 +4,16 @@
 #' @param param_vec vector of parameters
 #' @param lower_temp lower temperature bound
 #' @param upper_temp upper temperature bound
+#' @importFrom glue glue
 #' @return weight of component
 #'
 
 wt_component <- function (j, param_vec, lower_temp, upper_temp) {
 
   # extract relevant parameter vector
-  names <- paste0(c("h", "s", "p", "w"), j)
+  p <- c('height', 'skew', 'position', 'width')
+  names <- glue::glue('{p}_{j}')
+
   idx <- match(names, names(param_vec))
   param_sub <- param_vec[idx]
 
@@ -21,7 +24,7 @@ wt_component <- function (j, param_vec, lower_temp, upper_temp) {
   # weight percent of each component, where the integral is the fraction
   # of initial mass of that compoenent.
   wt <- integrate(Vectorize(f_j), lower = lower_temp,
-                               upper = upper_temp)$value * 100
+                  upper = upper_temp)$value * 100
 
   wt
 }
