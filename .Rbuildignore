@@ -1,3 +1,6 @@
+^tic\.R$
+^appveyor\.yml$
+^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 writing
@@ -6,3 +9,5 @@ tests
 .travis.yml
 ^_pkgdown\.yml$
 ^docs$
+^README\.Rmd$
+^codemeta\.json$
