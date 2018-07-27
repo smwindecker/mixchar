@@ -28,7 +28,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
                         n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
 
   # identify dataframe
-  mod_df <- ModData(process_object)
+  mod_df <- process_object$data
 
   # crop dataset at bounds
   mod_df <- mod_df[!(mod_df$temp_C < lower_temp | mod_df$temp_C > upper_temp),]
@@ -45,26 +45,29 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
 
   if (is.null(n_curves) & fourth_peak == FALSE) {
     n_peaks <- 3
-  } else if (is.null(n_curves) & fourth_peak == TRUE) {
+  }
+  if (is.null(n_curves) & fourth_peak == TRUE) {
     n_peaks <- 4
-  } else if (n_curves == 3) {
+  }
+  if (n_curves == 3) {
     n_peaks <- 3
-  } else if (n_curves == 4) {
+  }
+  if (n_curves == 4) {
     n_peaks <- 4
-  } else {
-    stop('Manually select peaks')
   }
 
   if (is.null(start_vec) & n_peaks == 3) {
     theta <- c(0.003, -0.15, 250, 50,
                0.006, -0.15, 320, 30,
                0.001, -0.15, 390, 200)
-  } else if (is.null(start_vec) & n_peaks == 4) {
+  }
+  if (is.null(start_vec) & n_peaks == 4) {
     theta <- c(0.002, -0.15, 210, 50,
                0.003, -0.15, 270, 50,
                0.006, -0.15, 310, 30,
                0.001, -0.15, 410, 200)
-  } else if (!is.null(start_vec)) {
+  }
+  if (!is.null(start_vec)) {
     theta <- start_vec
   }
 
@@ -72,12 +75,14 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
     lb <- c(0, -0.33, 0, 50,
             0, -0.33, 290, 0,
             0, -0.29, 330, 160)
-  } else if (is.null(lower_vec) & n_peaks == 4) {
+  }
+  if (is.null(lower_vec) & n_peaks == 4) {
     lb <- c(0, -0.33, 0, 0,
             0, -0.33, 0, 0,
             0, -0.33, 290, 0,
             0, -0.29, 330, 160)
-  } else if (!is.null(lower_vec)) {
+  }
+  if (!is.null(lower_vec)) {
     lb <- lower_vec
   }
 
@@ -85,12 +90,14 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
     ub <- c(2, 0.25, 280, 100,
             2, 0.25, 380, 50,
             2, 0.25, 430, 250)
-  } else if (is.null(upper_vec) & n_peaks == 4) {
+  }
+  if (is.null(upper_vec) & n_peaks == 4) {
     ub <- c(2, 0.2, 210, 80,
             2, 0.2, 280, 90,
             2, 0.2, 380, 50,
             2, 0.2, 430, 250)
-  } else if (!is.null(upper_vec)) {
+  }
+  if (!is.null(upper_vec)) {
     ub <- upper_vec
   }
 
@@ -101,8 +108,10 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
   fit <- fs_model(mod_df, params_opt, lb, ub)
 
   # output
-  output <- list(data = mod_df, bounds = c(lower_temp, upper_temp),
-                 minpack.lm = fit, n_peaks = n_peaks)
+  output <- list(data = mod_df,
+                 bounds = c(lower_temp, upper_temp),
+                 minpack.lm = fit,
+                 n_peaks = n_peaks)
 
   weights <- weight_quantiles(output, ranseed)
 
