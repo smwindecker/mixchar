@@ -32,5 +32,3 @@ get_weights <- function (param_vec, output) {
 
   wt_percent
 }
-
-

@@ -51,5 +51,3 @@ weight_quantiles <- function (output, seed) {
 
   list(weights = all_weights)
 }
-
-
