@@ -4,16 +4,7 @@
     <loc>http://smwindecker.github.io/deconvolve/index.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/Bounds.html</loc>
-  </url>
-  <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/ModData.html</loc>
-  </url>
-  <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/Model.html</loc>
-  </url>
-  <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/Weights.html</loc>
+    <loc>http://smwindecker.github.io/deconvolve/reference/component_weights.html</loc>
   </url>
   <url>
     <loc>http://smwindecker.github.io/deconvolve/reference/deconvolve.html</loc>
@@ -40,6 +31,9 @@
     <loc>http://smwindecker.github.io/deconvolve/reference/marsilea.html</loc>
   </url>
   <url>
+    <loc>http://smwindecker.github.io/deconvolve/reference/model_fit.html</loc>
+  </url>
+  <url>
     <loc>http://smwindecker.github.io/deconvolve/reference/objective.html</loc>
   </url>
   <url>
@@ -61,7 +55,13 @@
     <loc>http://smwindecker.github.io/deconvolve/reference/process.html</loc>
   </url>
   <url>
+    <loc>http://smwindecker.github.io/deconvolve/reference/rate_data.html</loc>
+  </url>
+  <url>
     <loc>http://smwindecker.github.io/deconvolve/reference/rmse.html</loc>
+  </url>
+  <url>
+    <loc>http://smwindecker.github.io/deconvolve/reference/temp_bounds.html</loc>
   </url>
   <url>
     <loc>http://smwindecker.github.io/deconvolve/reference/three_peaks.html</loc>
@@ -73,9 +73,9 @@
     <loc>http://smwindecker.github.io/deconvolve/reference/wt_component.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/articles/deconvolve.html</loc>
+    <loc>http://smwindecker.github.io/deconvolve/articles/Workflow.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/articles/rsconnect/documents/deconvolve.html</loc>
+    <loc>http://smwindecker.github.io/deconvolve/articles/deconvolve.html</loc>
   </url>
 </urlset>

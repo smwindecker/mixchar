@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Thermogravimetric data for Marsilea drumondii — marsilea • deconvolve</title>
+<title>Accessor function to extract mean weights — component_weights • deconvolve</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Thermogravimetric data for Marsilea drumondii — marsilea" />
+<meta property="og:title" content="Accessor function to extract mean weights — component_weights" />
 
-<meta property="og:description" content="Raw thermogravimetric data from the wetland forb, M. drumondii." />
+<meta property="og:description" content="Accessor function to extract mean weights" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,38 +121,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Thermogravimetric data for Marsilea drumondii</h1>
-    <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/marsilea-data.R'><code>R/marsilea-data.R</code></a></small>
-    <div class="hidden name"><code>marsilea.Rd</code></div>
+    <h1>Accessor function to extract mean weights</h1>
+    <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/component_weights.R'><code>R/component_weights.R</code></a></small>
+    <div class="hidden name"><code>component_weights.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Raw thermogravimetric data from the wetland forb, M. drumondii.</p>
+    <p>Accessor function to extract mean weights</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>marsilea</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>An object of class <code>'cross'</code></p>
+    <pre class="usage"><span class='fu'>component_weights</span>(<span class='no'>object</span>)</pre>
     
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>a decon object</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Saras M Windecker</p>
+    <p>Extract mean fractions of the object</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>marsilea</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>18.96</span>, <span class='kw'>temp_type</span> <span class='kw'>=</span> <span class='st'>'C'</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deconvolve.html'>deconvolve</a></span>(<span class='no'>tmp</span>)
+<span class='fu'>component_weights</span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HC       CL       LG value_type
+#&gt; 1 20.43273 16.64336 29.52019       2.5%
+#&gt; 2 22.75751 18.67005 31.83022      97.5%
+#&gt; 3 21.56004 17.67487 30.66299       mean</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#source">Source</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -48,16 +48,6 @@
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-84499524-2');
-</script>
-
   </head>
 
   <body>
@@ -88,12 +78,22 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="../articles/deconvolve.html">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa fas fa-book"></span>
      
-    Get started
+    Articles
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+    </li>
+    <li>
+      <a href="../articles/Workflow.html">Workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">
@@ -103,7 +103,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve/">
+  <a href="https://github.com/smwindecker/deconvolve">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -122,7 +122,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate weight quantiles</h1>
-    <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/get_weights.R'><code>R/get_weights.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/weight_quantiles.R'><code>R/weight_quantiles.R</code></a></small>
     <div class="hidden name"><code>get_weights.Rd</code></div>
     </div>
 
@@ -166,7 +166,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Saras Windecker, Nick Golding.</p>
+  <p>Developed by <a href='https://github.com/smwindecker'>Saras Windecker</a>, <a href='https://github.com/goldingn'>Nick Golding</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -45,16 +45,6 @@
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-84499524-2');
-</script>
-
   </head>
 
   <body>
@@ -85,12 +75,22 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="../articles/deconvolve.html">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa fas fa-book"></span>
      
-    Get started
+    Articles
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+    </li>
+    <li>
+      <a href="../articles/Workflow.html">Workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">
@@ -100,7 +100,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve/">
+  <a href="https://github.com/smwindecker/deconvolve">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -133,7 +133,7 @@
       <tr>
         <th colspan="2">
           <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Example datasets</p></p>
         </th>
       </tr>
       <tr>
@@ -141,7 +141,7 @@
         <td>
           <p><code><a href="juncus.html">juncus</a></code> </p>
         </td>
-        <td><p>Thermogravimetric data for Juncus usitatus</p></td>
+        <td><p>Thermogravimetric data for Juncus amabilis</p></td>
       </tr><tr>
         
         <td>
@@ -152,7 +152,7 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-basic-use" class="hasAnchor"><a href="#section-basic-use" class="anchor"></a>Basic use</h2>
+          <h2 id="section-key-basic-use-functions" class="hasAnchor"><a href="#section-key-basic-use-functions" class="anchor"></a>Key basic use functions</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -161,7 +161,7 @@
         <td>
           <p><code><a href="process.html">process()</a></code> </p>
         </td>
-        <td><p>Processes Thermogravimetric Data</p></td>
+        <td><p>Calculates the derivative rate of mass loss of thermogravimetric data</p></td>
       </tr><tr>
         
         <td>
@@ -173,39 +173,39 @@
       <tr>
         <th colspan="2">
           <h2 id="section-accessor-functions" class="hasAnchor"><a href="#section-accessor-functions" class="anchor"></a>Accessor functions</h2>
-          <p class="section-desc"></p>
+          <p class="section-desc"><p>Used to access the outpus of basic use functions</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="Bounds.html">Bounds()</a></code> </p>
+          <p><code><a href="temp_bounds.html">temp_bounds()</a></code> </p>
         </td>
-        <td><p>Accessor function to extract selected bounds</p></td>
+        <td><p>Accessor function to extract selected temperature bounds</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="ModData.html">ModData()</a></code> </p>
+          <p><code><a href="rate_data.html">rate_data()</a></code> </p>
         </td>
         <td><p>Accessor function to extract processed dataframe</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="Model.html">Model()</a></code> </p>
+          <p><code><a href="model_fit.html">model_fit()</a></code> </p>
         </td>
         <td><p>Accessor function to extract model fit</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="Weights.html">Weights()</a></code> </p>
+          <p><code><a href="component_weights.html">component_weights()</a></code> </p>
         </td>
         <td><p>Accessor function to extract mean weights</p></td>
       </tr>
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-internal-functions" class="hasAnchor"><a href="#section-internal-functions" class="anchor"></a>Internal functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-fraser-suzuki-equation-functions" class="hasAnchor"><a href="#section-fraser-suzuki-equation-functions" class="anchor"></a>Fraser-Suzuki equation functions</h2>
+          <p class="section-desc"><p>Used to customise plotting methods</p></p>
         </th>
       </tr>
       <tr>
@@ -213,25 +213,95 @@
         <td>
           <p><code><a href="fs_function.html">fs_function()</a></code> </p>
         </td>
-        <td><p>Fraser-Suzuki function</p></td>
+        <td><p>Fraser-Suzuki function for a single curve</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="fs_mixture.html">fs_mixture()</a></code> </p>
         </td>
-        <td><p>Mixture model for TGA data</p></td>
+        <td><p>Fraser-Suzuki mixture model</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="fs_model.html">fs_model()</a></code> </p>
         </td>
         <td><p>Non-linear model using Fraser-Suzuki mixture model</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-s-methods" class="hasAnchor"><a href="#section-s-methods" class="anchor"></a>S3 methods</h2>
+          <p class="section-desc"><p>Default print and plot methods</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="print.process.html">print(<i>&lt;process&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sets default print method for process object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.process.html">plot(<i>&lt;process&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sets default plotting for process objects</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print.decon.html">print(<i>&lt;decon&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sets default print method for decon object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.decon.html">plot(<i>&lt;decon&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Sets default plotting for decon objects</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internals" class="hasAnchor"><a href="#section-internals" class="anchor"></a>Internals</h2>
+          <p class="section-desc"><p>Internal functions and helpers</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="inflection.html">inflection()</a></code> </p>
+        </td>
+        <td><p>Function to determine x-value of peak &lt; 500 K</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="get_weights.html">get_weights()</a></code> </p>
         </td>
         <td><p>Calculate weight quantiles</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="objective.html">objective()</a></code> </p>
+        </td>
+        <td><p>This function evaluates root mean squared error of a model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="param_select.html">param_select()</a></code> </p>
+        </td>
+        <td><p>Optimise parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rmse.html">rmse()</a></code> </p>
+        </td>
+        <td><p>Calculate room mean squared error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="three_peaks.html">three_peaks()</a></code> </p>
+        </td>
+        <td><p>Function to convert inflection point to logical argument for presence of fourth peak</p></td>
       </tr><tr>
         
         <td>
@@ -253,16 +323,18 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-data">Data</a></li>
-      <li><a href="#section-basic-use">Basic use</a></li>
+      <li><a href="#section-key-basic-use-functions">Key basic use functions</a></li>
       <li><a href="#section-accessor-functions">Accessor functions</a></li>
-      <li><a href="#section-internal-functions">Internal functions</a></li>
+      <li><a href="#section-fraser-suzuki-equation-functions">Fraser-Suzuki equation functions</a></li>
+      <li><a href="#section-s-methods">S3 methods</a></li>
+      <li><a href="#section-internals">Internals</a></li>
     </ul>
   </div>
 </div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Saras Windecker, Nick Golding.</p>
+  <p>Developed by <a href='https://github.com/smwindecker'>Saras Windecker</a>, <a href='https://github.com/goldingn'>Nick Golding</a>.</p>
 </div>
 
 <div class="pkgdown">

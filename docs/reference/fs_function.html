@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fraser-Suzuki function — fs_function • deconvolve</title>
+<title>Fraser-Suzuki function for a single curve — fs_function • deconvolve</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Fraser-Suzuki function — fs_function" />
+<meta property="og:title" content="Fraser-Suzuki function for a single curve — fs_function" />
 
 <meta property="og:description" content="This function calculates the Fraser-Suzuki function." />
 <meta name="twitter:card" content="summary" />
@@ -47,16 +47,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-84499524-2');
-</script>
 
   </head>
 
@@ -88,12 +78,22 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="../articles/deconvolve.html">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa fas fa-book"></span>
      
-    Get started
+    Articles
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+    </li>
+    <li>
+      <a href="../articles/Workflow.html">Workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">
@@ -103,7 +103,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve/">
+  <a href="https://github.com/smwindecker/deconvolve">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -121,7 +121,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fraser-Suzuki function</h1>
+    <h1>Fraser-Suzuki function for a single curve</h1>
     <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/fs_function.R'><code>R/fs_function.R</code></a></small>
     <div class="hidden name"><code>fs_function.Rd</code></div>
     </div>
@@ -132,29 +132,29 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>fs_function</span>(<span class='no'>x</span>, <span class='no'>h</span>, <span class='no'>s</span>, <span class='no'>p</span>, <span class='no'>w</span>)</pre>
+    <pre class="usage"><span class='fu'>fs_function</span>(<span class='no'>temp</span>, <span class='no'>height</span>, <span class='no'>skew</span>, <span class='no'>position</span>, <span class='no'>width</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>temp</th>
       <td><p>temperature values</p></td>
     </tr>
     <tr>
-      <th>h</th>
+      <th>height</th>
       <td><p>height value</p></td>
     </tr>
     <tr>
-      <th>s</th>
+      <th>skew</th>
       <td><p>shape value</p></td>
     </tr>
     <tr>
-      <th>p</th>
+      <th>position</th>
       <td><p>position value</p></td>
     </tr>
     <tr>
-      <th>w</th>
+      <th>width</th>
       <td><p>width value</p></td>
     </tr>
     </table>
@@ -178,7 +178,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Saras Windecker, Nick Golding.</p>
+  <p>Developed by <a href='https://github.com/smwindecker'>Saras Windecker</a>, <a href='https://github.com/goldingn'>Nick Golding</a>.</p>
 </div>
 
 <div class="pkgdown">

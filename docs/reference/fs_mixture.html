@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mixture model for TGA data — fs_mixture • deconvolve</title>
+<title>Fraser-Suzuki mixture model — fs_mixture • deconvolve</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Mixture model for TGA data — fs_mixture" />
+<meta property="og:title" content="Fraser-Suzuki mixture model — fs_mixture" />
 
-<meta property="og:description" content="Mixture model for TGA data" />
+<meta property="og:description" content="Fraser-Suzuki mixture model" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -47,16 +47,6 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-84499524-2');
-</script>
 
   </head>
 
@@ -88,12 +78,22 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="../articles/deconvolve.html">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa fas fa-book"></span>
      
-    Get started
+    Articles
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+    </li>
+    <li>
+      <a href="../articles/Workflow.html">Workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">
@@ -103,7 +103,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve/">
+  <a href="https://github.com/smwindecker/deconvolve">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -121,90 +121,91 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mixture model for TGA data</h1>
+    <h1>Fraser-Suzuki mixture model</h1>
     <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/fs_mixture.R'><code>R/fs_mixture.R</code></a></small>
     <div class="hidden name"><code>fs_mixture.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mixture model for TGA data</p>
+    <p>Fraser-Suzuki mixture model</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fs_mixture</span>(<span class='no'>x</span>, <span class='no'>h1</span>, <span class='no'>s1</span>, <span class='no'>p1</span>, <span class='no'>w1</span>, <span class='no'>h2</span>, <span class='no'>s2</span>, <span class='no'>p2</span>, <span class='no'>w2</span>, <span class='no'>h3</span>, <span class='no'>s3</span>, <span class='no'>p3</span>, <span class='no'>w3</span>, <span class='kw'>h0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>s0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>p0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>w0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fs_mixture</span>(<span class='no'>temp</span>, <span class='no'>height_1</span>, <span class='no'>skew_1</span>, <span class='no'>position_1</span>, <span class='no'>width_1</span>, <span class='no'>height_2</span>, <span class='no'>skew_2</span>,
+  <span class='no'>position_2</span>, <span class='no'>width_2</span>, <span class='no'>height_3</span>, <span class='no'>skew_3</span>, <span class='no'>position_3</span>, <span class='no'>width_3</span>, <span class='kw'>height_0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>skew_0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>position_0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width_0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>temp</th>
       <td><p>temperature values</p></td>
     </tr>
     <tr>
-      <th>h1</th>
-      <td><p>height value for curve 1</p></td>
+      <th>height_1</th>
+      <td><p>height value for hemicellulose</p></td>
     </tr>
     <tr>
-      <th>s1</th>
-      <td><p>shape value for curve 1</p></td>
+      <th>skew_1</th>
+      <td><p>shape value for hemicellulose</p></td>
     </tr>
     <tr>
-      <th>p1</th>
-      <td><p>position value for curve 1</p></td>
+      <th>position_1</th>
+      <td><p>position value for hemicellulose</p></td>
     </tr>
     <tr>
-      <th>w1</th>
-      <td><p>width value for curve 1</p></td>
+      <th>width_1</th>
+      <td><p>width value for hemicellulose</p></td>
     </tr>
     <tr>
-      <th>h2</th>
-      <td><p>height value for curve 2</p></td>
+      <th>height_2</th>
+      <td><p>height value for cellulose</p></td>
     </tr>
     <tr>
-      <th>s2</th>
-      <td><p>shape value for curve 2</p></td>
+      <th>skew_2</th>
+      <td><p>shape value for cellulose</p></td>
     </tr>
     <tr>
-      <th>p2</th>
-      <td><p>position value for curve 2</p></td>
+      <th>position_2</th>
+      <td><p>position value for cellulose</p></td>
     </tr>
     <tr>
-      <th>w2</th>
-      <td><p>width value for curve 2</p></td>
+      <th>width_2</th>
+      <td><p>width value for cellulose</p></td>
     </tr>
     <tr>
-      <th>h3</th>
-      <td><p>height value for curve 3</p></td>
+      <th>height_3</th>
+      <td><p>height value for lignin</p></td>
     </tr>
     <tr>
-      <th>s3</th>
-      <td><p>shape value for curve 3</p></td>
+      <th>skew_3</th>
+      <td><p>shape value for lignin</p></td>
     </tr>
     <tr>
-      <th>p3</th>
-      <td><p>position value for curve 3</p></td>
+      <th>position_3</th>
+      <td><p>position value for lignin</p></td>
     </tr>
     <tr>
-      <th>w3</th>
-      <td><p>width value for curve 3</p></td>
+      <th>width_3</th>
+      <td><p>width value for lignin</p></td>
     </tr>
     <tr>
-      <th>h0</th>
-      <td><p>height value for curve 0, if present</p></td>
+      <th>height_0</th>
+      <td><p>height value for second hemicellulose curve, if present</p></td>
     </tr>
     <tr>
-      <th>s0</th>
-      <td><p>shape value for curve 0, if present</p></td>
+      <th>skew_0</th>
+      <td><p>shape value for second hemicellulose curve, if present</p></td>
     </tr>
     <tr>
-      <th>p0</th>
-      <td><p>position value for curve 0, if present</p></td>
+      <th>position_0</th>
+      <td><p>position value for second hemicellulose curve, if present</p></td>
     </tr>
     <tr>
-      <th>w0</th>
-      <td><p>width value for curve 0, if present</p></td>
+      <th>width_0</th>
+      <td><p>width value for second hemicellulose curve, if present</p></td>
     </tr>
     </table>
     
@@ -227,7 +228,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Saras Windecker, Nick Golding.</p>
+  <p>Developed by <a href='https://github.com/smwindecker'>Saras Windecker</a>, <a href='https://github.com/goldingn'>Nick Golding</a>.</p>
 </div>
 
 <div class="pkgdown">

@@ -48,16 +48,6 @@
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-84499524-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-84499524-2');
-</script>
-
   </head>
 
   <body>
@@ -88,12 +78,22 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="../articles/deconvolve.html">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fas fa fas fa-book"></span>
      
-    Get started
+    Articles
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+    </li>
+    <li>
+      <a href="../articles/Workflow.html">Workflow</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../reference/index.html">
@@ -103,7 +103,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve/">
+  <a href="https://github.com/smwindecker/deconvolve">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -132,9 +132,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>deconvolve</span>(<span class='no'>process_object</span>, <span class='kw'>lower_temp</span> <span class='kw'>=</span> <span class='fl'>120</span>, <span class='kw'>upper_temp</span> <span class='kw'>=</span> <span class='fl'>700</span>,
-  <span class='kw'>ranseed</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n_curves</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lower_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>upper_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>deconvolve</span>(<span class='no'>process_object</span>, <span class='kw'>lower_temp</span> <span class='kw'>=</span> <span class='fl'>120</span>, <span class='kw'>upper_temp</span> <span class='kw'>=</span> <span class='fl'>700</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>n_curves</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lower_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>upper_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,7 +151,7 @@
       <td><p>upper temperature bound to crop dataset, default to 700</p></td>
     </tr>
     <tr>
-      <th>ranseed</th>
+      <th>seed</th>
       <td><p>random seed for nloptr optimiser</p></td>
     </tr>
     <tr>
@@ -201,7 +200,7 @@ you have selected the number of curves in the n_curves parameter.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Saras Windecker, Nick Golding.</p>
+  <p>Developed by <a href='https://github.com/smwindecker'>Saras Windecker</a>, <a href='https://github.com/goldingn'>Nick Golding</a>.</p>
 </div>
 
 <div class="pkgdown">
