@@ -10,7 +10,7 @@ reference:
     contents:
       - '`juncus`'
       - '`marsilea`'
-  - title: Basic use
+  - title: Key basic use functions
     desc: ~
     contents:
       - '`process`'
@@ -18,17 +18,25 @@ reference:
   - title: Accessor functions
     desc: ~
     contents:
-      - '`Bounds`'
-      - '`ModData`'
-      - '`Model`'
-      - '`Weights`'
-  - title: Internal functions
+      - '`temp_bounds`'
+      - '`rate_data`'
+      - '`model_fit`'
+      - '`component_weights`'
+  - title: Fraser-Suzuki equation functions
     desc: ~
     contents:
       - '`fs_function`'
       - '`fs_mixture`'
       - '`fs_model`'
+  - title: Internal functions
+    desc: ~
+    contents:
+      - '`inflection`'
       - '`get_weights`'
+      - '`objective`'
+      - '`param_select`'
+      - '`rmse`'
+      - '`three_peaks`'
       - '`weight_quantiles`'
       - '`wt_component`'
 navbar:
@@ -37,12 +45,21 @@ navbar:
     - icon: fa-home
       href: index.html
   right:
-    - text: "Get started"
+    - text: "Articles"
       icon: fas fa-book
-      href: articles/deconvolve.html
+      menu:
+      - title: Introduction to carbon component estimation with `deconvolve`
+      - href: articles/deconvolve.html
+      - title: Workflow
+      - href: articles/workflow.html
     - icon: fa-file-code-o
       text: "functions"
       href: reference/index.html
     - icon: fa-github fa-lg
       text: "github"
       href: https://github.com/smwindecker/deconvolve/
+authors:
+  Saras Windecker:
+    href: "https://github.com/smwindecker"
+  Nick Golding:
+    href: "https://github.com/goldingn"
