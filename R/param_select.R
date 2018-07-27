@@ -14,11 +14,11 @@
 #' @importFrom nloptr nloptr
 
 # create params_opt with this function
-param_select <- function (theta, lb, ub, model, temp, obs, ranseed, restarts = 300) {
+param_select <- function (theta, lb, ub, model, temp, obs, seed, restarts = 300) {
 
   opts <- list("algorithm" = "NLOPT_LN_BOBYQA",
                "xtol_rel" = 1.0e-12,
-               "ranseed" = ranseed)
+               "ranseed" = seed)
 
   # fit the model `restarts` times with different starting locations
   o_list <- replicate(restarts,

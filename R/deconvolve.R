@@ -5,7 +5,7 @@
 #' @param process_object process object obtained from process function
 #' @param lower_temp lower temperature bound to crop dataset, default to 120
 #' @param upper_temp upper temperature bound to crop dataset, default to 700
-#' @param ranseed random seed for nloptr optimiser
+#' @param seed random seed for nloptr optimiser
 #' @param n_curves number of curves optional specification
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
 #' you have selected the number of curves in the n_curves parameter.
@@ -23,8 +23,10 @@
 #'
 #' @export
 
-deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, ranseed = 1,
+deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, seed = 1,
                         n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
+
+  set.seed(seed)
 
   # identify dataframe
   mod_df <- process_object$data
@@ -48,10 +50,10 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
   if (is.null(n_curves) & fourth_peak == TRUE) {
     n_peaks <- 4
   }
-  if (n_curves == 3) {
+  if (isTRUE(n_curves == 3)) {
     n_peaks <- 3
   }
-  if (n_curves == 4) {
+  if (isTRUE(n_curves == 4)) {
     n_peaks <- 4
   }
 
@@ -101,7 +103,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
   }
 
   # parameter optimisation
-  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, ranseed = ranseed, restarts = 300)
+  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, seed = seed, restarts = 300)
 
   # model fit
   fit <- fs_model(mod_df, params_opt, lb, ub)
@@ -112,7 +114,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, rans
                  minpack.lm = fit,
                  n_peaks = n_peaks)
 
-  weights <- weight_quantiles(output, ranseed)
+  weights <- weight_quantiles(output, seed)
 
   decon_output <- c(output, weights)
 
