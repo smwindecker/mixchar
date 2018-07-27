@@ -11,7 +11,5 @@
 #' @export
 
 rate_data <- function (object) {
-
   object$data
-
 }
