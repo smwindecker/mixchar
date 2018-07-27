@@ -28,24 +28,24 @@ plot.decon <- function (x, ...) {
        pch = 20, cex = 0.3, cex.axis = 1.2)
 
   if (x$n_peaks == 4) {
-    y1 <- fs_mixture(x = temp,
-                     h1 = params['h1',], s1 = params['s1',],
-                     p1 = params['p1',], w1 = params['w1',],
-                     h2 = params['h2',], s2 = params['s2',],
-                     p2 = params['p2',], w2 = params['w2',],
-                     h3 = params['h3',], s3 = params['s3',],
-                     p3 = params['p3',], w3 = params['w3',],
-                     h0 = params['h0',], s0 = params['s0',],
-                     p0 = params['p0',], w0 = params['w0',])
+    y1 <- fs_mixture(temp = temp,
+                     height_1 = params['height_1',], skew_1 = params['skew_1',],
+                     position_1 = params['position_1',], width_1 = params['width_1',],
+                     height_2 = params['height_2',], skew_2 = params['skew_2',],
+                     position_2 = params['position_2',], width_2 = params['width_2',],
+                     height_3 = params['height_3',], skew_3 = params['skew_3',],
+                     position_3 = params['position_3',], width_3 = params['width_3',],
+                     height_0 = params['height_0',], skew_0 = params['skew_0',],
+                     position_0 = params['position_0',], width_0 = params['width_0',])
 
-    y5 <- fs_function(x = temp,
-                      h = params['h0',], s = params['s0',],
-                      p = params['p0',], w = params['w0',])
+    y5 <- fs_function(temp,
+                      params['height_0',], params['skew_0',],
+                      params['position_0',], params['width_0',])
     lines(temp, y5, lty = 5, lwd = 2)
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
-           legend = c('Total DTG', 'HC-1', 'HC-2', 'CL', 'LG'),
+           legend = c('Total DTG', 'HC-2', 'HC', 'CL', 'LG'),
            ncol = 5,
            cex = 1,
            bty = 'n',
@@ -56,13 +56,13 @@ plot.decon <- function (x, ...) {
 
   if (x$n_peaks == 3) {
 
-    y1 <- fs_mixture(x = temp,
-                     h1 = params['h1',], s1 = params['s1',],
-                     p1 = params['p1',], w1 = params['w1',],
-                     h2 = params['h2',], s2 = params['s2',],
-                     p2 = params['p2',], w2 = params['w2',],
-                     h3 = params['h3',], s3 = params['s3',],
-                     p3 = params['p3',], w3 = params['w3',])
+    y1 <- fs_mixture(temp = temp,
+                     height_1 = params['height_1',], skew_1 = params['skew_1',],
+                     position_1 = params['position_1',], width_1 = params['width_1',],
+                     height_2 = params['height_2',], skew_2 = params['skew_2',],
+                     position_2 = params['position_2',], width_2 = params['width_2',],
+                     height_3 = params['height_3',], skew_3 = params['skew_3',],
+                     position_3 = params['position_3',], width_3 = params['width_3',])
 
     legend(mean(x$bounds[1], x$bounds[2]), max(data$deriv) + 0.1*max(data$deriv),
            yjust = 0,
@@ -76,19 +76,19 @@ plot.decon <- function (x, ...) {
 
   lines(temp, y1, lty = 1, lwd = 1.7)
 
-  y2 <- fs_function(x = temp,
-                    h = params['h1',], s = params['s1',],
-                    p = params['p1',], w = params['w1',])
+  y2 <- fs_function(temp,
+                    params['height_1',], params['skew_1',],
+                    params['position_1',], params['width_1',])
   lines(temp, y2, lty = 3, lwd = 2)
 
-  y3 <- fs_function(x = temp,
-                    h = params['h2',], s = params['s2',],
-                    p = params['p2',], w = params['w2',])
+  y3 <- fs_function(temp,
+                    params['height_2',], params['skew_2',],
+                    params['position_2',], params['width_2',])
   lines(temp, y3, lty = 4, lwd = 2)
 
-  y4 <- fs_function(x = temp,
-                    h = params['h3',], s = params['s3',],
-                    p = params['p3',], w = params['w3',])
+  y4 <- fs_function(temp,
+                    params['height_3',], params['skew_3',],
+                    params['position_3',], params['width_3',])
   lines(temp, y4, lty = 5, lwd = 2)
 
 }
