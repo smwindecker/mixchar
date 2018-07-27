@@ -27,10 +27,10 @@ plot.process <- function (x, plot_type = NULL, ...) {
          pch = 20, cex = 0.7)
   }
 
-  if (plot_type == 'mass') {
+  if (!is.null(plot_type) & isTRUE(plot_type == 'mass')) {
     p_massloss(df)
   }
-  if (plot_type == 'rate') {
+  if (!is.null(plot_type) & isTRUE(plot_type == 'rate')) {
     p_dtg(df)
   }
   if (is.null(plot_type)) {
