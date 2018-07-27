@@ -3,7 +3,7 @@
 \docType{data}
 \name{juncus}
 \alias{juncus}
-\title{Thermogravimetric data for Juncus usitatus}
+\title{Thermogravimetric data for Juncus amabilis}
 \format{An object of class \code{'cross'}}
 \source{
 Saras M Windecker
@@ -12,7 +12,7 @@ Saras M Windecker
 data(juncus)
 }
 \description{
-Raw thermogravimetric data from the wetland rush, J. usitatus.
+Raw thermogravimetric data from the wetland rush, J. amabilis
 }
 \examples{
 data(juncus)

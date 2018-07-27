@@ -1,6 +1,6 @@
-#' Thermogravimetric data for Juncus usitatus
+#' Thermogravimetric data for Juncus amabilis
 #'
-#' Raw thermogravimetric data from the wetland rush, J. usitatus.
+#' Raw thermogravimetric data from the wetland rush, J. amabilis
 #'
 #' @docType data
 #'
