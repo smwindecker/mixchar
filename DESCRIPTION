@@ -22,6 +22,7 @@ Imports:
     tmvtnorm
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/deconvolve
+BugReports: https://github.com/smwindecker/deconvolve/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
