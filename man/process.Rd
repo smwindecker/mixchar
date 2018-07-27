@@ -2,16 +2,16 @@
 % Please edit documentation in R/process.R
 \name{process}
 \alias{process}
-\title{Processes Thermogravimetric Data}
+\title{Calculates the derivative rate of mass loss of thermogravimetric data}
 \usage{
-process(data, temp_col, massloss_col, init_mass, temp_type = "C")
+process(data, temp, mass, init_mass, temp_type = "C")
 }
 \arguments{
 \item{data}{dataframe}
 
-\item{temp_col}{column name containing temperature values}
+\item{temp}{column name containing temperature values}
 
-\item{massloss_col}{column name containing mass loss values in grams}
+\item{mass}{column name containing mass loss values in grams}
 
 \item{init_mass}{numeric value of initial sample mass in grams}
 
