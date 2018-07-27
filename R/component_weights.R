@@ -7,12 +7,10 @@
 #' data(juncus)
 #' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
 #' output <- deconvolve(tmp)
-#' Weights(output)
+#' component_weights(output)
 #'
 #' @export
 
-Weights <- function (object) {
-
+component_weights <- function (object) {
   object$weights
-
 }

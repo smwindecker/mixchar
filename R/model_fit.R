@@ -7,10 +7,10 @@
 #' data(juncus)
 #' munge <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
 #' output <- deconvolve(munge)
-#' Model(output)
+#' model_fit(output)
 #'
 #' @export
 
-Model <- function (object) {
+model_fit <- function (object) {
   object$minpack.lm
 }

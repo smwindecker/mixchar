@@ -6,11 +6,11 @@
 #' @examples
 #' data(juncus)
 #' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
-#' ModData(tmp)
+#' rate_data(tmp)
 #'
 #' @export
 
-ModData <- function (object) {
+rate_data <- function (object) {
 
   object$data
 

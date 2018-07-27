@@ -1,4 +1,4 @@
-#' Accessor function to extract selected bounds
+#' Accessor function to extract selected temperature bounds
 #'
 #' @param object the output of either the process or deconvolve functions
 #' @return Temperature bounds of the data in the object
@@ -6,11 +6,11 @@
 #' @examples
 #' data(juncus)
 #' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
-#' Bounds(tmp)
+#' temp_bounds(tmp)
 #'
 #' @export
 
-Bounds <- function (object) {
+temp_bounds <- function (object) {
 
   object$bounds
 
