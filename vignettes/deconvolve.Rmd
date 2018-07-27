@@ -9,7 +9,6 @@ output:
       collapsed: no
       toc_depth: 4
     fig_caption: yes
-runtime: shiny
 vignette: >
   %\VignetteIndexEntry{Introduction to carbon component estimation with `deconvolve`}
   %\VignetteEngine{knitr::rmarkdown}
