@@ -4,7 +4,7 @@
 \alias{param_select}
 \title{Optimise parameters}
 \usage{
-param_select(theta, lb, ub, model, x, obs, ranseed, restarts = 300)
+param_select(theta, lb, ub, model, temp, obs, ranseed, restarts = 300)
 }
 \arguments{
 \item{theta}{vector of starting values for each of 12 parameters}
@@ -13,7 +13,7 @@ param_select(theta, lb, ub, model, x, obs, ranseed, restarts = 300)
 
 \item{model}{mathematical function to be applied}
 
-\item{x}{temperature values}
+\item{temp}{temperature values}
 
 \item{obs}{DTG mass values}
 

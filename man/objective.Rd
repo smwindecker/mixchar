@@ -2,16 +2,16 @@
 % Please edit documentation in R/objective.R
 \name{objective}
 \alias{objective}
-\title{This function evaluates a model using rmse.}
+\title{This function evaluates root mean squared error of a model}
 \usage{
-objective(theta, model, x, obs)
+objective(theta, model, temp, obs)
 }
 \arguments{
 \item{theta}{values for each of the parameters}
 
 \item{model}{mathematical function to be used to model data}
 
-\item{x}{temperature values}
+\item{temp}{temperature values}
 
 \item{obs}{DTG mass values}
 }
@@ -19,6 +19,6 @@ objective(theta, model, x, obs)
 root mean square error of model output
 }
 \description{
-This function evaluates a model using rmse.
+This function evaluates root mean squared error of a model
 }
 \keyword{internal}

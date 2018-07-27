@@ -5,7 +5,7 @@
 #' @param theta vector of starting values for each of 12 parameters
 #' @param lb vector of lower bounds on each of 12 parameters
 #' @param model mathematical function to be applied
-#' @param x temperature values
+#' @param temp temperature values
 #' @param obs DTG mass values
 #' @param restarts number of times for optimiser to restart
 #' @param ranseed random seed for optimiser
@@ -14,7 +14,7 @@
 #' @importFrom nloptr nloptr
 
 # create params_opt with this function
-param_select <- function (theta, lb, ub, model, x, obs, ranseed, restarts = 300) {
+param_select <- function (theta, lb, ub, model, temp, obs, ranseed, restarts = 300) {
 
   opts <- list("algorithm" = "NLOPT_LN_BOBYQA",
                "xtol_rel" = 1.0e-12,
@@ -27,7 +27,7 @@ param_select <- function (theta, lb, ub, model, x, obs, ranseed, restarts = 300)
                                      lb = lb,
                                      ub = ub,
                                      model = model,
-                                     x = x,
+                                     temp = temp,
                                      obs = obs,
                                      opts = opts),
                       simplify = FALSE)
