@@ -1,24 +1,24 @@
-#' Fraser-Suzuki function
+#' Fraser-Suzuki function for a single curve
 #'
 #' This function calculates the Fraser-Suzuki function.
 #'
-#' @param x temperature values
-#' @param h height value
-#' @param s shape value
-#' @param p position value
-#' @param w width value
+#' @param temp temperature values
+#' @param height height value
+#' @param skew shape value
+#' @param position position value
+#' @param width width value
 #' @return Fraser-Suzuki function
 #'
 #' @export
 
-fs_function <- function (x, h, s, p, w) {
+fs_function <- function (temp, height, skew, position, width) {
 
-  interior <- 2 * s * ((x - p) / w)
-  exterior <- -log(2) / s^2
+  interior <- 2 * skew * ((temp - position) / width)
+  exterior <- -log(2) / skew^2
 
   answer <- rep(0, length(interior))
   valid <- interior >= -1
-  answer[valid] <- h * exp(exterior * (log(1 + interior[valid])^2))
+  answer[valid] <- height * exp(exterior * (log(1 + interior[valid])^2))
   answer
 
 }

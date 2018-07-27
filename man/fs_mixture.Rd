@@ -2,49 +2,50 @@
 % Please edit documentation in R/fs_mixture.R
 \name{fs_mixture}
 \alias{fs_mixture}
-\title{Mixture model for TGA data}
+\title{Fraser-Suzuki mixture model}
 \usage{
-fs_mixture(x, h1, s1, p1, w1, h2, s2, p2, w2, h3, s3, p3, w3, h0 = NULL,
-  s0 = NULL, p0 = NULL, w0 = NULL)
+fs_mixture(temp, height_1, skew_1, position_1, width_1, height_2, skew_2,
+  position_2, width_2, height_3, skew_3, position_3, width_3, height_0 = NULL,
+  skew_0 = NULL, position_0 = NULL, width_0 = NULL)
 }
 \arguments{
-\item{x}{temperature values}
+\item{temp}{temperature values}
 
-\item{h1}{height value for curve 1}
+\item{height_1}{height value for hemicellulose}
 
-\item{s1}{shape value for curve 1}
+\item{skew_1}{shape value for hemicellulose}
 
-\item{p1}{position value for curve 1}
+\item{position_1}{position value for hemicellulose}
 
-\item{w1}{width value for curve 1}
+\item{width_1}{width value for hemicellulose}
 
-\item{h2}{height value for curve 2}
+\item{height_2}{height value for cellulose}
 
-\item{s2}{shape value for curve 2}
+\item{skew_2}{shape value for cellulose}
 
-\item{p2}{position value for curve 2}
+\item{position_2}{position value for cellulose}
 
-\item{w2}{width value for curve 2}
+\item{width_2}{width value for cellulose}
 
-\item{h3}{height value for curve 3}
+\item{height_3}{height value for lignin}
 
-\item{s3}{shape value for curve 3}
+\item{skew_3}{shape value for lignin}
 
-\item{p3}{position value for curve 3}
+\item{position_3}{position value for lignin}
 
-\item{w3}{width value for curve 3}
+\item{width_3}{width value for lignin}
 
-\item{h0}{height value for curve 0, if present}
+\item{height_0}{height value for second hemicellulose curve, if present}
 
-\item{s0}{shape value for curve 0, if present}
+\item{skew_0}{shape value for second hemicellulose curve, if present}
 
-\item{p0}{position value for curve 0, if present}
+\item{position_0}{position value for second hemicellulose curve, if present}
 
-\item{w0}{width value for curve 0, if present}
+\item{width_0}{width value for second hemicellulose curve, if present}
 }
 \value{
 Fraser-Suzuki model output
 }
 \description{
-Mixture model for TGA data
+Fraser-Suzuki mixture model
 }

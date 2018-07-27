@@ -2,20 +2,20 @@
 % Please edit documentation in R/fs_function.R
 \name{fs_function}
 \alias{fs_function}
-\title{Fraser-Suzuki function}
+\title{Fraser-Suzuki function for a single curve}
 \usage{
-fs_function(x, h, s, p, w)
+fs_function(temp, height, skew, position, width)
 }
 \arguments{
-\item{x}{temperature values}
+\item{temp}{temperature values}
 
-\item{h}{height value}
+\item{height}{height value}
 
-\item{s}{shape value}
+\item{skew}{shape value}
 
-\item{p}{position value}
+\item{position}{position value}
 
-\item{w}{width value}
+\item{width}{width value}
 }
 \value{
 Fraser-Suzuki function
