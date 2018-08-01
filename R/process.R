@@ -10,7 +10,6 @@
 #' @param temp_type specify units of temperature, default = Celsius. Specify 'K' if in Kelvin
 #' @return decon list containing amended dataframe, bounds, model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @importFrom plyr round_any
 #' @importFrom stats integrate setNames
 #' @examples
 #' data(juncus)
@@ -36,7 +35,7 @@ process <- function (data, temp, mass, init_mass,
   }
 
   if (data[1, 'temp_C']%%1!=0) {
-    data$roundC <- plyr::round_any(data$temp_C, 1)
+    data$roundC <- round(data$temp_C, 0)
     data_1 <- data[!duplicated(data$roundC),]
   } else {
     data_1 <- data[!duplicated(data$temp_C),]
