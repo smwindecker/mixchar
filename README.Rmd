@@ -13,9 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r top_banner, echo=FALSE, fig.height=3, fig.width=4}
-knitr::include_graphics('logo/mixchar_logo.png')
-```
+<img src = "logo/mixchar_logo.png" width="200" height="200" />
 
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
