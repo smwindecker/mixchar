@@ -1,4 +1,4 @@
 library(testthat)
-library(deconvolve)
+library(mixchar)
 
-test_check("deconvolve")
+test_check("mixchar")

@@ -1,8 +1,8 @@
 ---
-title: "Introduction to carbon component estimation with `deconvolve`"
+title: "Introduction to carbon component estimation with `mixchar`"
 output: 
   html_document:
-    css: deconvolve.css
+    css: mixchar.css
     theme: lumen
     toc: yes
     toc_float:
@@ -10,7 +10,7 @@ output:
       toc_depth: 4
     fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Introduction to carbon component estimation with `deconvolve`}
+  %\VignetteIndexEntry{Introduction to carbon component estimation with `mixchar`}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -28,7 +28,7 @@ The meat of this package is in the mixture model used to deconvolve the derivati
 \end{equation}
 
 
-Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/deconvolve/). 
+Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
 
 <hr>
 

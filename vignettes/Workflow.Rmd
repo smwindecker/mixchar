@@ -2,7 +2,7 @@
 title: "Workflow"
 output: 
   html_document:
-    css: deconvolve.css
+    css: mixchar.css
     theme: lumen
     toc: yes
     toc_float:
@@ -23,10 +23,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. The `juncus` dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, *Juncus amabilis*, and `marsilea` contains data for the freshwater fern, *Marsilea drumondii*. 
 
-The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you'll need to reformat like the example below, or [get in touch with us](http://www.github.com/smwindecker/deconvolve), and we'll add new functionality. 
+The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you'll need to reformat like the example below, or [get in touch with us](http://www.github.com/smwindecker/mixchar), and we'll add new functionality. 
 
 ``` {r}
-library(deconvolve)
+library(mixchar)
 head(juncus)
 ```
 

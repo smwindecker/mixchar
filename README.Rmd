@@ -11,8 +11,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Build Status](https://travis-ci.com/smwindecker/deconvolve.svg?branch=master)](https://travis-ci.org/smwindecker/deconvolve)
-[![codecov](https://codecov.io/gh/smwindecker/deconvolve/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/deconvolve)
+[![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
+[![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
 [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 ## Why deconvolution?
@@ -25,17 +25,17 @@ To estimate carbon components from this mass loss data we have to take the deriv
 
 ## Installation
 
-You can install `deconvolve` from [GitHub](https://github.com/) with:
+You can install `mixchar` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("smwindecker/deconvolve", build_vignettes = TRUE)
+devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
 ```
 ## Basic use
 
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
 ```{r}
-library(deconvolve)
+library(mixchar)
 head(juncus)
 ```
 
@@ -58,10 +58,10 @@ The `deconvolve()` function results in a variety of outputs. You can use a varie
 
 You can see the full worked example in the vignette, which you can access on the or in R:
 ```{r}
-vignette('deconvolve')
+vignette('mixchar')
 ```
 
-This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/deconvolve/issues). 
+This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/mixchar/issues). 
 
 ## Acknowledgements
 Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 

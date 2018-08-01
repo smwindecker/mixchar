@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/index.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/index.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/component_weights.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/component_weights.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/deconvolve.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/deconvolve.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/fs_function.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/fs_function.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/fs_mixture.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/fs_mixture.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/fs_model.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/fs_model.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/get_weights.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/get_weights.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/inflection.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/inflection.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/juncus.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/juncus.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/marsilea.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/marsilea.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/model_fit.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/model_fit.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/objective.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/objective.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/param_select.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/param_select.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/plot.decon.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/plot.decon.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/plot.process.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/plot.process.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/print.decon.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/print.decon.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/print.process.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/print.process.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/process.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/process.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/rate_data.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/rate_data.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/rmse.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/rmse.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/temp_bounds.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/temp_bounds.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/three_peaks.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/three_peaks.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/weight_quantiles.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/weight_quantiles.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/reference/wt_component.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/reference/wt_component.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/articles/Workflow.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/articles/Workflow.html</loc>
   </url>
   <url>
-    <loc>http://smwindecker.github.io/deconvolve/articles/deconvolve.html</loc>
+    <loc>http://smwindecker.github.io/mixchar/articles/mixchar.html</loc>
   </url>
 </urlset>

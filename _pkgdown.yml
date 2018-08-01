@@ -1,4 +1,4 @@
-url: http://smwindecker.github.io/deconvolve
+url: http://smwindecker.github.io/mixchar
 
 authors:
   Saras Windecker:
@@ -61,8 +61,8 @@ navbar:
     - text: "Articles"
       icon: fas fa-book
       menu:
-      - text: Introduction to `deconvolve`
-        href: articles/deconvolve.html
+      - text: Introduction to `mixchar`
+        href: articles/mixchar.html
       - text: Workflow
         href: articles/Workflow.html
     - icon: fa-file-code-o
@@ -70,4 +70,4 @@ navbar:
       href: reference/index.html
     - icon: fa-github fa-lg
       text: "github"
-      href: https://github.com/smwindecker/deconvolve
+      href: https://github.com/smwindecker/mixchar

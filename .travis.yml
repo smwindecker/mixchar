@@ -37,13 +37,10 @@ env:
 r_packages:
   - minpack.lm
   - nloptr
-  - plyr
-  - pryr
   - knitr
   - rmarkdown
   - devtools
   - testthat
-  - shiny
   - covr
 
 email:
