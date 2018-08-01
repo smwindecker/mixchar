@@ -62,16 +62,16 @@ weight_quantiles <- function (output, seed) {
 
 get_weights <- function (param_vec, output) {
 
-  n_peaks <- output$n_peaks
+  n_curves <- output$n_curves
   lower_temp <- output$bounds[1]
   upper_temp <- output$bounds[2]
 
-  if (n_peaks == 3) {
+  if (n_curves == 3) {
     wt_percent <- c('HC' = NA, 'CL' = NA, 'LG' = NA)
     curve_vec <- 1:3
   }
 
-  if (n_peaks == 4) {
+  if (n_curves == 4) {
     wt_percent <- c('HC_1' = NA, 'HC_2' = NA, 'CL' = NA, 'LG' = NA)
     curve_vec <- 0:3
   }
@@ -93,15 +93,13 @@ get_weights <- function (param_vec, output) {
 #' @param param_vec vector of parameters
 #' @param lower_temp lower temperature bound
 #' @param upper_temp upper temperature bound
-#' @importFrom glue glue
 #' @return weight of component
 #'
 
 wt_component <- function (j, param_vec, lower_temp, upper_temp) {
 
   # extract relevant parameter vector
-  p <- c('height', 'skew', 'position', 'width')
-  names <- glue::glue('{p}_{j}')
+  names <- paste0(c("height_", "skew_", "position", "width"), j)
 
   idx <- match(names, names(param_vec))
   param_sub <- param_vec[idx]

@@ -112,7 +112,7 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, seed
   output <- list(data = mod_df,
                  bounds = c(lower_temp, upper_temp),
                  minpack.lm = fit,
-                 n_peaks = n_peaks)
+                 n_curves = n_peaks)
 
   weights <- weight_quantiles(output, seed)
 
