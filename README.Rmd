@@ -5,15 +5,14 @@ output:
     variant: markdown_github
 ---
 
+<img src = "logo/mixchar_banner.png" height="350" width="350" />
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
-
-<img src = "logo/mixchar_banner.png" width="750" height="170" />
 
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
