@@ -1,4 +1,4 @@
-#' Sets default print method for process object
+#' Default S3 print method for process object (derived from `process()`)
 #'
 #' This function sets up the default print method
 #' for outputs from process function
@@ -12,8 +12,9 @@
 
 print.process <- function (x, ...) {
 
-  cat(paste('Derivative thermogravimetry data (DTG) calculated for',
+  cat(paste('Derivative thermogravimetry data (DTG) calculated for\n',
              nrow(x$data), 'datapoints from', round(x$bounds[1], 2),
             'to', round(x$bounds[2], 2), 'degrees C.'))
 
 }
+

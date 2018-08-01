@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.decon.R
 \name{print.decon}
 \alias{print.decon}
-\title{Sets default print method for decon object}
+\title{Default S3 print method for decon object (derived from `deconvolve()`)}
 \usage{
 \method{print}{decon}(x, ...)
 }

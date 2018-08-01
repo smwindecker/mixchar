@@ -1,4 +1,4 @@
-#' Sets default print method for decon object
+#' Default S3 print method for decon object (derived from `deconvolve()`)
 #'
 #' This function sets up the default print method
 #' for outputs from deconvolve function
@@ -12,7 +12,7 @@
 
 print.decon <- function (x, ...) {
 
-  cat(paste0('Deconvolution by ', x$n_peaks,'-part Fraser-Suzuki mixture model fitted to ',
+  cat(paste0('Deconvolution by ', x$n_curves,'-part Fraser-Suzuki mixture model fitted to \n',
              nrow(x$data), ' datapoints from ', x$bounds[1], ' to ', x$bounds[2], ' degrees C.'))
 
 }

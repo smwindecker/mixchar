@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.process.R
 \name{print.process}
 \alias{print.process}
-\title{Sets default print method for process object}
+\title{Default S3 print method for process object (derived from `process()`)}
 \usage{
 \method{print}{process}(x, ...)
 }
