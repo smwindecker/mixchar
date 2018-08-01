@@ -1,4 +1,4 @@
-#' Sets default plotting for process objects
+#' Default S3 plot method for process objects (derived from `process()`)
 #'
 #' This function sets up the default plotting method
 #' for outputs from process function
@@ -18,7 +18,7 @@ plot.process <- function (x, plot_type = NULL, ...) {
 
   p_massloss <- function (data) {
     plot(data$temp_C, data$mass_T, xlab = 'Temperature (C)',
-         ylab = 'Mass Remaining (mg)', pch = 20, cex = 0.7)
+         ylab = 'Mass remaining (mg)', pch = 20, cex = 0.7)
   }
 
   p_dtg <- function (data) {

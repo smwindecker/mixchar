@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.process.R
 \name{plot.process}
 \alias{plot.process}
-\title{Sets default plotting for process objects}
+\title{Default S3 plot method for process objects (derived from `process()`)}
 \usage{
 \method{plot}{process}(x, plot_type = NULL, ...)
 }
