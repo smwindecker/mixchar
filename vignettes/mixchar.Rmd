@@ -10,7 +10,7 @@ output:
       toc_depth: 4
     fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Introduction to carbon component estimation with `mixchar`}
+  %\VignetteIndexEntry{Introduction to carbon component estimation with mixchar}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

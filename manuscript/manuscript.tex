@@ -105,7 +105,7 @@ Please submit the completed paper to: editor.jors@ubiquitypress.com
 \vspace{0.5cm}
 
 \section*{Title}
-deconvolve: An R package for the deconvolution of thermal decay curves
+mixchar: An R package for the deconvolution of thermal decay curves
 
 \section*{Paper Authors}
 1. Windecker, Saras Mei \\
@@ -130,7 +130,7 @@ Plant cell wall biomass is composed of a range of different types of carbon. Eco
 \\
 Mass loss during pyrolysis can be regarded as the sum of the degradation of the main components of the sample \textemdash hemicelluloses, cellulose, and lignin \citep{hu2016,cheng2015,perejon2011,orfao2001,muller-hagedorn2007}. Therefore, the multi-peaked rate of mass loss curve (derivative of mass loss curve) can be mathematically separated, or deconvolved, with a mixture model into individual peaks \textemdash each representing a single primary component. This method has been validated by studies comparing estimates to experimental measurements \citep{yang2006}. Plant trait measurement is guided by the principle of standardised, widely reproducible methods \citep{perez-harguindeguy2013}, but much of the published literature use commercial software to deconvolve the rate of mass loss curve \citetext{for example OriginPro \citealp{chen2017}, PeakFit \citealp{perejon2011}, Fityk \citealp{perejon2011}, or Datafit \citealp{cheng2015}}. Software accessibility and reproducibility may be one reason why thermogravimetric analysis has not yet been widely adopted by functional ecologists, despite being previously used to identify plant species' recalcitrance \citetext{for example in marine and coastal macrophytes \citealp{trevathan-tackett2015}, and eucaplyts \citealp{orfao2001}}. \\
 \\
-The \verb|deconvolve| package provides an open-source set of functions to perform this deconvolution. Although the nonlinear mixture model used for peak separation at the core of this package could be used for many different purposes, \verb|deconvolve| aims to provide context specific guidelines related to use of this model for thermal decay curve analysis and carbon component estimation, in order to maximise its utility and ease of uptake for researchers interested in this method.
+The \verb|mixchar| package provides an open-source set of functions to perform this deconvolution. Although the nonlinear mixture model used for peak separation at the core of this package could be used for many different purposes, \verb|mixchar| aims to provide context specific guidelines related to use of this model for thermal decay curve analysis and carbon component estimation, in order to maximise its utility and ease of uptake for researchers interested in this method.
 
 \section*{Implementation and architecture}
 
@@ -140,7 +140,7 @@ We developed and tested the functions in this package using the thermogravimetri
 \begin{knitrout}\footnotesize
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(deconvolve)}
+\hlkwd{library}\hlstd{(mixchar)}
 \hlkwd{head}\hlstd{(juncus)}
 \end{alltt}
 \begin{verbatim}
@@ -359,7 +359,7 @@ The output of the \verb|deconvolve| function is a list of five items:
 \hlstd{output_juncus}\hlopt{$}\hlstd{n_curves}
 \end{alltt}
 \begin{verbatim}
-## NULL
+## [1] 3
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -394,7 +394,7 @@ If you \verb|plot()| the output of the \verb|deconvolve| function you will see t
 
 \end{knitrout}
 
-All analyses were conducted within the statistical computing environment, R \citep{R}, and data and R code for this paper are available on the package Github (\url{https://github.com/smwindecker/deconvolve/}. In order to aid in the reproducibility of this work, our code was written using a \verb|remake| framework \citep{remake}. This allows others to readily reproduce our work by calling \verb|remake()| in R.
+All analyses were conducted within the statistical computing environment, R \citep{R}, and data and R code for this paper are available on the package Github (\url{https://github.com/smwindecker/mixchar/}. In order to aid in the reproducibility of this work, our code was written using a \verb|remake| framework \citep{remake}. This allows others to readily reproduce our work by calling \verb|remake()| in R.
 
 
 This work is the first attempt to use thermogravimetric analysis (TGA) with a mixture model to estimate the partitioning of carbon in a suite of wetland plants.
@@ -402,7 +402,7 @@ This work is the first attempt to use thermogravimetric analysis (TGA) with a mi
 
 
 \section*{Quality control}
-All the functions of \verb|deconvolve| were tested to see if they produced the desired output. ?... The structure of the package successfully passed the \verb|CRAN R CMD| check and the results from this check can be found on CRAN.
+All the functions of \verb|mixchar| were tested to see if they produced the desired output. ?... The structure of the package successfully passed the \verb|CRAN R CMD| check and the results from this check can be found on CRAN.
 
 \section*{(2) Availability}
 \vspace{0.5cm}
@@ -413,7 +413,7 @@ The package can work with either Windows, Mac OS X, or Linux.
 R version XXX or higher.
 
 \section*{Additional system requirements}
-An internet connection is required to install the \verb|deconvolve| package.
+An internet connection is required to install the \verb|mixchar| package.
 
 \section*{Dependencies}
 R packages: \verb|graphics|, \verb|minpack.lm|, \verb|nloptr|, \verb|stats|, \verb|tmvtnorm|, \verb|zoo|.
@@ -438,7 +438,7 @@ This package was created by Saras Windecker and Dr. Nick Golding.
 {\bf Code repository} GitHub
 
 \begin{description}[noitemsep,topsep=0pt]
-	\item[Name:] \url{https://github.com/smwindecker/deconvolve/}
+	\item[Name:] \url{https://github.com/smwindecker/mixchar/}
 	\item[Persistent identifier:] e.g. DOI, handle, PURL, etc.
 	\item[Licence:] Open license under which the software is licensed.
 	\item[Date published:] dd/mm/yy
@@ -452,7 +452,7 @@ This should include the use cases for the software,
 
 The Fraser-Suzuki family of functions are exported to allow the user to create their own plots from the model outputs. Detailed descriptions of how to do so are included in the package vignettes.
 
-This package was designed with both the user and developer in mind. There are several vignettes available with the package and on the package website (\url{https://smwindecker.github.io/deconvolve/}) facilitating exploration of package functionality. For those that wish to contribute to the package, it is hosted on Github, and they can log issues via the issues tracker (\url{https://github.com/smwindecker/deconvolve/issues}) or submit a pull request to add functionality to the package.
+This package was designed with both the user and developer in mind. There are several vignettes available with the package and on the package website (\url{https://smwindecker.github.io/mixchar/}) facilitating exploration of package functionality. For those that wish to contribute to the package, it is hosted on Github, and they can log issues via the issues tracker (\url{https://github.com/smwindecker/mixchar/issues}) or submit a pull request to add functionality to the package.
 
 \section*{Acknowledgements}
 The authors would like to thank Dr. Nick Tierney for reviewing an early version of the package. We would like to thank the University of Melbourne Department of Chemical and Biomolecular Engineering for access to and training on the TGA-FTIR. Vegetation collection for data used to build and verify the model was conducted under Victorian Department of Environment, Land, Water and Planning Permit No 10007429. We would like to thank volunteers Paula Sanchez, Abbey Kinnish, Kelsey Johnson, Madeline Brenker, and Urtzi Enriquez Urzelai for assistance in the field collecting plant specimens.

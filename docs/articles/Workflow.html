@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workflow • deconvolve</title>
+<title>Workflow • mixchar</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -29,7 +29,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">deconvolve</a>
+        <a class="navbar-link" href="../index.html">mixchar</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
       </span>
     </div>
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+      <a href="../articles/mixchar.html">Introduction to `mixchar`</a>
     </li>
     <li>
       <a href="../articles/Workflow.html">Workflow</a>
@@ -69,7 +69,7 @@
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve">
+  <a href="https://github.com/smwindecker/mixchar">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -90,7 +90,7 @@
       <h1>Workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/smwindecker/deconvolve/blob/master/vignettes/Workflow.Rmd"><code>vignettes/Workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/smwindecker/mixchar/blob/master/vignettes/Workflow.Rmd"><code>vignettes/Workflow.Rmd</code></a></small>
       <div class="hidden name"><code>Workflow.Rmd</code></div>
 
     </div>
@@ -101,8 +101,8 @@
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>1. Load data</h2>
 <p>We have included two example datasets in this package, called <code>juncus</code> and <code>marsilea</code>, that we will use for this demonstration. The <code>juncus</code> dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, <em>Juncus amabilis</em>, and <code>marsilea</code> contains data for the freshwater fern, <em>Marsilea drumondii</em>.</p>
-<p>The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you’ll need to reformat like the example below, or <a href="http://www.github.com/smwindecker/deconvolve">get in touch with us</a>, and we’ll add new functionality.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(deconvolve)
+<p>The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you’ll need to reformat like the example below, or <a href="http://www.github.com/smwindecker/mixchar">get in touch with us</a>, and we’ll add new functionality.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mixchar)
 <span class="kw">head</span>(juncus)</code></pre></div>
 <pre><code>##   temp_C mass_loss
 ## 1 31.453 -0.000931
@@ -122,13 +122,15 @@
                         <span class="dt">mass =</span> <span class="st">'mass_loss'</span>, 
                         <span class="dt">init_mass =</span> <span class="fl">18.96</span>)
 deriv_juncus</code></pre></div>
-<pre><code>## Derivative thermogravimetry data (DTG) calculated for 768 datapoints from 31.5 to 798.52 degrees C.</code></pre>
+<pre><code>## Derivative thermogravimetry data (DTG) calculated for
+##  768 datapoints from 31.5 to 798.52 degrees C.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deriv_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/process.html">process</a></span>(marsilea, 
                           <span class="dt">temp =</span> <span class="st">'temp_C'</span>, 
                           <span class="dt">mass =</span> <span class="st">'mass_loss'</span>, 
                           <span class="dt">init_mass =</span> <span class="fl">15.29</span>)
 deriv_marsilea</code></pre></div>
-<pre><code>## Derivative thermogravimetry data (DTG) calculated for 768 datapoints from 31.5 to 798.51 degrees C.</code></pre>
+<pre><code>## Derivative thermogravimetry data (DTG) calculated for
+##  768 datapoints from 31.5 to 798.51 degrees C.</code></pre>
 <hr>
 </div>
 <div id="plot-mass-loss-and-rate-of-mass-loss-curves" class="section level2">
@@ -148,10 +150,12 @@ deriv_marsilea</code></pre></div>
 <p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 C and 700 C. These can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. <code>deconvolve</code> will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 C. Upon inspection of your curve you can override this by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_juncus)
 output_juncus</code></pre></div>
-<pre><code>## Deconvolution by 3-part Fraser-Suzuki mixture model fitted to 580 datapoints from 120 to 700 degrees C.</code></pre>
+<pre><code>## Deconvolution by 3-part Fraser-Suzuki mixture model fitted to 
+## 580 datapoints from 120 to 700 degrees C.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea)
 output_marsilea</code></pre></div>
-<pre><code>## Deconvolution by 4-part Fraser-Suzuki mixture model fitted to 580 datapoints from 120 to 700 degrees C.</code></pre>
+<pre><code>## Deconvolution by 4-part Fraser-Suzuki mixture model fitted to 
+## 580 datapoints from 120 to 700 degrees C.</code></pre>
 <hr>
 </div>
 <div id="examine-outputs" class="section level2">
@@ -233,15 +237,15 @@ output_marsilea</code></pre></div>
 <li>will display the mean, upper, and lower confidence intervals for each estimated component:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_juncus)</code></pre></div>
-<pre><code>##         HC       CL       LG value_type
-## 1 20.43273 16.64336 29.52019       2.5%
-## 2 22.75751 18.67005 31.83022      97.5%
-## 3 21.56004 17.67487 30.66299       mean</code></pre>
+<pre><code>##   HC CL LG value_type
+## 1  0  0  0       2.5%
+## 2  0  0  0      97.5%
+## 3  0  0  0       mean</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_marsilea)</code></pre></div>
-<pre><code>##       HC_1     HC_2           CL       LG value_type
-## 1 2.745622  1.68365 1.061745e-04 25.35477       2.5%
-## 2 7.342779 50.41035 3.798929e+01 36.14492      97.5%
-## 3 4.705769 15.18955 1.254327e+01 31.08690       mean</code></pre>
+<pre><code>##   HC_1 HC_2 CL LG value_type
+## 1    0    0  0  0       2.5%
+## 2    0    0  0  0      97.5%
+## 3    0    0  0  0       mean</code></pre>
 <hr>
 </div>
 </div>

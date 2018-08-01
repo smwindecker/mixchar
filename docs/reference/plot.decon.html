@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sets default plotting for decon objects — plot.decon • deconvolve</title>
+<title>Default S3 plot method for decon objects (derived from `deconvolve()`) — plot.decon • mixchar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Sets default plotting for decon objects — plot.decon" />
+<meta property="og:title" content="Default S3 plot method for decon objects (derived from `deconvolve()`) — plot.decon" />
 
 <meta property="og:description" content="This function sets up the default plotting method
 for outputs from deconvolve function" />
@@ -63,7 +63,7 @@ for outputs from deconvolve function" />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">deconvolve</a>
+        <a class="navbar-link" href="../index.html">mixchar</a>
         <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
       </span>
     </div>
@@ -89,7 +89,7 @@ for outputs from deconvolve function" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/deconvolve.html">Introduction to `deconvolve`</a>
+      <a href="../articles/mixchar.html">Introduction to `mixchar`</a>
     </li>
     <li>
       <a href="../articles/Workflow.html">Workflow</a>
@@ -104,7 +104,7 @@ for outputs from deconvolve function" />
   </a>
 </li>
 <li>
-  <a href="https://github.com/smwindecker/deconvolve">
+  <a href="https://github.com/smwindecker/mixchar">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -122,8 +122,8 @@ for outputs from deconvolve function" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sets default plotting for decon objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/smwindecker/deconvolve/blob/master/R/plot.decon.R'><code>R/plot.decon.R</code></a></small>
+    <h1>Default S3 plot method for decon objects (derived from `deconvolve()`)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/smwindecker/mixchar/blob/master/R/plot.decon.R'><code>R/plot.decon.R</code></a></small>
     <div class="hidden name"><code>plot.decon.Rd</code></div>
     </div>
 
@@ -135,7 +135,7 @@ for outputs from deconvolve function</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for decon</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>bw</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

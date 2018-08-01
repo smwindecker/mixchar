@@ -29,7 +29,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
   if (isTRUE(bw)) {
 
-    if (x$n_peaks == 4) {
+    if (x$n_curves == 4) {
       y1 <- fs_mixture(temp = temp,
                        height_1 = params['height_1',], skew_1 = params['skew_1',],
                        position_1 = params['position_1',], width_1 = params['width_1',],
@@ -56,7 +56,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
     }
 
-    if (x$n_peaks == 3) {
+    if (x$n_curves == 3) {
 
       y1 <- fs_mixture(temp = temp,
                        height_1 = params['height_1',], skew_1 = params['skew_1',],
@@ -97,7 +97,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
   if(!isTRUE(bw)) {
 
-    if (x$n_peaks == 4) {
+    if (x$n_curves == 4) {
       y1 <- fs_mixture(temp = temp,
                        height_1 = params['height_1',], skew_1 = params['skew_1',],
                        position_1 = params['position_1',], width_1 = params['width_1',],
@@ -126,7 +126,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
     }
 
-    if (x$n_peaks == 3) {
+    if (x$n_curves == 3) {
 
       y1 <- fs_mixture(temp = temp,
                        height_1 = params['height_1',], skew_1 = params['skew_1',],

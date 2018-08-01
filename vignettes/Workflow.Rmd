@@ -1,5 +1,5 @@
 ---
-title: "Workflow"
+title: "`mixchar` workflow"
 output: 
   html_document:
     css: mixchar.css
@@ -10,7 +10,7 @@ output:
       toc_depth: 4
     fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Workflow}
+  %\VignetteIndexEntry{mixchar workflow}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
