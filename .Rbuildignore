@@ -9,3 +9,5 @@ tests
 ^docs$
 ^README\.Rmd$
 ^codemeta\.json$
+manuscript/
+logo/
