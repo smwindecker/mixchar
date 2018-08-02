@@ -1,4 +1,4 @@
-Context("Test print and plot functions")
+context("Test print and plot functions")
 
 test_that("print functions produce correct output", {
 
@@ -11,7 +11,6 @@ test_that("print functions produce correct output", {
 
   expect_identical(tmp, pro_output)
   expect_identical(output, out_output)
-
 
   vdiffr::expect_doppelganger("process plot", plot(tmp))
   vdiffr::expect_doppelganger("deconvolve plot", plot(out_output))
