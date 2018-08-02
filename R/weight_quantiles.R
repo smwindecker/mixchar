@@ -99,7 +99,7 @@ get_weights <- function (param_vec, output) {
 wt_component <- function (j, param_vec, lower_temp, upper_temp) {
 
   # extract relevant parameter vector
-  names <- paste0(c("height_", "skew_", "position", "width"), j)
+  names <- paste0(c("height_", "skew_", "position_", "width_"), j)
 
   idx <- match(names, names(param_vec))
   param_sub <- param_vec[idx]
@@ -115,3 +115,4 @@ wt_component <- function (j, param_vec, lower_temp, upper_temp) {
 
   wt
 }
+
