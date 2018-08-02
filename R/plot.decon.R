@@ -20,13 +20,10 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
   params <- as.data.frame(summary(fit)$coefficients[,1])
 
-  par(xpd = TRUE, mar = par()$mar + c(0, 1, 0, 0))
-
   plot(data$temp_C, data$deriv, xlab = 'Temperature (C)',
        ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
        yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)),
-       pch = 20, cex = 0.3, cex.axis = 1.2)
-
+       pch = 20, cex = 0.5, cex.axis = 1.2, cex.lab = 1.5)
 
   if (isTRUE(bw)) {
 
@@ -49,11 +46,11 @@ plot.decon <- function (x, bw = TRUE, ...) {
       legend('topright',
              legend = c('DTG data', 'DTG modelled', 'Hemicellulose 1', 'Hemicellulose 2', 'Cellulose', 'Lignin'),
              ncol = 1,
-             cex = 2.2,
+             cex = 1.2,
              bty = 'n',
              lty = c(NA, 1, 6, 3, 4, 5),
              pch = c(20, NA, NA, NA, NA, NA),
-             lwd = 3.5)
+             lwd = 2)
 
     }
 
@@ -70,11 +67,10 @@ plot.decon <- function (x, bw = TRUE, ...) {
       legend('topright',
              legend = c('DTG data', 'DTG modelled', 'Hemicellulose', 'Cellulose', 'Lignin'),
              ncol = 1,
-             cex = 2.2,
+             cex = 1.2,
              bty = 'n',
              lty = c(NA, 1, 3, 4, 5),
              pch = c(20, NA, NA, NA, NA),
-             col = c('black', 'black', '#440154FF', '#B8DE29FF', '#3CBB75FF'),
              lwd = 2)
 
     }
@@ -118,12 +114,12 @@ plot.decon <- function (x, bw = TRUE, ...) {
       legend('topright',
              legend = c('DTG data', 'DTG modelled', 'Hemicellulose 1', 'Hemicellulose 2', 'Cellulose', 'Lignin'),
              ncol = 1,
-             cex = 2.2,
+             cex = 1.2,
              bty = 'n',
              lty = c(NA, 1, 6, 3, 4, 5),
              pch = c(20, NA, NA, NA, NA, NA),
              col = c('black', 'black', '#33638DFF', '#440154FF', '#B8DE29FF', '#3CBB75FF'),
-             lwd = 3.5)
+             lwd = 2)
 
     }
 
@@ -140,7 +136,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
       legend('topright',
              legend = c('DTG data', 'DTG modelled', 'Hemicellulose', 'Cellulose', 'Lignin'),
              ncol = 1,
-             cex = 2.2,
+             cex = 1.2,
              bty = 'n',
              lty = c(NA, 1, 3, 4, 5),
              pch = c(20, NA, NA, NA, NA),
