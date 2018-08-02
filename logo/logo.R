@@ -29,7 +29,7 @@ hexSticker::sticker('logo/hex_bg.png', s_x = .985, s_y = .99, s_width = 1.1,
 
 
 
-png('logo/hex_bg2.png', width = 1500, height = 1500, bg = 'transparent')
+png('logo/hex_horizontal.png', width = 1500, height = 1500, bg = 'transparent')
 hexd <- data.frame(x = 1 + c(rep(-sqrt(3)/2, 2), 0, rep(sqrt(3)/2, 2), 0),
                    y = 1 + c(0.5, -0.5, -1, -0.5, 0.5, 1))
 hexd <- rbind(hexd, hexd[1, ])
@@ -50,10 +50,10 @@ segments(x0 = hexd$x[5] - .03,
          y0 = hexd$y[5] - .02,
          x1 = hexd$x[6],
          y1 = hexd$y[6] - .033, lwd = 13, col = '#000000')
-img <- png::readPNG("logo/mixchar_bg2.png")
-rasterImage(img, .4, .5, 1.6, 1.3)
+img <- png::readPNG("logo/mixchar_hex.png")
+rasterImage(img, .3, .5, 1.7, 1.3)
 dev.off()
 
-hexSticker::sticker('logo/hex_bg2.png', s_x = .985, s_y = .99, s_width = 1.1,
+hexSticker::sticker('logo/hex_horizontal.png', s_x = .985, s_y = .99, s_width = 1.1,
                     package = '', h_color = '#000000', h_fill = '#ededed',
-                    filename = "logo/hexsticker_banner.png")
+                    filename = "logo/hexsticker_horizontal.png")
