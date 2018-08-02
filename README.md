@@ -1,4 +1,4 @@
-<img src = "logo/mixchar_banner.png" height="350" width="350" />
+<img src = "logo/mixchar_banner.png" height="50" width="350" />
 
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar) [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar) [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 

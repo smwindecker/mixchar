@@ -5,7 +5,7 @@ output:
     variant: markdown_github
 ---
 
-<img src = "logo/mixchar_banner.png" height="350" width="350" />
+<img src = "logo/mixchar_banner.png" height="50" width="350" />
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
