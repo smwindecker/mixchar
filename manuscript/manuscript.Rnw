@@ -65,14 +65,18 @@ mixchar: An R package for the deconvolution of thermal decay curves
 \section*{Paper Authors}
 1. Windecker, Saras M. \\
 2. Vesk, Peter A. \\
-3. Catford, Jane A. \\
+3. Trevathan-Tackett, Stacey M. \\
+4. Catford, Jane A. \\
+5. Macreadie, Peter I. \\
 4. Golding, Nick.
 
 \section*{Paper Author Roles and Affiliations}
 1. PhD Candidate, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia \\
 2. Associate Professor, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia \\
-3. Assistant Professor, Biological Sciences, University of Southampton, Highfield Campus, Southampton SO17 1BJ, UK \\
-4. Research Fellow, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia
+3. Research Fellow, Centre for Integrative Ecology, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood VIC 3124, Australia \\
+4. Assistant Professor, Biological Sciences, University of Southampton, Highfield Campus, Southampton SO17 1BJ, UK \\
+5. Associate Professor, Centre for Integrative Ecology, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood VIC 3124, Australia \\
+6. Research Fellow, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia
 
 \section*{Abstract}
 
