@@ -19,12 +19,8 @@ knitr::opts_chunk$set(
 [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 ## Why deconvolution?
-four-curve vignette
-create your own plot vignette
 
-Ecologists are often interested in determining the composition of plant cell wall biomass, compoased primarily of hemicellulose, cellulose, and lignin carbons. Proportions of these carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis (TGA) is an alternative method, already used in the biofuel field, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a $N_2$ environment, termed pyrolysis). 
-
-To estimate carbon components from this mass loss data we have to take the derivative, to find the rate of mass loss across temperature, and then use a mixture model to separate the multi-peaked derivative curve into constituent parts. This process is called deconvolution, and is typically conducted in proprietary peak-fitting softwares, which, while effective, are not open source. This package seeks to provide a platform for reproducible deconvolution using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin. For more details (link paper here). 
+Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.
 
 <hr>
 
@@ -32,10 +28,11 @@ To estimate carbon components from this mass loss data we have to take the deriv
 
 You can install `mixchar` from [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("devtools")
+``` {r, eval = FALSE}
+install.packages("devtools")
 devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
 ```
+
 ## Basic use
 
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
@@ -70,5 +67,4 @@ This is still a work in progress! If you see any mistakes, or find that the code
 
 ## Acknowledgements
 Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
-
 
