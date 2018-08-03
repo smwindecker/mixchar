@@ -1,5 +1,5 @@
 ---
-title: "Introduction to carbon component estimation with `mixchar`"
+title: "Workflow for thermal decay deconvolution with mixchar"
 output: 
   html_document:
     css: mixchar.css
@@ -10,7 +10,7 @@ output:
       toc_depth: 4
     fig_caption: yes
 vignette: >
-  %\VignetteIndexEntry{Introduction to carbon component estimation with mixchar}
+  %\VignetteIndexEntry{Workflow for thermal decay deconvolution with mixchar}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
@@ -19,16 +19,138 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Mixture model
+## 1. Load data
 
-The meat of this package is in the mixture model used to deconvolve the derivative rate curve. Many different mathematical models have been proposed to fit the form of the independent curves, including Gassian, Lorentzian, Weibull, the asymmetric bi-Gaussian, and the Frazer-Suzuki distributions. Symmetric curves such as the Gaussian and Lorentzian curves struggle to model these kinetic curves because they are often asymmetric. The four-parameter Fraser-Suzuki function is highly flexible and therefore performs well. 
+We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. The `juncus` dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, *Juncus amabilis*, and `marsilea` contains data for the freshwater fern, *Marsilea drumondii*. 
 
-\begin{equation}
-\frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
-\end{equation}
+The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you'll need to reformat like the example below, or [get in touch with us](http://www.github.com/smwindecker/mixchar/issues), and we'll add new functionality. 
 
-
-Because we can assume that the carbon components decay relatively independently, we can thus model the full multi-peaked derivative rate of mass loss curve as the sum of independent Fraser-Suzuki curves. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
+``` {r}
+library(mixchar)
+head(juncus)
+```
 
 <hr>
 
+## 2. `process` data
+
+After we've loaded our data, we need to calculate the derivative of the mass loss, or in other words the rate of mass loss across temperature. This will produce the multi-peaked rate of decay curve that we will apply the mixture model to. The `process` function takes the derivative of our mass loss data, taking as arguments the dataset, the column names for the temperature and mass loss data, respectively, and a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument `temp_type = 'K'`.
+
+```{r}
+deriv_juncus <- process(juncus, 
+                        temp = 'temp_C', 
+                        mass = 'mass_loss', 
+                        init_mass = 18.96)
+deriv_juncus
+```
+
+```{r}
+deriv_marsilea <- process(marsilea, 
+                          temp = 'temp_C', 
+                          mass = 'mass_loss', 
+                          init_mass = 15.29)
+deriv_marsilea
+```
+
+<hr>
+
+## 3. Plot mass loss and rate of mass loss curves
+
+At this point we can take a look at what we've done so far using the default plotting option for your processed data. If you `plot()` the output of the `process` function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you're only interested in one plot, you can specify `plot_type = 'mass'` or `plot_type = 'rate'`. 
+
+The rate of mass loss curve helps us to visualise the three stages of mass loss: 
+* Phase 1: A short period with of dehydration, up until approximately 120 $^{\circ}$C.
+* Phase 2: A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120\textendash650 $^{\circ}$C.
+* Phase 3: A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 $^{\circ}$C.
+In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step. 
+
+```{r, fig.height = 3.7}
+plot(deriv_juncus)
+```
+
+```{r, fig.height = 3.7}
+plot(deriv_marsilea)
+```
+
+<hr>
+
+## 4. `deconvolve` data
+
+The `decovolve` function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 C and 700 C. These can be modified with the `lower_temp` and `upper_temp` arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. `deconvolve` will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 C. Upon inspection of your curve you can override this by modifying the `n_curves` argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or would like to play with the effect of changing them, you can do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments.
+
+```{r}
+output_juncus <- deconvolve(deriv_juncus)
+output_juncus
+```
+
+```{r}
+output_marsilea <- deconvolve(deriv_marsilea)
+output_marsilea
+```
+
+<hr>
+
+## 5. Examine outputs
+
+`deconvolve` results in a few different outputs that you can retrieve with accessor functions.
+
+### `rate_data()` 
+* will show you the processed dataset that results from the `process` function, useful if you want to play around with other modelling approaches or plotting options:
+```{r}
+juncus_rate <- rate_data(output_juncus)
+head(juncus_rate)
+```
+
+### `temp_bounds()` 
+* will print the temperature values at which the data were cropped for analysis:
+```{r}
+temp_bounds(output_juncus)
+```
+
+### `model_fit()` 
+* will show you the output of the mixture model: 
+```{r}
+model_fit(output_juncus)
+```
+* the model fit will show us the estimated parameter values height, skew, position, and width for each curve. Curve 1 is hemicellulose, curve 2 is cellulose, and curve 3 is lignin. 
+
+```{r}
+model_fit(output_marsilea)
+```
+* if present, the optional fourth curve located at the lowest temperature interval will be listed as curve 0.
+
+### `component_weights()`
+* will display the mean, upper, and lower confidence intervals for each estimated component:
+```{r}
+component_weights(output_juncus)
+```
+
+```{r}
+component_weights(output_marsilea)
+```
+
+<hr>
+
+## 6. Plot deconvolved curves
+
+The default plotting function for the output of the `deconvolve` function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component curves using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly \verb|viridis| colours by specifying \verb|bw = FALSE|.
+
+Take a look at your plot. Do the estimates seem reasonable? 
+
+```{r}
+plot(output_juncus, bw = FALSE)
+```
+
+```{r}
+plot(output_marsilea, bw = FALSE)
+```
+
+If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows: 
+```{r}
+fit_juncus <- model_fit(output_juncus)
+params <- as.data.frame(summary(fit_juncus)$coefficients[,1])
+```
+
+and use the `fs_function` to plot individual component curves, and `fs_mixture` function to plot the overall mixture curve. 
+
+<hr>
