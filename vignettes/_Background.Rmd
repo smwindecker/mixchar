@@ -1,0 +1,240 @@
+---
+title: "Carbon component estimation with TGA and mixture modelling"
+output: 
+  html_document:
+    css: mixchar.css
+    theme: lumen
+    toc: yes
+    toc_float:
+      collapsed: no
+      toc_depth: 4
+    fig_caption: yes
+citation_package: natbib
+bibliography: [bibliography_packages.bib,bibliography_papers.bib]
+vignette: >
+  %\VignetteIndexEntry{Carbon component estimation with TGA and mixture modelling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+Plant cell wall biomass is composed of a range of different types of carbon. Ecologists can use these proportions of biomass carbon to make generalisations about species' effects on ecosystem processes such as litter decomposition, which links plant biomass to the global carbon cycle [@cornwell2008]. Biofuels researchers use proportions of biomass carbon types to estimate kinetic decay parameters of species' tissue. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry assays for carbon component analysis, which are time-consuming and adversely impact the environment through use of sulfuric acid and acetic anhydride, among other chemicals. Thermogravimetric analysis (TGA) is an alternative method, already in use among biofuels researchers, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a $N_2$ environment, termed pyrolysis). 
+
+Mass loss during pyrolysis can be regarded as the sum of the degradation of the main components of the sample --- hemicelluloses, cellulose, and lignin [@hu2016; @cheng2015; @perejon2011; @orfao2001; @mullerhagedorn2007]. Therefore, the multi-peaked rate of mass loss curve can be mathematically separated into constituent parts with a mixture model --- termed deconvolution. By integrating under these individual curves, we can estimate the contribution of each component to the overall initial sample. This method has been validated by studies comparing estimates to experimental measurements [@yang2006]. Plant trait measurement is guided by the principle of standardised, widely reproducible methods [@perezharguindeguy2013], but much of the published literature use commercial software to deconvolve the rate of mass loss curve (for example OriginPro [@chen2017], PeakFit [@perejon2011], Fityk [@perejon2011], or Datafit [@cheng2015]). Software accessibility and reproducibility may be one reason why thermogravimetric analysis for carbon type estimation has not yet been widely adopted by functional ecologists, despite being previously used to identify plant species' recalcitrance (for example in marine and coastal macrophytes [@trevathan-tackett2015], and eucaplyts [@orfao2001]). In addition, proprietary software inhibits researchers already conducting this type of analysis from making their analyses independently reproducible. 
+
+The `mixchar` package provides an open-source set of functions to perform this deconvolution. Although the nonlinear mixture model used for peak separation at the core of this package could be used for many different purposes, `mixchar` provides specific guidelines related to thermal decay curve analysis and carbon component estimation. Detailed vignettes and several default plotting options are included in order to maximise utility and ease of uptake for researchers interested in this method.
+
+<hr>
+
+# Litter collection and preparation
+
+##`r icon::fa('leaf')` Collect litter data 
+
+We developed and tested the functions in this package using the thermogravimetric decay data for litter of 29 different plant species. Two species from this set are available as datasets in the package --- the freshwater reed *Juncus amabilis* (accessed as `juncus`) and the freshwater fern *Marsilea drumondii* (accessed as `marsilea`). 
+
+## `r icon::fa('burn')` Dry litter
+
+To ensure component estimates are an accurate representation of the original composition of the litter, it is important to dry samples as quickly as possible to prevent decomposition. Plant litter collected for this analysis was placed in moist plastic bags and stored in dark coolers until transported to the lab, and then moved to a dark, refrigerated room. We dried the fresh litter at 60 &deg;C for 72 hours. 
+
+## `r icon::fa('vials')` Grind litter
+
+Dry litter must be ground in order to be used in thermogravimetric analysis. We ground litter to < $40 \mu m$ using a Retsch Centrifugal Mill ZM200. 
+
+## `r icon::fa('box')` Thermogravimetric analysis
+
+We pyrolysed 10--20 mg subsamles of dry, ground litter in an N$_2$ environment from 30--800 &deg;C at a temperature ramp of 10 &deg;C/min using a Netzsch TGA-FTIR thermogravimetric analyser (Department of Biomedical Engineering, University of Melbourne). 
+
+## Mass loss data
+```{r, echo = FALSE, fig.width = 5, fig.asp = .62}
+library(mixchar)
+tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+plot(tmp, plot_type = 'mass')
+```
+The resulting data is mass loss in grams against temperature.
+
+## Calculate rate of mass loss
+```{r, echo = FALSE, fig.width = 5, fig.asp = .62}
+plot(tmp, plot_type = 'rate')
+```
+After we've loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. 
+
+## Deconvolve data
+```{r, echo = FALSE, fig.width = 5, fig.asp = .62}
+output <- deconvolve(tmp)
+plot(output, bw = FALSE)
+```
+Once we have calculated the rate of mass loss, we use the `deconvolve` function to estimate the proportions of carbon components. Under the hood, it does so with a series of steps: it crops the derivative rate of mass loss data, estimates parameter values from the non-linear model, and finally integrates under each resulting curve to estimate weight proportions of primary components. We explain these steps in detail below. 
+
+## Cropping DTG data
+The rate of mass loss (i.e. negative first derivative or DTG) is a multi-peaked curve (Fig. 1b) encompassing three main phases [@orfao2001]:
+1. A short period with a pronounced peak of moisture evolution, up until approximately 120 &deg;C.
+2. A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120--650 &deg;C.
+3. A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 &deg;C.
+
+Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest [@hu2016), we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (120--650 &deg;C). The `deconvolve` function defaults to cropping at 120 &deg;C and 700 &deg;C, but these can be modified with the `lower_temp` and `upper_temp` arguments.
+
+## Non-linear mixture model
+Biomass components decompose relatively independently because they do not interact much during thermal volatilisation [@yang2006]. Therefore, the cropped DTG curve can be mathematically deconvolved into constituent parts using a mixture model. The derivative rate of mass loss equation ($\frac{dm}{dT}$) can be expressed as the sum of $n$ independent reactions, as follows [@orfao2001]:
+
+\begin{align}
+	-\frac{dm}{dT} &= \sum\limits_{i=1}^n c_i\frac{d\alpha_{i}}{dT} \label{eqn:mixture_model} \\
+	m &= \frac{M_T}{M_0} \label{eqn:fraction} \\
+	c_i &= M_{0i} - M_{\infty i} \label{eqn:decayed_mass} \\
+	\alpha_i &= \frac{M_{0i} - M_{Ti}}{M_{0i} - M_{\infty i}} \label{eqn:alpha}
+\end{align}
+
+where mass ($m$) is expressed as a fraction of mass at temperature $T$ ($M_T$) of the initial sample mass ($M_0$), $c_i$ is the mass of component $i$ that is decayed, and the mass loss curve of each individual component ($\frac{d\alpha_{i}}{dT}$) is the derivative of $\alpha_i$, the conversion of mass at a given temperature ($M_{Ti}$), from the initial ($M_{0i}$), given total mass lost between the initial and final ($M_{\infty i}$) temperature for each curve.
+
+Although most of our results can be described with only $n = 3$ peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in $n = 4$ independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures (see also [@chen2017]; [@mullerhagedorn2007]). `deconvolve` will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 &deg;C. Upon inspection of your curve you can override this by modifying the `n_curves` argument.
+
+In order to fit the mixture model, we must determine the shape of the individual curves ($\frac{d\alpha_{i}}{dT}$) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian [@sun2015], logistic [@barbadillo2007], Weibull [@cai2007], asymmetric double sigmoidal [@chen2017], and the Fraser-Suzuki function [@perejon2011; @hu2016]). Comparisons of several techniques [@svoboda2013; @perejon2011; @cheng2015]) found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 2. We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:
+
+\begin{gather}\label{eqn:fs_function}
+	\frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
+\end{gather}
+
+where T is temperature (&deg;C), and the parameters $h_i$, $s_i$, $p_i$, and $w_i$ are height, skew, position, and width of the curve, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
+
+```{r, echo = FALSE, fig.cap = 'Figure 2. Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: (a) Effect of modifying height; (b) skew; (c) position; and (d) width.'}
+legend_subfig <- function (subfig) {
+  legend(200, .01, legend = paste0('(', subfig, ')'), bty = 'n', cex = 1.2)
+}
+
+simulate_fraser_suzuki <- function () {
+
+  x <- seq(200, 700)
+  h1 <- mixchar::fs_function(x, 0.004, -0.25, 400, 60)
+  h2 <- mixchar::fs_function(x, 0.006, -0.25, 400, 60)
+  h3 <- mixchar::fs_function(x, 0.008, -0.25, 400, 60)
+  h4 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
+
+  s1 <- mixchar::fs_function(x, 0.010, -0.55, 400, 60)
+  s2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
+  s3 <- mixchar::fs_function(x, 0.010, 0.25, 400, 60)
+  s4 <- mixchar::fs_function(x, 0.010, 0.55, 400, 60)
+
+  p1 <- mixchar::fs_function(x, 0.010, -0.25, 350, 60)
+  p2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
+  p3 <- mixchar::fs_function(x, 0.010, -0.25, 450, 60)
+  p4 <- mixchar::fs_function(x, 0.010, -0.25, 500, 60)
+
+  w1 <- mixchar::fs_function(x, 0.010, -0.25, 400, 30)
+  w2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
+  w3 <- mixchar::fs_function(x, 0.010, -0.25, 400, 90)
+  w4 <- mixchar::fs_function(x, 0.010, -0.25, 400, 120)
+
+  par(oma = c(4, 3, 0, 1), mar = c(1, 2, 1, 0), mfrow = c(2, 2))
+
+  plot(x, h4, type = 'l', lty = 4, xaxt = 'n', yaxt = 'n', cex = 1.6,
+       xlab = '',
+       ylab = '')
+  axis(side = 2, at = c(0, 0.005, 0.010), cex.axis = 1.2,
+       labels = c(0, 0.005, 0.010))
+  lines(x, h2, lty = 2)
+  lines(x, h3, lty = 3)
+  lines(x, h1, lty = 1)
+  legend_subfig('a')
+  legend('topright', legend = c(expression(paste('h = 0.004 C'^'-1')),
+                                expression(paste('h = 0.006 C'^'-1')),
+                                expression(paste('h = 0.008 C'^'-1')),
+                                expression(paste('h = 0.010 C'^'-1')),
+                                's = -0.25',
+                                'p = 400 C',
+                                'w = 60 C'),
+         bty = 'n', cex = 0.8,
+         lty = c(1, 2, 3, 4, NA, NA, NA)
+  )
+
+  plot(x, s1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
+       xlab = '',
+       ylab = '')
+  lines(x, s2, lty = 2)
+  lines(x, s3, lty = 3)
+  lines(x, s4, lty = 4)
+  legend_subfig('b')
+  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
+                                's = -0.5',
+                                's = -0.25',
+                                's = 0.25',
+                                's = 0.55',
+                                'p = 400 C',
+                                'w = 60 C'),
+         bty = 'n', cex = 0.8,
+         lty = c(NA, 1, 2, 3, 4, NA, NA)
+  )
+
+  plot(x, p1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
+       xlab = '',
+       ylab = '')
+  axis(side = 1, at = c(200, 325, 450, 575, 700), cex.axis = 1.2,
+       labels = c(200, 325, 450, 575, 700))
+  axis(side = 2, at = c(0, 0.005, 0.010), cex.axis = 1.2,
+       labels = c(0, 0.005, 0.010))
+  lines(x, p2, lty = 2)
+  lines(x, p3, lty = 3)
+  lines(x, p4, lty = 4)
+  legend_subfig('c')
+  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
+                                's = -0.25',
+                                'p = 350 C',
+                                'p = 400 C',
+                                'p = 450 C',
+                                'p = 500 C',
+                                'w = 60 C'),
+         bty = 'n', cex = 0.8,
+         lty = c(NA, NA, 1, 2, 3, 4, NA)
+  )
+
+  plot(x, w1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
+       xlab = '',
+       ylab = '')
+  axis(side = 1, at = c(200, 325, 450, 575, 700), cex.axis = 1.2,
+       labels = c(200, 325, 450, 575, 700))
+  lines(x, w2, lty = 2)
+  lines(x, w3, lty = 3)
+  lines(x, w4, lty = 4)
+  legend_subfig('d')
+  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
+                                's = -0.25',
+                                'p = 400 C',
+                                'w = 30 C',
+                                'w = 60 C',
+                                'w = 90 C',
+                                'w = 120'),
+         bty = 'n', cex = 0.8,
+         lty = c(NA, NA, NA, 1, 2, 3, 4))
+
+  mtext(text = 'Temperature (C)',
+        side = 1,
+        line = 2.1,
+        outer = TRUE,
+        cex = 1.3)
+  mtext(text = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
+        side = 2,
+        line = 0.9,
+        outer = TRUE,
+        cex = 1.3)
+}
+simulate_fraser_suzuki()
+```
+
+`deconvolve` uses non-linear optimisation with residual sum of squares to fit the rate expression (as in [@cheng2015]). Starting values were selected based on curves depicted in the literature [@mullerhagedorn2007] and from the results of running an identical deconvolution on pure cellulose and lignin samples. Hemicelluloses decay in a reasonably narrow band beginning at a lower temperature [@mullerhagedorn2007], so we used 270 for position and 50 for width. Linear cellulose crystals decay at a higher temperature, but decay more rapidly after peak temperatures are reached, so starting position was set to 310 and width to 30. Lignin typically decays beginning at a high temperature and over a wide interval [@mullerhagedorn2007], so position and width began at 410 and 200, respectively. These starting values can also be modified in the `deconvolve` function with the `start_vec`, `lower_vec`, and `upper_vec` arguments. These initial starting values are optimised before model fitting using the `NLOPTR_LN_BOBYQA` algorithm [@bobyqa] within the `nloptr` [@nloptr] package. Finally, optimised starting values are fit to the non-linear mixture model using `nlsLM()` in the `minpack.lm` [@minpack.lm] package.
+
+## Component weights
+Once overall curve parameters are fit, we can pass each components's parameter estimates to a single Fraser-Suzuki function, and calculate the weight of the component in the overall sample by integrating under the curve. To estimate the uncertainty of the weight predictions, `deconvolve` will calculate the 95% interval of the weight estimates across a random sample of parameter estimates, drawn in proportion to their likelihood. We assume a truncated multivariate normal distribution, since the parameters are constrained to positive values, using the modelling package `tmvtnorm` [@tmvtnorm].
+
+\begin{gather}\label{eqn:integration}
+	\alpha_i = \int_{120}^{650} h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\} dT
+\end{gather}
+
+We interpret that the curve located around 250--270 &deg;C corresponds to primary hemicelluloses (HC), around 310--330 &deg;C to cellulose (CL), and around 330--350 &deg;C to lignin (LG). If present, the fourth curve located below 200 &deg;C corresponds to the most simple hemicelluloses (HC-1). The second dataset included in the package, `marsilea`, is an example of a four-curve deconvolution.
+
+<hr>
+
+# References
+
+
