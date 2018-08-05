@@ -65,11 +65,11 @@ The rate of mass loss curve helps us to visualise the three stages of mass loss:
 In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step. 
 
 ```{r, fig.height = 3.7}
-plot(deriv_juncus)
+plot(deriv_juncus, cex = 0.9)
 ```
 
 ```{r, fig.height = 3.7}
-plot(deriv_marsilea)
+plot(deriv_marsilea, cex = 0.9)
 ```
 
 <hr>
@@ -137,11 +137,11 @@ The default plotting function for the output of the `deconvolve` function shows 
 
 Take a look at your plot. Do the estimates seem reasonable? 
 
-```{r}
+```{r, out.width = '80%'}
 plot(output_juncus, bw = FALSE)
 ```
 
-```{r}
+```{r, out.width = '80%'}
 plot(output_marsilea, bw = FALSE)
 ```
 
