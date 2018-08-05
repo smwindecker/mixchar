@@ -156,15 +156,10 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tmvtnorm"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "icon",
-      "name": "icon"
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "1079.02KB",
+  "fileSize": "1073.734KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"

@@ -16,8 +16,7 @@ Imports:
     minpack.lm, 
     nloptr,
     zoo,
-    tmvtnorm,
-    icon
+    tmvtnorm
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/mixchar
 BugReports: https://github.com/smwindecker/mixchar/issues
