@@ -16,7 +16,8 @@ Imports:
     minpack.lm, 
     nloptr,
     zoo,
-    tmvtnorm
+    tmvtnorm,
+    icon
 License: MIT + file LICENSE
 URL: https://github.com/smwindecker/mixchar
 BugReports: https://github.com/smwindecker/mixchar/issues
@@ -28,6 +29,5 @@ Suggests:
     rmarkdown,
     devtools,
     testthat,
-    covr, 
-    icon
+    covr
 VignetteBuilder: knitr

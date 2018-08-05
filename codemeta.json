@@ -100,11 +100,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=covr"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "icon",
-      "name": "icon"
     }
   ],
   "softwareRequirements": [
@@ -161,10 +156,15 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tmvtnorm"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "icon",
+      "name": "icon"
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "1079.015KB",
+  "fileSize": "1079.02KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"
