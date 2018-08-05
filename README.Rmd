@@ -33,6 +33,8 @@ install.packages("devtools")
 devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
 ```
 
+<hr>
+
 ## Basic use
 
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
@@ -58,12 +60,14 @@ Although most biomass samples have only three main components (corresponding to 
 
 The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `component_weights()` will display the weights of each carbon component, `rate_data()` will show you the modified dataset used for fitting, `model_fit()` will show you the model fit, and `temp_bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function.
 
-You can see the full worked example in the vignette, which you can access on the or in R:
+You can see the full worked example in the vignette, which you can access on the [website](http://smwindecker.github.io/mixchar) or in R:
 ```{r}
 vignette('mixchar')
 ```
 
 This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/mixchar/issues). 
+
+<hr>
 
 ## Acknowledgements
 Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 

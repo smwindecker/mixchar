@@ -61,10 +61,8 @@ navbar:
     - text: "Articles"
       icon: fas fa-book
       menu:
-      - text: Introduction to mixchar
+      - text: Introduction to mixchar workflow
         href: articles/mixchar.html
-      - text: Workflow
-        href: articles/Workflow.html
     - icon: fa-file-code-o
       text: "functions"
       href: reference/index.html

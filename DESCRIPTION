@@ -28,5 +28,6 @@ Suggests:
     rmarkdown,
     devtools,
     testthat,
-    covr
+    covr, 
+    icon
 VignetteBuilder: knitr
