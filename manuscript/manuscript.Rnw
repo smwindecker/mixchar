@@ -116,7 +116,7 @@ deriv_juncus
 The output of the \verb|process| function is a list of three items: the modified dataframe including the derivative thermogravimetric rate of mass loss data (DTG), the initial mass value that you supplied, and the maximum and minimum temperature of your data. If you \verb|plot()| the output of the \verb|process| function you will get two curves: the mass of sample across time and the rate of mass loss curve (Fig.~\ref{Fig:process}). If you're only interested in one plot, you can specify \verb|plot_type = mass| or \verb|plot_type = rate|.
 
 <<eval = FALSE>>=
-plot(deriv_juncus)
+plot(deriv_juncus, cex = 2)
 @
 
 <<echo = FALSE, fig.cap = '\\label{Fig:process} Process function output from \\textit{Juncus amabilis} example dataset.', fig.subcap = c('\\label{Fig:massloss} Thermogravimetric mass loss curve.', '\\label{Fig:rateloss} Derivative thermogravimetric rate of mass loss across temperature, scaled by initial mass of sample.'), out.width = '.49\\linewidth', fig.asp = 1, fig.ncol = 2>>=
