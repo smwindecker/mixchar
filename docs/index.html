@@ -59,10 +59,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/mixchar.html">Introduction to mixchar</a>
-    </li>
-    <li>
-      <a href="articles/Workflow.html">Workflow</a>
+      <a href="articles/mixchar.html">Introduction to mixchar workflow</a>
     </li>
   </ul>
 </li>
@@ -95,24 +92,24 @@
 
     
     
-
 <div id="section" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#section" class="anchor"></a><img src="reference/figures/logo.png" height="80" width="350">
 </h1></div>
+
 <div id="why-deconvolution" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-deconvolution" class="anchor"></a>Why deconvolution?</h2>
-<p>Ecologists are often interested in determining the composition of plant cell wall biomass, primarily hemicellulose, cellulose, and lignin carbon types. Proportions of these carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis (TGA) is an alternative method, already used in the biofuel field, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a <span class="math inline">\(N_2\)</span> environment, termed pyrolysis).</p>
-<p>To estimate carbon components from this mass loss data we have to take the derivative, to find the rate of mass loss across temperature, and then use a mixture model to separate the multi-peaked derivative curve into constituent parts. This process is called deconvolution, and is typically conducted in proprietary peak-fitting softwares, which, while effective, are not open source. This package seeks to provide a platform for reproducible deconvolution using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin. For more details (link paper here).</p>
+<p>Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install <code>mixchar</code> from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"smwindecker/mixchar"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<hr>
 </div>
 <div id="basic-use" class="section level2">
 <h2 class="hasAnchor">
@@ -137,10 +134,11 @@ tmp
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span><span class="kw"><a href="reference/deconvolve.html">deconvolve</a></span>(tmp)</code></pre></div>
 <p>Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you can override it by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. If you’d like to modify those or the upper and lower bounds for the estimates, you can also do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments to <code><a href="reference/deconvolve.html">deconvolve()</a></code>.</p>
 <p>The <code><a href="reference/deconvolve.html">deconvolve()</a></code> function results in a variety of outputs. You can use a variety of accessor functions to look at these. <code><a href="reference/component_weights.html">component_weights()</a></code> will display the weights of each carbon component, <code><a href="reference/rate_data.html">rate_data()</a></code> will show you the modified dataset used for fitting, <code><a href="reference/model_fit.html">model_fit()</a></code> will show you the model fit, and <code><a href="reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function.</p>
-<p>You can see the full worked example in the vignette, which you can access on the or in R:</p>
+<p>You can see the full worked example in the vignette, which you can access on the <a href="http://smwindecker.github.io/mixchar">website</a> or in R:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">'mixchar'</span>)
 <span class="co">#&gt; Warning: vignette 'mixchar' not found</span></code></pre></div>
 <p>This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
+<hr>
 </div>
 <div id="acknowledgements" class="section level2">
 <h2 class="hasAnchor">

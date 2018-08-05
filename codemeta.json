@@ -1,5 +1,8 @@
 {
-  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@context": [
+    "https://doi.org/10.5063/schema/codemeta-2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "mixchar",
   "description": "This package allows you to quantify proportion of biomass components \n    derived from thermogravimetric analysis (TGA). Mass loss data from TGA outputs \n    are imported, modified, and then modelled in a three- or four- part  mixture \n    model using the Fraser-Suzuki function. The output is estimates for weights \n    of pseudo-components corresponding to hemicellulose, cellulose, and lignin.",
@@ -97,6 +100,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=covr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "icon",
+      "name": "icon"
     }
   ],
   "softwareRequirements": [
@@ -156,7 +164,14 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "600.479KB",
-  "contIntegration": ["https://travis-ci.org/smwindecker/mixchar", "https://codecov.io/gh/smwindecker/mixchar"],
-  "keywords": ["thermogravimetry", "decay", "traits"]
+  "fileSize": "1079.015KB",
+  "contIntegration": [
+    "https://travis-ci.org/smwindecker/mixchar",
+    "https://codecov.io/gh/smwindecker/mixchar"
+  ],
+  "keywords": [
+    "thermogravimetry",
+    "decay",
+    "traits"
+  ]
 }

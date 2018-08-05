@@ -90,10 +90,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar</a>
-    </li>
-    <li>
-      <a href="../articles/Workflow.html">Workflow</a>
+      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
     </li>
   </ul>
 </li>
@@ -154,10 +151,10 @@
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
 <span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>18.96</span>, <span class='kw'>temp_type</span> <span class='kw'>=</span> <span class='st'>'C'</span>)
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deconvolve.html'>deconvolve</a></span>(<span class='no'>tmp</span>)
-<span class='fu'>component_weights</span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;   HC CL LG value_type
-#&gt; 1  0  0  0       2.5%
-#&gt; 2  0  0  0      97.5%
-#&gt; 3  0  0  0       mean</div><div class='input'>
+<span class='fu'>component_weights</span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HC       CL       LG value_type
+#&gt; 1 20.43273 16.64336 29.52019       2.5%
+#&gt; 2 22.75751 18.67005 31.83022      97.5%
+#&gt; 3 21.56004 17.67487 30.66299       mean</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
