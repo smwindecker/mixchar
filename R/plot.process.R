@@ -8,11 +8,11 @@
 #' @param ... other options passed to plot
 #' @return plot
 #' @method plot process
-#' @importFrom graphics legend lines par plot
+#' @importFrom graphics legend lines par plot axis
 #'
 #' @export
 
-plot.process <- function (x, plot_type = NULL, ...) {
+plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
 
   df <- x$data
 
@@ -21,25 +21,25 @@ plot.process <- function (x, plot_type = NULL, ...) {
          ylim = c(0, max(data$mass_T) + 0.5),
          yaxt = 'n',
          xaxt = 'n',
-         ylab = 'Mass remaining (mg)', pch = 20, cex = 0.7,
-         cex.lab = 2)
-    axis(side = 1, at = c(100, 300, 500, 700), cex.axis = 1.8,
+         ylab = 'Mass remaining (mg)', pch = 20, cex = 0.7*cex,
+         cex.lab = 1.2*cex)
+    axis(side = 1, at = c(100, 300, 500, 700), cex.axis = cex,
          labels = c(100, 300, 500, 700))
     top_y <- round(max(data$mass_T), 0)
     mid_y <- top_y/2
-    axis(side = 2, at = c(0, mid_y, top_y), cex.axis = 1.8,
+    axis(side = 2, at = c(0, mid_y, top_y), cex.axis = cex,
          labels = c(0, mid_y, top_y))
   }
 
   p_dtg <- function (data) {
     plot(data$temp_C, data$deriv, xlab = 'Temperature (C)', ylim = c(0, max(data$deriv) + .0002),
          ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
-         pch = 20, cex = 0.7, cex.lab = 2, yaxt = 'n', xaxt = 'n')
-    axis(side = 1, at = c(100, 300, 500, 700), cex.axis = 1.8,
+         pch = 20, cex = 0.7*cex, cex.lab = 1.2*cex, yaxt = 'n', xaxt = 'n')
+    axis(side = 1, at = c(100, 300, 500, 700), cex.axis = cex,
          labels = c(100, 300, 500, 700))
     top_y <- round(max(data$deriv), 3)
     mid_y <- top_y/2
-    axis(side = 2, at = c(0, mid_y, top_y), cex.axis = 1.8,
+    axis(side = 2, at = c(0, mid_y, top_y), cex.axis = cex,
          labels = c(0, mid_y, top_y))
   }
 

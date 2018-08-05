@@ -20,6 +20,7 @@ plot.decon <- function (x, bw = TRUE, ...) {
 
   params <- as.data.frame(summary(fit)$coefficients[,1])
 
+  par(mar = c(5, 5, 1, 1))
   plot(data$temp_C, data$deriv, xlab = 'Temperature (C)',
        ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
        yaxs = 'i', ylim = c(0, max(data$deriv) + 0.06*max(data$deriv)),
