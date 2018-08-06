@@ -34,10 +34,11 @@ decon list containing amended dataframe, bounds, model output, mass fractions
 This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture model
 }
 \examples{
+\dontrun{
 data(juncus)
 tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
 output <- deconvolve(tmp)
-
+}
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}

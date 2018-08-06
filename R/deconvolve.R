@@ -17,14 +17,21 @@
 #' @keywords thermogravimetry fraser-suzuki deconvolution
 #' @importFrom stats integrate setNames loess
 #' @examples
+#' \dontrun{
 #' data(juncus)
 #' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
 #' output <- deconvolve(tmp)
-#'
+#' }
 #' @export
 
-deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, seed = 1,
-                        n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL) {
+deconvolve <- function (process_object,
+                        lower_temp = 120,
+                        upper_temp = 700,
+                        seed = 1,
+                        n_curves = NULL,
+                        start_vec = NULL,
+                        lower_vec = NULL,
+                        upper_vec = NULL) {
 
   set.seed(seed)
 
@@ -103,7 +110,14 @@ deconvolve <- function (process_object, lower_temp = 120, upper_temp = 700, seed
   }
 
   # parameter optimisation
-  params_opt <- param_select(theta, lb, ub, fs_mixture, temp, obs, seed = seed, restarts = 300)
+  params_opt <- param_select(theta = theta,
+                             lb = lb,
+                             ub = ub,
+                             model = fs_mixture,
+                             temp = temp,
+                             obs = obs,
+                             seed = seed,
+                             restarts = 300)
 
   # model fit
   fit <- fs_model(mod_df, params_opt, lb, ub)
