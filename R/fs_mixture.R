@@ -25,7 +25,8 @@ fs_mixture <- function (temp,
                         height_1, skew_1, position_1, width_1,
                         height_2, skew_2, position_2, width_2,
                         height_3, skew_3, position_3, width_3,
-                        height_0 = NULL, skew_0 = NULL, position_0 = NULL, width_0 = NULL) {
+                        height_0 = NULL, skew_0 = NULL,
+                        position_0 = NULL, width_0 = NULL) {
 
   n_params <- length(c(height_1, skew_1, position_1, width_1,
                        height_2, skew_2, position_2, width_2,
@@ -40,8 +41,13 @@ fs_mixture <- function (temp,
     fs_function(temp, height_2, skew_2, position_2, width_2) +
     fs_function(temp, height_3, skew_3, position_3, width_3)
 
-  if (!is.null(height_0) & !is.null(skew_0) & !is.null(position_0) & !is.null(width_0)) {
-    output <- output + fs_function(temp, height_0, skew_0, position_0, width_0)
+  if (!is.null(height_0) & !is.null(skew_0) &
+      !is.null(position_0) & !is.null(width_0)) {
+    output <- output + fs_function(temp,
+                                   height_0,
+                                   skew_0,
+                                   position_0,
+                                   width_0)
   }
 
   output

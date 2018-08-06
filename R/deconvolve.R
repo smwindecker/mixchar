@@ -39,7 +39,8 @@ deconvolve <- function (process_object,
   mod_df <- process_object$data
 
   # crop dataset at bounds
-  mod_df <- mod_df[!(mod_df$temp_C < lower_temp | mod_df$temp_C > upper_temp),]
+  mod_df <- mod_df[!(mod_df$temp_C < lower_temp |
+                       mod_df$temp_C > upper_temp),]
 
   # figure out peaks
   x <- mod_df$temp_C[mod_df$temp_C < 220]

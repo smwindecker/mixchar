@@ -7,8 +7,10 @@
 #' @param temp column name containing temperature values
 #' @param mass column name containing mass loss values in grams
 #' @param init_mass numeric value of initial sample mass in grams
-#' @param temp_type specify units of temperature, default = Celsius. Specify 'K' if in Kelvin
-#' @return decon list containing amended dataframe, bounds, model output, mass fractions
+#' @param temp_type specify units of temperature, default = Celsius.
+#' Specify 'K' if in Kelvin
+#' @return decon list containing amended dataframe, bounds,
+#' model output, mass fractions
 #' @keywords thermogravimetry fraser-suzuki deconvolution
 #' @importFrom stats integrate setNames
 #' @examples
@@ -57,7 +59,9 @@ process <- function (data, temp, mass, init_mass,
   lower <- min(mod_data$temp_C)
   upper <- max(mod_data$temp_C)
 
-  output <- list(data = mod_data, mass_init = init_mass, bounds = c(lower, upper))
+  output <- list(data = mod_data,
+                 mass_init = init_mass,
+                 bounds = c(lower, upper))
 
   class(output) <- 'process'
   output
