@@ -76,7 +76,7 @@ get_weights <- function (param_vec, output) {
     curve_vec <- 0:3
   }
 
-  wt_percent <- sapply(curve_vec, wt_component,
+  wt_percent <- vapply(curve_vec, wt_component,
                        param_vec = param_vec,
                        lower_temp = lower_temp,
                        upper_temp = upper_temp)
