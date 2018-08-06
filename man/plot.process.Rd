@@ -11,6 +11,8 @@
 
 \item{plot_type}{defaults to both plots. Can specify 'mass' or 'rate' curves by themselves.}
 
+\item{cex}{size of plots features}
+
 \item{...}{other options passed to plot}
 }
 \value{
