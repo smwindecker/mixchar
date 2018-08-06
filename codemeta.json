@@ -111,6 +111,11 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "graphics",
+      "name": "graphics"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "minpack.lm",
       "name": "minpack.lm",
       "provider": {
@@ -132,6 +137,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=nloptr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
     },
     {
       "@type": "SoftwareApplication",
@@ -159,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "1073.734KB",
+  "fileSize": "681.075KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"

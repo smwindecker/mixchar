@@ -13,8 +13,10 @@ Description: This package allows you to quantify proportion of biomass component
     of pseudo-components corresponding to hemicellulose, cellulose, and lignin.
 Depends: R (>= 3.0)
 Imports:
+    graphics, 
     minpack.lm, 
     nloptr,
+    stats,
     zoo,
     tmvtnorm
 License: MIT + file LICENSE
