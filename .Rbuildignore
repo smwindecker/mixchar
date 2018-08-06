@@ -10,4 +10,5 @@ tests
 ^README\.Rmd$
 ^codemeta\.json$
 manuscript/
-logo/
+design/
+pkgdown/
