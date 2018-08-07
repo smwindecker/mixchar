@@ -12,3 +12,5 @@ tests
 manuscript/
 design/
 pkgdown/
+vignettes/Background.Rmd
+vignettes/bibliography.bib
