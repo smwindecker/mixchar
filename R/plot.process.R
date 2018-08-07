@@ -36,7 +36,7 @@ plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
   p_dtg <- function (data) {
     plot(data$temp_C, data$deriv,
          xlab = 'Temperature (C)',
-         ylim = c(0, max(data$deriv) + .0002),
+         ylim = c(0, max(data$deriv) + .0003),
          ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
          pch = 20, cex = 0.7*cex,
          cex.lab = 1.2*cex,
@@ -51,9 +51,11 @@ plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
   }
 
   if (!is.null(plot_type) & isTRUE(plot_type == 'mass')) {
+    par(mar = c(5, 5, 1, 1))
     p_massloss(df)
   }
   if (!is.null(plot_type) & isTRUE(plot_type == 'rate')) {
+    par(mar = c(5, 5, 1, 1))
     p_dtg(df)
   }
   if (is.null(plot_type)) {
