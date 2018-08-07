@@ -4,13 +4,13 @@
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar) [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar) [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
 Why deconvolution?
-------------------
+==================
 
 Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.
 
 <hr>
 Installation
-------------
+============
 
 You can install `mixchar` from [GitHub](https://github.com/) with:
 
@@ -21,7 +21,7 @@ devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
 
 <hr>
 Basic use
----------
+=========
 
 Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
 
@@ -58,17 +58,19 @@ Although most biomass samples have only three main components (corresponding to 
 
 The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `component_weights()` will display the weights of each carbon component, `rate_data()` will show you the modified dataset used for fitting, `model_fit()` will show you the model fit, and `temp_bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function.
 
-You can see the full worked example in the vignette, which you can access on the or in R:
+You can see the full worked example in the vignette, which you can access on the [website](http://smwindecker.github.io/mixchar) or in R:
 
 ``` r
 vignette('mixchar')
 #> Warning: vignette 'mixchar' not found
 ```
 
+A detailed discussion of the methodology is also on the [website](http://smwindecker.github.io/Background).
+
 This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/mixchar/issues).
 
 <hr>
 Acknowledgements
-----------------
+================
 
 Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project.
