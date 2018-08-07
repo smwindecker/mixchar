@@ -11,10 +11,6 @@ output:
     fig_caption: TRUE
 citation_package: natbib
 bibliography: bibliography.bib
-vignette: >
-  %\VignetteIndexEntry{Carbon component estimation with TGA and mixture modelling}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -32,6 +28,9 @@ The `mixchar` package provides an open-source set of functions to perform this d
 
 # Litter collection and preparation
 
+```{r, echo = FALSE, message = FALSE}
+devtools::install_github('ropenscilabs/icon')
+```
 `r icon::fa('leaf', size = 2)` ***Collect litter***
 
 We developed and tested the functions in this package using the thermogravimetric decay data for litter of 29 different plant species. Two species from this set are available as datasets in the package --- the freshwater reed *Juncus amabilis* (accessed as `juncus`) and the freshwater fern *Marsilea drumondii* (accessed as `marsilea`). 
