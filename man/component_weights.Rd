@@ -16,11 +16,12 @@ Extract mean fractions of the object
 Accessor function to extract mean weights
 }
 \examples{
+\dontrun{
 data(juncus)
 tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
 output <- deconvolve(tmp)
 component_weights(output)
-
+}
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}

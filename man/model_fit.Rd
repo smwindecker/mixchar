@@ -16,11 +16,12 @@ $minpack.lm of the object
 Accessor function to extract model fit
 }
 \examples{
+\dontrun{
 data(juncus)
 munge <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
 output <- deconvolve(munge)
 model_fit(output)
-
+}
 }
 \keyword{deconvolution}
 \keyword{fraser-suzuki}
