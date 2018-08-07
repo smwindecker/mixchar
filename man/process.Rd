@@ -15,10 +15,12 @@ process(data, temp, mass, init_mass, temp_type = "C")
 
 \item{init_mass}{numeric value of initial sample mass in grams}
 
-\item{temp_type}{specify units of temperature, default = Celsius. Specify 'K' if in Kelvin}
+\item{temp_type}{specify units of temperature, default = Celsius.
+Specify 'K' if in Kelvin}
 }
 \value{
-decon list containing amended dataframe, bounds, model output, mass fractions
+decon list containing amended dataframe, bounds,
+model output, mass fractions
 }
 \description{
 This function processes thermogravimetric data by calculating
