@@ -1,6 +1,6 @@
 Package: mixchar
 Title: Mixture model for the deconvolution of thermal decay curves
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Date: 2017-09-10
 Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"), 
                     email = "saras.windecker@gmail.com"),

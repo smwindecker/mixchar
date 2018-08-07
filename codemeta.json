@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/smwindecker/mixchar",
   "issueTracker": "https://github.com/smwindecker/mixchar/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.0.9000",
+  "version": "0.0.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -169,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "681.075KB",
+  "fileSize": "681.285KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"
