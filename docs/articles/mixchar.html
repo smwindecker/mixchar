@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -55,7 +55,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -98,8 +101,11 @@
 <div id="load-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-data" class="anchor"></a>1. Load data</h2>
-<p>We have included two example datasets in this package, called <code>juncus</code> and <code>marsilea</code>, that we will use for this demonstration. The <code>juncus</code> dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, <em>Juncus amabilis</em>, and <code>marsilea</code> contains data for the freshwater fern, <em>Marsilea drumondii</em>.</p>
-<p>The first step for you will be to load your mass loss by temperature data. This package was developed using TGA data produced by a Netzsch TGA-FTIR thermogravimetric analyser, which outputs a table with temperature and mass loss for each point of measurement. If your TGA machine outputs data in another format, you’ll need to reformat like the example below, or <a href="http://www.github.com/smwindecker/mixchar/issues">get in touch with us</a>, and we’ll add new functionality.</p>
+<p>The first step is to load the data derived from the thermogravimetric analysis into R. This step will vary depending on the format of your exported data. Two of many options for reading data are <code>read.csv()</code> for .csv files and <code>read.table()</code> for .txt files. Both of these functions also have a <code>skip</code> argument, in which you can tell R to begin reading data from a certain line, useful if the exported data has several lines of metadata at the top. You may also then have to assign column names. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'your_file_path_here.csv'</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">15</span>)
+<span class="kw">colnames</span>(<span class="kw">c</span>(<span class="st">'temperature_C'</span>, <span class="st">'mass_mg'</span>))</code></pre></div>
+<p>More information about reading data into R can be found <a href="http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions">here</a>.</p>
+<p>This package was developed using data from by a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called <code>juncus</code> and <code>marsilea</code>, that we will use for this demonstration. The <code>juncus</code> dataset contains mass loss and temperature data derived from the theromogravimetric analysis of a sample of the freshwater reed, <em>Juncus amabilis</em>, and <code>marsilea</code> contains data for the freshwater fern, <em>Marsilea drumondii</em>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mixchar)
 <span class="kw">head</span>(juncus)</code></pre></div>
 <pre><code>##   temp_C mass_loss
@@ -114,45 +120,71 @@
 <div id="process-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#process-data" class="anchor"></a>2. <code>process</code> data</h2>
-<p>After we’ve loaded our data, we need to calculate the derivative of the mass loss, or in other words the rate of mass loss across temperature. This will produce the multi-peaked rate of decay curve that we will apply the mixture model to. The <code>process</code> function takes the derivative of our mass loss data, taking as arguments the dataset, the column names for the temperature and mass loss data, respectively, and a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument <code>temp_type = 'K'</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deriv_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/process.html">process</a></span>(juncus, 
-                        <span class="dt">temp =</span> <span class="st">'temp_C'</span>, 
-                        <span class="dt">mass =</span> <span class="st">'mass_loss'</span>, 
-                        <span class="dt">init_mass =</span> <span class="fl">18.96</span>)
+<p>After we’ve loaded our data, can use the function <code><a href="../reference/process.html">process()</a></code> to take the derivative of this data, resulting in rate of mass loss over temperature data. This produces the multi-peaked rate of decay curve that we will apply the mixture model to. The <code>process</code> function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass column (mg). Mass might be recorded in your exported dataset in different ways:</p>
+<ul>
+<li>If you have <em>mass loss of sample</em>, such as in the <code>juncus</code> dataset, you can specify the column name using the <code>mass_loss</code> argument.</li>
+<li>If you have <em>mass remaining of sample</em>, you specify the column name using the <code>mass</code> argument.</li>
+<li>
+<strong>You only need to specify one of these columns for the <code>process</code> function.</strong> But make sure the argument matches the kind of data!</li>
+</ul>
+<p>The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument <code>temp_units = 'K'</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deriv_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/process.html">process</a></span>(juncus,                          <span class="co"># dataframe name</span>
+                        <span class="dt">init_mass =</span> <span class="fl">18.96</span>,
+                        <span class="dt">temp =</span> <span class="st">'temp_C'</span>,                 <span class="co"># column name for temperature</span>
+                        <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)         <span class="co"># column name for mass loss data</span>
 deriv_juncus</code></pre></div>
-<pre><code>## Derivative thermogravimetry data (DTG) calculated for
+<pre><code>## Derivative thermogravimetry data (DTG)
+##             calculated for
 ##  768 datapoints from 31.5 to 798.52 degrees C.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">deriv_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/process.html">process</a></span>(marsilea, 
+                          <span class="dt">init_mass =</span> <span class="fl">15.29</span>,
                           <span class="dt">temp =</span> <span class="st">'temp_C'</span>, 
-                          <span class="dt">mass =</span> <span class="st">'mass_loss'</span>, 
-                          <span class="dt">init_mass =</span> <span class="fl">15.29</span>)
+                          <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)
 deriv_marsilea</code></pre></div>
-<pre><code>## Derivative thermogravimetry data (DTG) calculated for
+<pre><code>## Derivative thermogravimetry data (DTG)
+##             calculated for
 ##  768 datapoints from 31.5 to 798.51 degrees C.</code></pre>
 <hr>
 </div>
 <div id="plot-mass-loss-and-rate-of-mass-loss-curves" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-mass-loss-and-rate-of-mass-loss-curves" class="anchor"></a>3. Plot mass loss and rate of mass loss curves</h2>
-<p>At this point we can take a look at what we’ve done so far using the default plotting option for your processed data. If you <code>plot()</code> the output of the <code>process</code> function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you’re only interested in one plot, you can specify <code>plot_type = 'mass'</code> or <code>plot_type = 'rate'</code>.</p>
-<p>The rate of mass loss curve helps us to visualise the three stages of mass loss: * Phase 1: A short period with of dehydration, up until approximately 120 <span class="math inline">\(^{\circ}\)</span>C. * Phase 2: A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120650 <span class="math inline">\(^{\circ}\)</span>C. * Phase 3: A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 <span class="math inline">\(^{\circ}\)</span>C. In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step.</p>
+<p>At this point we can take a look at what we’ve done so far using the default plotting option for the processed data. If you <code>plot()</code> the output of the <code>process</code> function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you’re only interested in one plot, you can specify <code>plot_type = 'mass'</code> or <code>plot_type = 'rate'</code>. You can also specify a size factor using <code>cex</code>.</p>
+<p>The rate of mass loss curve helps us to visualise the three stages of mass loss:</p>
+<ul>
+<li>Phase 1: A short period with of dehydration, up until approximately 120 <span class="math inline">\(^{\circ}\)</span>C.</li>
+<li>Phase 2: A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120 – 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
+<li>Phase 3: A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
+</ul>
+<p>In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 <span class="math inline">\(^{\circ}\)</span>C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(deriv_juncus, <span class="dt">cex =</span> <span class="fl">0.9</span>)</code></pre></div>
-<p><img src="mixchar_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(deriv_marsilea, <span class="dt">cex =</span> <span class="fl">0.9</span>)</code></pre></div>
 <p><img src="mixchar_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(deriv_marsilea, <span class="dt">cex =</span> <span class="fl">0.9</span>)</code></pre></div>
+<p><img src="mixchar_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <hr>
 </div>
 <div id="deconvolve-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#deconvolve-data" class="anchor"></a>4. <code>deconvolve</code> data</h2>
-<p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 C and 700 C. These can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. <code>deconvolve</code> will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 C. Upon inspection of your curve you can override this by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
+<p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 <span class="math inline">\(^{\circ}\)</span>C and 700 <span class="math inline">\(^{\circ}\)</span>C. These can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. <code>deconvolve</code> will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 C. Upon inspection of your curve you can override this by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or you would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_juncus)
 output_juncus</code></pre></div>
-<pre><code>## Deconvolution by 3-part Fraser-Suzuki mixture model fitted to 
+<pre><code>## Deconvolution by 3-part Fraser-Suzuki
+##              mixture model fitted to 
 ## 580 datapoints from 120 to 700 degrees C.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here's an example of specifying your starting vector. </span>
+<span class="co"># the order of values is height, skew, position, then width</span>
+
+my_starting_vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">height_0 =</span> <span class="fl">0.002</span>, <span class="dt">skew_0 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_0 =</span> <span class="dv">210</span>, <span class="dt">width_0 =</span> <span class="dv">50</span>,
+                     <span class="dt">height_1 =</span> <span class="fl">0.003</span>, <span class="dt">skew_1 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_1 =</span> <span class="dv">250</span>, <span class="dt">width_1 =</span> <span class="dv">50</span>,
+                     <span class="dt">height_2 =</span> <span class="fl">0.006</span>, <span class="dt">skew_2 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_2 =</span> <span class="dv">320</span>, <span class="dt">width_2 =</span> <span class="dv">30</span>,
+                     <span class="dt">height_3 =</span> <span class="fl">0.001</span>, <span class="dt">skew_3 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_3 =</span> <span class="dv">390</span>, <span class="dt">width_3 =</span> <span class="dv">200</span>)
+
+output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea, <span class="dt">n_curves =</span> <span class="dv">4</span>, <span class="dt">start_vec =</span> my_starting_vec)
+
 output_marsilea</code></pre></div>
-<pre><code>## Deconvolution by 4-part Fraser-Suzuki mixture model fitted to 
+<pre><code>## Deconvolution by 4-part Fraser-Suzuki
+##              mixture model fitted to 
 ## 580 datapoints from 120 to 700 degrees C.</code></pre>
 <hr>
 </div>
@@ -160,12 +192,9 @@ output_marsilea</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#examine-outputs" class="anchor"></a>5. Examine outputs</h2>
 <p><code>deconvolve</code> results in a few different outputs that you can retrieve with accessor functions.</p>
-<div id="rate_data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#rate_data" class="anchor"></a><code><a href="../reference/rate_data.html">rate_data()</a></code>
-</h3>
 <ul>
-<li>will show you the processed dataset that results from the <code>process</code> function, useful if you want to play around with other modelling approaches or plotting options:</li>
+<li>
+<code><a href="../reference/rate_data.html">rate_data()</a></code> will show you the processed dataset that results from the <code>process</code> function, useful if you want to play around with other modelling approaches or plotting options:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">juncus_rate &lt;-<span class="st"> </span><span class="kw"><a href="../reference/rate_data.html">rate_data</a></span>(output_juncus)
 <span class="kw">head</span>(juncus_rate)</code></pre></div>
@@ -176,23 +205,12 @@ output_marsilea</code></pre></div>
 ## 5505 123.514 9.133606e-05 17.91079
 ## 5565 124.513 6.493836e-05 17.90956
 ## 5625 125.509 8.578618e-05 17.90794</code></pre>
-</div>
-<div id="temp_bounds" class="section level3">
-<h3 class="hasAnchor">
-<a href="#temp_bounds" class="anchor"></a><code><a href="../reference/temp_bounds.html">temp_bounds()</a></code>
-</h3>
-<ul>
-<li>will print the temperature values at which the data were cropped for analysis:</li>
-</ul>
+<p>*<code><a href="../reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/temp_bounds.html">temp_bounds</a></span>(output_juncus)</code></pre></div>
 <pre><code>## [1] 120 700</code></pre>
-</div>
-<div id="model_fit" class="section level3">
-<h3 class="hasAnchor">
-<a href="#model_fit" class="anchor"></a><code><a href="../reference/model_fit.html">model_fit()</a></code>
-</h3>
 <ul>
-<li>will show you the output of the mixture model:</li>
+<li>
+<code><a href="../reference/model_fit.html">model_fit()</a></code> will show you the output of the mixture model and estimated parameter values for height, skew, position, and width for each curve. Curve 1 is hemicellulose, curve 2 is cellulose, and curve 3 is lignin. If present, the optional fourth curve located at the lowest temperature interval will be listed as curve 0:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)</code></pre></div>
 <pre><code>## Nonlinear regression model
@@ -206,33 +224,23 @@ output_marsilea</code></pre></div>
 ## 
 ## Number of iterations to convergence: 23 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
-<ul>
-<li>the model fit will show us the estimated parameter values height, skew, position, and width for each curve. Curve 1 is hemicellulose, curve 2 is cellulose, and curve 3 is lignin.</li>
-</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_marsilea)</code></pre></div>
 <pre><code>## Nonlinear regression model
 ##   model: deriv ~ fs_mixture(temp_C, height_1, skew_1, position_1, width_1,     height_2, skew_2, position_2, width_2, height_3, skew_3,     position_3, width_3, height_0, skew_0, position_0, width_0)
 ##    data: dataframe
 ##   height_0     skew_0 position_0    width_0   height_1     skew_1 
-##  8.208e-04 -2.169e-01  1.879e+02  5.372e+01  2.618e-03 -3.300e-01 
+##   0.000816  -0.232926 187.779162  53.030500   0.002695  -0.330000 
 ## position_1    width_1   height_2     skew_2 position_2    width_2 
-##  2.763e+02  5.240e+01  3.768e-03 -9.295e-02  3.165e+02  3.118e+01 
+## 278.179206  54.575596   0.003670  -0.055013 317.234476  29.662293 
 ##   height_3     skew_3 position_3    width_3 
-##  1.163e-03  2.000e-01  3.300e+02  2.500e+02 
-##  residual sum-of-squares: 6.385e-06
+##   0.001160   0.200000 330.000000 250.000000 
+##  residual sum-of-squares: 6.336e-06
 ## 
 ## Number of iterations to convergence: 25 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <ul>
-<li>if present, the optional fourth curve located at the lowest temperature interval will be listed as curve 0.</li>
-</ul>
-</div>
-<div id="component_weights" class="section level3">
-<h3 class="hasAnchor">
-<a href="#component_weights" class="anchor"></a><code><a href="../reference/component_weights.html">component_weights()</a></code>
-</h3>
-<ul>
-<li>will display the mean, upper, and lower confidence intervals for each estimated component:</li>
+<li>
+<code><a href="../reference/component_weights.html">component_weights()</a></code> will display the mean, upper, and lower confidence intervals for each estimated component:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_juncus)</code></pre></div>
 <pre><code>##         HC       CL       LG value_type
@@ -240,27 +248,28 @@ output_marsilea</code></pre></div>
 ## 2 22.75751 18.67005 31.83022      97.5%
 ## 3 21.56004 17.67487 30.66299       mean</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_marsilea)</code></pre></div>
-<pre><code>##       HC_1     HC_2           CL       LG value_type
-## 1 2.745622  1.68365 1.061745e-04 25.35477       2.5%
-## 2 7.342779 50.41035 3.798929e+01 36.14492      97.5%
-## 3 4.705769 15.18955 1.254327e+01 31.08690       mean</code></pre>
+<pre><code>##       HC_1      HC_2        CL       LG value_type
+## 1 2.664669  9.124988  3.885893 24.84061       2.5%
+## 2 6.922566 27.118057 22.561010 36.14057      97.5%
+## 3 4.625424 16.281260 11.601421 31.00922       mean</code></pre>
 <hr>
-</div>
 </div>
 <div id="plot-deconvolved-curves" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-deconvolved-curves" class="anchor"></a>6. Plot deconvolved curves</h2>
-<p>The default plotting function for the output of the <code>deconvolve</code> function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component curves using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly  colours by specifying .</p>
+<p>The default plotting function for the output of the <code>deconvolve</code> function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component curves using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly viridis colours by specifying <code>bw = FALSE</code>.</p>
 <p>Take a look at your plot. Do the estimates seem reasonable?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(output_juncus, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p><img src="mixchar_files/figure-html/unnamed-chunk-14-1.png" width="80%"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(output_marsilea, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="mixchar_files/figure-html/unnamed-chunk-15-1.png" width="80%"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(output_marsilea, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="mixchar_files/figure-html/unnamed-chunk-16-1.png" width="80%"></p>
+<p>If the estimated curves do not match your data well, it may be that your sample is a bit different than those used to develop the package. That’s not a problem, but you may need to try the deconvolution again with different starting values. If you aren’t managing to produce reasonable estimates, get in touch with us via the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
 <p>If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)
 params &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(fit_juncus)<span class="op">$</span>coefficients[,<span class="dv">1</span>])</code></pre></div>
-<p>and use the <code>fs_function</code> to plot individual component curves, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
+<p>and use <code><a href="../reference/fs_function.html">fs_function()</a></code> to plot individual component curves, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
 <hr>
+<p>To read more about the methodology, check out the Detailed Methodology <a href="http://smwindecker.github.io/Background">article</a>.</p>
 </div>
   </div>
 

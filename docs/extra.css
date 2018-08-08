@@ -3,21 +3,22 @@ pre{
   border: 1px solid #696969;
   border-radius: 0;
   color: #696969;
-  overflow: visible;
+  overflow: scroll;
+  font-size: 14px;
 }
 pre.r{
   background-color: #E6F3F0;
   border: none;
   border-radius: 0;
-  overflow: visible;
+  overflow: scroll;
 }
 hr {
   height: 6px;
   border-top: 4px solid #29AB87;
   overflow: visible;
 }
-code {
-  background-color: #f5eef6;
+code.r {
+  background-color: transparent;
   overflow: visible;
+  font-size: 10pt;
 }
-

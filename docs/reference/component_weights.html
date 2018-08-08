@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -90,7 +90,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -148,14 +151,13 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>18.96</span>, <span class='kw'>temp_type</span> <span class='kw'>=</span> <span class='st'>'C'</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>data</span>(<span class='no'>juncus</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='kw'>init_mass</span> <span class='kw'>=</span> <span class='fl'>18.96</span>,
+               <span class='kw'>temp</span> <span class='kw'>=</span> <span class='st'>'temp_C'</span>, <span class='kw'>mass_loss</span> <span class='kw'>=</span> <span class='st'>'mass_loss'</span>)
 <span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deconvolve.html'>deconvolve</a></span>(<span class='no'>tmp</span>)
-<span class='fu'>component_weights</span>(<span class='no'>output</span>)</div><div class='output co'>#&gt;         HC       CL       LG value_type
-#&gt; 1 20.43273 16.64336 29.52019       2.5%
-#&gt; 2 22.75751 18.67005 31.83022      97.5%
-#&gt; 3 21.56004 17.67487 30.66299       mean</div><div class='input'>
-</div></pre>
+<span class='fu'>component_weights</span>(<span class='no'>output</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -66,7 +66,7 @@ the derivative of mass loss" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -91,7 +91,10 @@ the derivative of mass loss" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -133,7 +136,8 @@ the derivative of mass loss</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>process</span>(<span class='no'>data</span>, <span class='no'>temp</span>, <span class='no'>mass</span>, <span class='no'>init_mass</span>, <span class='kw'>temp_type</span> <span class='kw'>=</span> <span class='st'>"C"</span>)</pre>
+    <pre class="usage"><span class='fu'>process</span>(<span class='no'>data</span>, <span class='no'>init_mass</span>, <span class='no'>temp</span>, <span class='kw'>mass_loss</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>temp_units</span> <span class='kw'>=</span> <span class='st'>"C"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,31 +147,38 @@ the derivative of mass loss</p>
       <td><p>dataframe</p></td>
     </tr>
     <tr>
+      <th>init_mass</th>
+      <td><p>numeric value of initial sample mass in mg</p></td>
+    </tr>
+    <tr>
       <th>temp</th>
       <td><p>column name containing temperature values</p></td>
     </tr>
     <tr>
+      <th>mass_loss</th>
+      <td><p>column name containing mass loss values in mg</p></td>
+    </tr>
+    <tr>
       <th>mass</th>
-      <td><p>column name containing mass loss values in grams</p></td>
+      <td><p>column name containing mass values in mg</p></td>
     </tr>
     <tr>
-      <th>init_mass</th>
-      <td><p>numeric value of initial sample mass in grams</p></td>
-    </tr>
-    <tr>
-      <th>temp_type</th>
-      <td><p>specify units of temperature, default = Celsius. Specify 'K' if in Kelvin</p></td>
+      <th>temp_units</th>
+      <td><p>specify units of temperature, default = Celsius.
+Can specify 'K' or 'Kelvin' if in Kelvin</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>decon list containing amended dataframe, bounds, model output, mass fractions</p>
+    <p>process list containing modified dataframe, initial mass
+of sample, and maximum and minimum temperature values</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>process</span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>16.85</span>)</div></pre>
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'>process</span>(<span class='no'>juncus</span>, <span class='kw'>init_mass</span> <span class='kw'>=</span> <span class='fl'>18.96</span>,
+               <span class='kw'>temp</span> <span class='kw'>=</span> <span class='st'>'temp_C'</span>, <span class='kw'>mass_loss</span> <span class='kw'>=</span> <span class='st'>'mass_loss'</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

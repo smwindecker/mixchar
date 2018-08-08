@@ -66,7 +66,7 @@ for outputs from process function" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -91,7 +91,10 @@ for outputs from process function" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -134,7 +137,7 @@ for outputs from process function</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for process</span>
-<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>plot_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>plot</span>(<span class='no'>x</span>, <span class='kw'>plot_type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +148,12 @@ for outputs from process function</p>
     </tr>
     <tr>
       <th>plot_type</th>
-      <td><p>defaults to both plots. Can specify 'mass' or 'rate' curves by themselves.</p></td>
+      <td><p>defaults to both plots. Can specify 'mass' or
+'rate' curves by themselves.</p></td>
+    </tr>
+    <tr>
+      <th>cex</th>
+      <td><p>size of plots features</p></td>
     </tr>
     <tr>
       <th>...</th>

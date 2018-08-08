@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -90,7 +90,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -176,13 +179,20 @@ you have selected the number of curves in the n_curves parameter.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>decon list containing amended dataframe, bounds, model output, mass fractions</p>
+    <p>decon list containing amended dataframe, temperature bounds,
+minpack.lm model fit, the number of curves fit, and estimated component weights</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>18.96</span>)
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>deconvolve</span>(<span class='no'>tmp</span>)</div></pre>
+    <pre class="examples"># NOT RUN {
+data(juncus)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
+output <- deconvolve(tmp)
+my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
+output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
+# }
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

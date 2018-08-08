@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -59,7 +59,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -97,24 +100,27 @@
 <a href="#section" class="anchor"></a><img src="reference/figures/logo.png" height="80" width="350">
 </h1></div>
 
-<div id="why-deconvolution" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-deconvolution" class="anchor"></a>Why deconvolution?</h2>
+</div>
+<div id="why-deconvolution" class="section level1">
+<h1 class="hasAnchor">
+<a href="#why-deconvolution" class="anchor"></a>Why deconvolution?</h1>
 <p>Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.</p>
 <hr>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div id="installation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h1>
 <p>You can install <code>mixchar</code> from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"smwindecker/mixchar"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"smwindecker/mixchar"</span>)</code></pre></div>
 <hr>
+<p>Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the <a href="http://smwindecker.github.io/Background">website</a>. You can also find a full worked example either on the <a href="http://smwindecker.github.io/mixchar">website</a> or in the vignette that you can access via R as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">browseVignettes</span>(<span class="st">'mixchar'</span>)</code></pre></div>
 </div>
-<div id="basic-use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-use" class="anchor"></a>Basic use</h2>
-<p>Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species <em>Juncus amabilis</em> is included in the package:</p>
+<div id="basic-use" class="section level1">
+<h1 class="hasAnchor">
+<a href="#basic-use" class="anchor"></a>Basic use</h1>
+<p>Data from thermogravimetric analysis is usually exported in one of two forms: as mass loss or mass remaining (mg) by temperature. An example dataset that contains mass loss data for the species <em>Juncus amabilis</em> is included in the package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mixchar)
 <span class="kw">head</span>(juncus)
 <span class="co">#&gt;   temp_C mass_loss</span>
@@ -124,27 +130,31 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <span class="co">#&gt; 4 31.450 -0.001660</span>
 <span class="co">#&gt; 5 31.450 -0.001680</span>
 <span class="co">#&gt; 6 31.450 -0.001800</span></code></pre></div>
-<p>We can use the function <code><a href="reference/process.html">process()</a></code> to take the derivative of this mass loss data, resulting in rate of mass loss over temperature data. To do so you simply need to specify the dataset, identify which columns contain temperature and mass loss data, and provide a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by adding <code>temp_type = 'K'</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tmp &lt;-<span class="st"> </span><span class="kw"><a href="reference/process.html">process</a></span>(juncus, <span class="dt">temp =</span> <span class="st">'temp_C'</span>, <span class="dt">mass =</span> <span class="st">'mass_loss'</span>, <span class="dt">init_mass =</span> <span class="fl">18.96</span>)
+<p>We can use the function <code><a href="reference/process.html">process()</a></code> to take the derivative of this data, resulting in rate of mass loss over temperature data. To do so you need to specify the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass loss or mass data column. If you have mass loss data you can specify with <code>mass_loss</code> argument, if it’s mass remaining data you can use the <code>mass</code> argument. You only need to provide one. The function defaults to temperature data in Celsius, but you can also indicate the data is provided in Kelvin, by adding <code>temp_units = 'K'</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tmp &lt;-<span class="st"> </span><span class="kw"><a href="reference/process.html">process</a></span>(juncus, 
+               <span class="dt">init_mass =</span> <span class="fl">18.96</span>, 
+               <span class="dt">temp =</span> <span class="st">'temp_C'</span>, 
+               <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)
 tmp
-<span class="co">#&gt; Derivative thermogravimetry data (DTG) calculated for</span>
+<span class="co">#&gt; Derivative thermogravimetry data (DTG)</span>
+<span class="co">#&gt;             calculated for</span>
 <span class="co">#&gt;  768 datapoints from 31.5 to 798.52 degrees C.</span></code></pre></div>
-<p>The default plot function for the derivative data shows you both the original mass loss curve and the derivative rate of mass loss curve.</p>
-<p>Processed data then simply needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude dehydration and then running the Fraser-Suzuki mixture model and estimating individual curve parameters and weights.</p>
+<p>The default plot function for the derivative data shows you both the mass with temperature curve and the derivative rate of mass loss curve.</p>
+<p>Processed data then needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude dehydration and then running the Fraser-Suzuki mixture model and estimating individual curve parameters and weights.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span><span class="kw"><a href="reference/deconvolve.html">deconvolve</a></span>(tmp)</code></pre></div>
 <p>Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you can override it by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. If you’d like to modify those or the upper and lower bounds for the estimates, you can also do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments to <code><a href="reference/deconvolve.html">deconvolve()</a></code>.</p>
-<p>The <code><a href="reference/deconvolve.html">deconvolve()</a></code> function results in a variety of outputs. You can use a variety of accessor functions to look at these. <code><a href="reference/component_weights.html">component_weights()</a></code> will display the weights of each carbon component, <code><a href="reference/rate_data.html">rate_data()</a></code> will show you the modified dataset used for fitting, <code><a href="reference/model_fit.html">model_fit()</a></code> will show you the model fit, and <code><a href="reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function.</p>
-<p>You can see the full worked example in the vignette, which you can access on the <a href="http://smwindecker.github.io/mixchar">website</a> or in R:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">'mixchar'</span>)
-<span class="co">#&gt; Warning: vignette 'mixchar' not found</span></code></pre></div>
-<p>This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
+<p>The <code><a href="reference/deconvolve.html">deconvolve()</a></code> function results in a variety of outputs. You can use a accessor functions to look at these. <code><a href="reference/component_weights.html">component_weights()</a></code> will display the weights of each carbon component, <code><a href="reference/rate_data.html">rate_data()</a></code> will show you the modified dataset used for fitting, <code><a href="reference/model_fit.html">model_fit()</a></code> will show you the model fit, and <code><a href="reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function, which can be in black and white or in colour.</p>
 <hr>
 </div>
-<div id="acknowledgements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h2>
-<p>Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment &amp; The Ecological Society of Australia for support on this project.</p>
+<div id="contribution" class="section level1">
+<h1 class="hasAnchor">
+<a href="#contribution" class="anchor"></a>Contribution</h1>
+<p>This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
 </div>
+<div id="acknowledgements" class="section level1">
+<h1 class="hasAnchor">
+<a href="#acknowledgements" class="anchor"></a>Acknowledgements</h1>
+<p>Thank you to Nick Tierney and David Wilkinson for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment &amp; The Ecological Society of Australia for support on this project.</p>
 </div>
   </div>
 

@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
       </span>
     </div>
 
@@ -90,7 +90,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/mixchar.html">Introduction to mixchar workflow</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
+    </li>
+    <li>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
   </ul>
 </li>
@@ -148,21 +151,13 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
-<span class='no'>munge</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='st'>'temp_C'</span>, <span class='st'>'mass_loss'</span>, <span class='fl'>18.96</span>, <span class='kw'>temp_type</span> <span class='kw'>=</span> <span class='st'>'C'</span>)
-<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deconvolve.html'>deconvolve</a></span>(<span class='no'>munge</span>)
-<span class='fu'>model_fit</span>(<span class='no'>output</span>)</div><div class='output co'>#&gt; Nonlinear regression model
-#&gt;   model: deriv ~ fs_mixture(temp_C, height_1, skew_1, position_1, width_1,     height_2, skew_2, position_2, width_2, height_3, skew_3,     position_3, width_3)
-#&gt;    data: dataframe
-#&gt;   height_1     skew_1 position_1    width_1   height_2     skew_2 position_2 
-#&gt;  3.944e-03  1.258e-01  2.662e+02  5.106e+01  5.793e-03  1.344e-02  3.173e+02 
-#&gt;    width_2   height_3     skew_3 position_3    width_3 
-#&gt;  2.866e+01  1.163e-03  1.085e-01  3.300e+02  2.500e+02 
-#&gt;  residual sum-of-squares: 9.299e-06
-#&gt; 
-#&gt; Number of iterations to convergence: 23 
-#&gt; Achieved convergence tolerance: 1.49e-08</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>data</span>(<span class='no'>juncus</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='kw'>init_mass</span> <span class='kw'>=</span> <span class='fl'>18.96</span>,
+               <span class='kw'>temp</span> <span class='kw'>=</span> <span class='st'>'temp_C'</span>, <span class='kw'>mass_loss</span> <span class='kw'>=</span> <span class='st'>'mass_loss'</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='deconvolve.html'>deconvolve</a></span>(<span class='no'>tmp</span>)
+<span class='fu'>model_fit</span>(<span class='no'>output</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
