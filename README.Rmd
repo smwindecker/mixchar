@@ -30,47 +30,54 @@ You can install `mixchar` from [GitHub](https://github.com/) with:
 
 ``` {r, eval = FALSE}
 install.packages("devtools")
-devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
+devtools::install_github("smwindecker/mixchar")
 ```
 
 <hr>
 
+Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the [website](http://smwindecker.github.io/Background). You can also find a full worked example either on the [website](http://smwindecker.github.io/mixchar) or in the vignette that you can access via R as follows:
+
+```{r, eval = FALSE}
+browseVignettes('mixchar')
+```
+
 # Basic use
 
-Data from thermogravimetric analysis is usually exported as mass loss with temperature. An example dataset for the species *Juncus amabilis* is included in the package:
+Data from thermogravimetric analysis is usually exported in one of two forms: as mass loss or mass remaining (mg) by temperature. An example dataset that contains mass loss data for the species *Juncus amabilis* is included in the package:
+
 ```{r}
 library(mixchar)
 head(juncus)
 ```
 
-We can use the function `process()` to take the derivative of this mass loss data, resulting in rate of mass loss over temperature data. To do so you simply need to specify the dataset, identify which columns contain temperature and mass loss data, and provide a value for the starting mass of the sample. The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by adding `temp_type = 'K'`.
+We can use the function `process()` to take the derivative of this data, resulting in rate of mass loss over temperature data. To do so you need to specify the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass loss or mass data column. If you have mass loss data you can specify with `mass_loss` argument, if it's mass remaining data you can use the `mass` argument. You only need to provide one. The function defaults to temperature data in Celsius, but you can also indicate the data is provided in Kelvin, by adding `temp_units = 'K'`.
+
 ```{r}
-tmp <- process(juncus, temp = 'temp_C', mass = 'mass_loss', init_mass = 18.96)
+tmp <- process(juncus, 
+               init_mass = 18.96, 
+               temp = 'temp_C', 
+               mass_loss = 'mass_loss')
 tmp
 ```
 
-The default plot function for the derivative data shows you both the original mass loss curve and the derivative rate of mass loss curve.
+The default plot function for the derivative data shows you both the mass with temperature curve and the derivative rate of mass loss curve.
 
-Processed data then simply needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude dehydration and then running the Fraser-Suzuki mixture model and estimating individual curve parameters and weights.
+Processed data then needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude dehydration and then running the Fraser-Suzuki mixture model and estimating individual curve parameters and weights.
+
 ```{r}
 output <- deconvolve(tmp)
 ```
 
 Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you can override it by modifying the `n_curves` argument. The function also has built in starting values for the nonlinear optimisation. If you'd like to modify those or the upper and lower bounds for the estimates, you can also do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments to `deconvolve()`.
 
-The `deconvolve()` function results in a variety of outputs. You can use a variety of accessor functions to look at these. `component_weights()` will display the weights of each carbon component, `rate_data()` will show you the modified dataset used for fitting, `model_fit()` will show you the model fit, and `temp_bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function.
-
-You can see the full worked example in the vignette, which you can access on the [website](http://smwindecker.github.io/mixchar) or in R:
-```{r}
-vignette('mixchar')
-```
-
-A detailed discussion of the methodology is also on the [website](http://smwindecker.github.io/Background).
-
-This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/mixchar/issues). 
+The `deconvolve()` function results in a variety of outputs. You can use a accessor functions to look at these. `component_weights()` will display the weights of each carbon component, `rate_data()` will show you the modified dataset used for fitting, `model_fit()` will show you the model fit, and `temp_bounds()` will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function, which can be in black and white or in colour.
 
 <hr>
 
+# Contribution
+
+This is still a work in progress! If you see any mistakes, or find that the code is not functioning well on your data, let us know by logging a bug on the [issues page](http://www.github.com/smwindecker/mixchar/issues). 
+
 # Acknowledgements
-Thank you to Nick Tierney for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
+Thank you to Nick Tierney and David Wilkinson for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
 
