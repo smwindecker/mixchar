@@ -66,17 +66,13 @@ mixchar: An R package for the deconvolution of thermal decay curves
 1. Windecker, Saras M. \\
 2. Vesk, Peter A. \\
 3. Trevathan-Tackett, Stacey M. \\
-4. Catford, Jane A. \\
-5. Macreadie, Peter I. \\
 4. Golding, Nick.
 
 \section*{Paper Author Roles and Affiliations}
 1. PhD Candidate, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia \\
 2. Associate Professor, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia \\
 3. Research Fellow, Centre for Integrative Ecology, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood VIC 3124, Australia \\
-4. Assistant Professor, Biological Sciences, University of Southampton, Highfield Campus, Southampton SO17 1BJ, UK \\
-5. Associate Professor, Centre for Integrative Ecology, School of Life and Environmental Sciences, Deakin University, Burwood Campus, Burwood VIC 3124, Australia \\
-6. Research Fellow, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia
+4. Research Fellow, School of BioSciences, University of Melbourne, Parkville VIC 3010, Australia
 
 \section*{Abstract}
 
@@ -376,11 +372,16 @@ component_weights(output_juncus)
 If you \verb|plot()| the output of the \verb|deconvolve| function you will see the result of the deconvolution (Fig.~\ref{Fig:decon}). This default plot shows the underlying DTG data, the overall mixture model curve, as well as the components curves. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly \verb|viridis| colours \citep{viridis} by specifying \verb|bw = FALSE|.
 
 <<fig.cap = '\\label{Fig:decon} Deconvolution of \\textit{Juncus amabilis} example dataset. Mass loss data overlaid with output of deconvolution. Rate of mass loss scaled by initial mass of sample.', out.width = '0.7\\linewidth', asp = 1, fig.align = 'center'>>=
-par(mar = c(5,5,1,1))
 plot(output_juncus, bw = FALSE)
 @
 
 The Fraser-Suzuki family of functions are exported to allow users to create their own plots from the model outputs. Detailed descriptions of how to do so are included in the package vignettes.
+
+<<>>=
+stt <- read.table("../mixchar.notes/USATtLeaf_data.txt", fill = TRUE, header = FALSE, skip = 46, skipNul = TRUE, fileEncoding="UTF-16LE")
+colnames(stt) <- c("time", "temp", "weight", "deriv")
+@
+
 
 \section*{Quality control}
 All the functions of \verb|mixchar| were tested to see if they produced the desired output.
@@ -391,13 +392,13 @@ All the functions of \verb|mixchar| were tested to see if they produced the desi
 The package can work with either Windows, Mac OS X, or Linux.
 
 \section*{Programming language}
-R version XXX or higher.
+R version 3.2.0 or higher.
 
 \section*{Additional system requirements}
 An internet connection is required to install the \verb|mixchar| package.
 
 \section*{Dependencies}
-R packages: \verb|minpack.lm|, \verb|nloptr|, \verb|tmvtnorm|, \verb|zoo|.
+R packages: \verb|graphics|, \verb|minpack.lm|, \verb|nloptr|, \verb|stats|, \verb|tmvtnorm|, \verb|zoo|.
 
 \section*{List of contributors}
 This package was created by Saras Windecker and Dr. Nick Golding.
@@ -434,7 +435,7 @@ This package was designed with both the user and developer in mind. There are se
 For those that wish to contribute to the package, it is hosted on Github. Contributors can log issues via the issues tracker (\url{https://github.com/smwindecker/mixchar/issues}) or submit a pull request to add functionality to the package.
 
 \section*{Acknowledgements}
-The authors would like to thank Dr. Nick Tierney for reviewing an early version of the package. We would like to thank the University of Melbourne Department of Chemical and Biomolecular Engineering for access to and training on the TGA-FTIR. Vegetation collection for data used to build and verify the model was conducted under Victorian Department of Environment, Land, Water and Planning Permit No 10007429. We would like to thank volunteers Paula Sanchez, Abbey Kinnish, Kelsey Johnson, Madeline Brenker, and Urtzi Enriquez Urzelai for assistance in the field collecting plant specimens.
+The authors would like to thank Dr. Nick Tierney for reviewing an early version of the package. We would like to thank volunteers Paula Sanchez, Abbey Kinnish, Kelsey Johnson, Madeline Brenker, and Urtzi Enriquez Urzelai for assistance in the field collecting plant specimens. We would like to thank the University of Melbourne Department of Chemical and Biomolecular Engineering for access to and training on the TGA-FTIR. Vegetation collection for data used to build and verify the model was conducted under Victorian Department of Environment, Land, Water and Planning Permit No 10007429.
 
 \section*{Funding statement}
 The authors would like to acknowledge support from the Australian Research Council Centre of Excellence for Environmental Decisions, the Holsworth Wildlife Reseach Endowment \& The Ecological Society of Australia, and the Melbourne International Research Scholarship and Melbourne International Fee Remission Scholarship from University of Melbourne.
