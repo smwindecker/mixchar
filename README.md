@@ -48,10 +48,6 @@ tmp <- process(juncus,
                init_mass = 18.96, 
                temp = 'temp_C', 
                mass_loss = 'mass_loss')
-tmp
-#> Derivative thermogravimetry data (DTG)
-#>             calculated for
-#>  768 datapoints from 31.5 to 798.52 degrees C.
 ```
 
 The default plot function for the derivative data shows you both the mass with temperature curve and the derivative rate of mass loss curve.
