@@ -4,23 +4,26 @@
 \alias{process}
 \title{Calculates the derivative rate of mass loss of thermogravimetric data}
 \usage{
-process(data, temp, mass, init_mass, temp_type = "C")
+process(data, init_mass, temp, mass_loss = NULL, mass = NULL,
+  temp_units = "C")
 }
 \arguments{
 \item{data}{dataframe}
 
+\item{init_mass}{numeric value of initial sample mass in mg}
+
 \item{temp}{column name containing temperature values}
 
-\item{mass}{column name containing mass loss values in grams}
+\item{mass_loss}{column name containing mass loss values in mg}
 
-\item{init_mass}{numeric value of initial sample mass in grams}
+\item{mass}{column name containing mass values in mg}
 
-\item{temp_type}{specify units of temperature, default = Celsius.
-Specify 'K' if in Kelvin}
+\item{temp_units}{specify units of temperature, default = Celsius.
+Can specify 'K' or 'Kelvin' if in Kelvin}
 }
 \value{
-decon list containing amended dataframe, bounds,
-model output, mass fractions
+process list containing modified dataframe, initial mass
+of sample, and maximum and minimum temperature values
 }
 \description{
 This function processes thermogravimetric data by calculating
@@ -28,7 +31,8 @@ the derivative of mass loss
 }
 \examples{
 data(juncus)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 
 }
 \keyword{deconvolution}

@@ -18,8 +18,9 @@ Accessor function to extract model fit
 \examples{
 \dontrun{
 data(juncus)
-munge <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
-output <- deconvolve(munge)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
+output <- deconvolve(tmp)
 model_fit(output)
 }
 }

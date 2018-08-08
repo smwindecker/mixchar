@@ -17,7 +17,8 @@ Accessor function to extract processed dataframe
 }
 \examples{
 data(juncus)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 rate_data(tmp)
 
 }

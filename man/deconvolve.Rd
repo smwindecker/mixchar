@@ -28,7 +28,8 @@ you have selected the number of curves in the n_curves parameter.}
 you have selected the number of curves in the n_curves parameter.}
 }
 \value{
-decon list containing amended dataframe, bounds, model output, mass fractions
+decon list containing amended dataframe, temperature bounds,
+minpack.lm model fit, the number of curves fit, and estimated component weights
 }
 \description{
 This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture model
@@ -36,8 +37,11 @@ This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture m
 \examples{
 \dontrun{
 data(juncus)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 output <- deconvolve(tmp)
+my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
+output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
 }
 }
 \keyword{deconvolution}

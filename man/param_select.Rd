@@ -7,9 +7,11 @@
 param_select(theta, lb, ub, model, temp, obs, seed, restarts = 300)
 }
 \arguments{
-\item{theta}{vector of starting values for each of 12 parameters}
+\item{theta}{vector of starting values for each parameter}
 
-\item{lb}{vector of lower bounds on each of 12 parameters}
+\item{lb}{vector of lower bounds on each parameter}
+
+\item{ub}{vector of upper bounds on each parameter}
 
 \item{model}{mathematical function to be applied}
 
@@ -17,9 +19,9 @@ param_select(theta, lb, ub, model, temp, obs, seed, restarts = 300)
 
 \item{obs}{DTG mass values}
 
-\item{restarts}{number of times for optimiser to restart}
+\item{seed}{random seed for optimiser}
 
-\item{ranseed}{random seed for optimiser}
+\item{restarts}{number of times for optimiser to restart}
 }
 \value{
 optimised starting parameter values

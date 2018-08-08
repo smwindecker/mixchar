@@ -13,14 +13,19 @@
 #' you have selected the number of curves in the n_curves parameter.
 #' @param upper_vec vector of upper bound values for nls. Only specify this vector if
 #' you have selected the number of curves in the n_curves parameter.
-#' @return decon list containing amended dataframe, bounds, model output, mass fractions
+#' @return decon list containing amended dataframe, temperature bounds,
+#' minpack.lm model fit, the number of curves fit, and estimated component weights
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @importFrom stats integrate setNames loess
 #' @examples
 #' \dontrun{
 #' data(juncus)
-#' tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+#' tmp <- process(juncus, init_mass = 18.96,
+#'                temp = 'temp_C', mass_loss = 'mass_loss')
 #' output <- deconvolve(tmp)
+#' my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
+#                       height_2 = 0.006, skew_2 = -0.15, position_2 = 320, width_2 = 30,
+#                       height_3 = 0.001, skew_3 = -0.15, position_3 = 390, width_3 = 200)
+#' output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
 #' }
 #' @export
 
@@ -65,6 +70,7 @@ deconvolve <- function (process_object,
     n_peaks <- 4
   }
 
+  # assign starting values for parameters
   if (is.null(start_vec) & n_peaks == 3) {
     theta <- c(0.003, -0.15, 250, 50,
                0.006, -0.15, 320, 30,
@@ -80,6 +86,7 @@ deconvolve <- function (process_object,
     theta <- start_vec
   }
 
+  # assign lower bound for parameter estimates
   if (is.null(lower_vec) & n_peaks == 3) {
     lb <- c(0, -0.33, 0, 50,
             0, -0.33, 290, 0,
@@ -95,6 +102,7 @@ deconvolve <- function (process_object,
     lb <- lower_vec
   }
 
+  # assign upper bound for parameter estimates
   if (is.null(upper_vec) & n_peaks == 3) {
     ub <- c(2, 0.25, 280, 100,
             2, 0.25, 380, 50,
@@ -125,8 +133,8 @@ deconvolve <- function (process_object,
 
   # output
   output <- list(data = mod_df,
-                 bounds = c(lower_temp, upper_temp),
-                 minpack.lm = fit,
+                 temp_bounds = c(lower_temp, upper_temp),
+                 model_fit = fit,
                  n_curves = n_peaks)
 
   weights <- weight_quantiles(output, seed)

@@ -15,9 +15,9 @@
 
 plot.decon <- function (x, bw = TRUE, ...) {
 
-  temp <- seq(x$bounds[1], x$bounds[2], length.out = nrow(x$data))
+  temp <- seq(x$temp_bounds[1], x$temp_bounds[2], length.out = nrow(x$data))
   data <- x$data
-  fit <- x$minpack.lm
+  fit <- x$model_fit
 
   params <- as.data.frame(summary(fit)$coefficients[,1])
 

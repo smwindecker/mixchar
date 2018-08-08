@@ -18,7 +18,8 @@ Accessor function to extract mean weights
 \examples{
 \dontrun{
 data(juncus)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96, temp_type = 'C')
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 output <- deconvolve(tmp)
 component_weights(output)
 }

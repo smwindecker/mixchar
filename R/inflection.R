@@ -14,11 +14,12 @@ three_peaks <- function (x) {
 #' @keywords internal
 #' @return returns a list of values. $x returns the inflections points within x.
 #' @importFrom zoo rollapply zoo
+#' @importFrom stats loess
 ## script cred https://stats.stackexchange.com/questions/36309/how-do-i-find-peaks-in-a-dataset
 
 inflection <- function(x, y, w = 1, ...) {
   n <- length(y)
-  y.smooth <- loess(y ~ x, ...)$fitted
+  y.smooth <- stats::loess(y ~ x, ...)$fitted
   y.max <- zoo::rollapply(zoo::zoo(y.smooth),
                           2*w+1,
                           max,

@@ -2,13 +2,14 @@
 #'
 #' This function otimises parameter selection so that the model will ultimately converge.
 #'
-#' @param theta vector of starting values for each of 12 parameters
-#' @param lb vector of lower bounds on each of 12 parameters
+#' @param theta vector of starting values for each parameter
+#' @param lb vector of lower bounds on each parameter
+#' @param ub vector of upper bounds on each parameter
 #' @param model mathematical function to be applied
 #' @param temp temperature values
 #' @param obs DTG mass values
+#' @param seed random seed for optimiser
 #' @param restarts number of times for optimiser to restart
-#' @param ranseed random seed for optimiser
 #' @return optimised starting parameter values
 #' @keywords internal
 #' @importFrom nloptr nloptr

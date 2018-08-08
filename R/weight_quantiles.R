@@ -10,12 +10,12 @@
 weight_quantiles <- function (output, seed) {
 
   # least squares estimate:
-  est <- stats::coef(output$minpack.lm)
+  est <- stats::coef(output$model_fit)
 
   # variance-covariance matrix, assuming truncated
   # multivariate normal distribution over LS surface
-  sry <- summary(output$minpack.lm)
-  residvar <- stats::deviance(output$minpack.lm) / sry$df[2]
+  sry <- summary(output$model_fit)
+  residvar <- stats::deviance(output$model_fit) / sry$df[2]
   vcov <- sry$cov.unscaled * residvar
 
   # random draws of parameters, proportional to likelihood
@@ -77,8 +77,8 @@ weight_quantiles <- function (output, seed) {
 get_weights <- function (param_vec, output) {
 
   n_curves <- output$n_curves
-  lower_temp <- output$bounds[1]
-  upper_temp <- output$bounds[2]
+  lower_temp <- output$temp_bounds[1]
+  upper_temp <- output$temp_bounds[2]
 
   if (n_curves == 3) {
     curve_vec <- 1:3
@@ -106,6 +106,7 @@ get_weights <- function (param_vec, output) {
 #' @param param_vec vector of parameters
 #' @param lower_temp lower temperature bound
 #' @param upper_temp upper temperature bound
+#' @importFrom stats integrate
 #' @return weight of component
 #'
 
@@ -131,10 +132,10 @@ wt_component <- function (j,
 
   # weight percent of each component,
   # where the integral is the fraction
-  # of initial mass of that compoenent.
-  wt <- integrate(Vectorize(f_j),
-                  lower = lower_temp,
-                  upper = upper_temp)$value * 100
+  # of initial mass of that component.
+  wt <- stats::integrate(Vectorize(f_j),
+                         lower = lower_temp,
+                         upper = upper_temp)$value * 100
 
   wt
 }

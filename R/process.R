@@ -4,67 +4,97 @@
 #' the derivative of mass loss
 #'
 #' @param data dataframe
+#' @param init_mass numeric value of initial sample mass in mg
 #' @param temp column name containing temperature values
-#' @param mass column name containing mass loss values in grams
-#' @param init_mass numeric value of initial sample mass in grams
-#' @param temp_type specify units of temperature, default = Celsius.
-#' Specify 'K' if in Kelvin
-#' @return decon list containing amended dataframe, bounds,
-#' model output, mass fractions
+#' @param mass_loss column name containing mass loss values in mg
+#' @param mass column name containing mass values in mg
+#' @param temp_units specify units of temperature, default = Celsius.
+#' Can specify 'K' or 'Kelvin' if in Kelvin
+#' @return process list containing modified dataframe, initial mass
+#' of sample, and maximum and minimum temperature values
 #' @keywords thermogravimetry fraser-suzuki deconvolution
-#' @importFrom stats integrate setNames
 #' @examples
 #' data(juncus)
-#' tmp <- process(juncus, 'temp_C', 'mass_loss', 16.85)
+#' tmp <- process(juncus, init_mass = 18.96,
+#'                temp = 'temp_C', mass_loss = 'mass_loss')
 #'
 #' @export
 
-process <- function (data, temp, mass, init_mass,
-                     temp_type = 'C') {
+process <- function (data, init_mass, temp,
+                     mass_loss = NULL,
+                     mass = NULL,
+                     temp_units = 'C') {
 
+  # subset provided data to avoid presence of
+  # other columns with conflicting names
+  subset <- data[, c(temp, mass_loss, mass)]
+
+  # check that mass data is provided
+  if (is.null(mass_loss) & is.null(mass)) {
+    stop('Specify either mass or mass loss
+         data column name')
+  }
+
+  # check temperature inputs
   temp_measures <- c('C', 'Celsius', 'K', 'Kelvin')
 
-  if (!isTRUE(is.element(temp_type, temp_measures))) {
+  if (!isTRUE(is.element(temp_units, temp_measures))) {
     stop('Specify temperature either in Celsius or Kelvin')
   }
 
-  if (temp_type == 'K' | temp_type == 'Kelvin') {
-    data$temp_C <- data[, temp] - 273
+  if (temp_units == 'K' | temp_units == 'Kelvin') {
+    subset$temp_C <- subset[, temp] - 273
   }
 
-  if (temp_type == 'C' | temp_type == 'Celsius') {
-    data$temp_C <- data[, temp]
+  if (temp_units == 'C' | temp_units == 'Celsius') {
+    subset$temp_C <- subset[, temp]
   }
 
-  if (data[1, 'temp_C']%%1!=0) {
-    data$roundC <- round(data$temp_C, 0)
-    data_1 <- data[!duplicated(data$roundC),]
-  } else {
-    data_1 <- data[!duplicated(data$temp_C),]
+  if (subset[1, 'temp_C']%%1 != 0) {
+    subset$roundC <- round(subset$temp_C, 0)
+    subset_1 <- subset[!duplicated(subset$roundC),]
+  }
+  if (subset[1, 'temp_C']%%1 == 0) {
+    subset_1 <- subset[!duplicated(subset$temp_C),]
   }
 
-  # adjust mass loss given initial mass, use this for derivative
-  data_1$adj_massloss <- data_1[, mass] / init_mass
+  # calculate mass_T
+  if (!is.null(mass)) {
+    subset_1$mass_T <- subset_1[, mass]
+  }
 
-  d <- -as.data.frame(diff(data_1$adj_massloss)/diff(data_1$temp_C))
+  if (is.null(mass)) {
+    subset_1$mass_T <- subset_1[, mass_loss] + init_mass
+  }
+
+  # calculate adjusted mass loss given initial mass
+  if (!is.null(mass_loss)) {
+    subset_1$adj_massloss <- subset_1[, mass_loss] / init_mass
+  }
+
+  if (is.null(mass_loss)) {
+    subset_1$mass_loss <- subset_1[, mass] - init_mass
+    subset_1$adj_massloss <- subset_1$mass_loss / init_mass
+  }
+
+  # calculate the derivative
+  d <- -as.data.frame(diff(subset_1$adj_massloss)/diff(subset_1$temp_C))
   x <- rep(NA, ncol(d))
   deriv <- rbind(x, d)
   colnames(deriv) <- 'deriv'
-  data_2 <- cbind(data_1, deriv)
-  data_2 <- data_2[-1,]
-  data_2$mass_T <- data_2[, mass] + init_mass
+  subset_2 <- cbind(subset_1, deriv)
+  subset_2 <- subset_2[-1,]
 
-  mod_data <- data_2[,c('temp_C', 'deriv', 'mass_T')]
+  mod_data <- subset_2[,c('temp_C', 'deriv', 'mass_T')]
 
   lower <- min(mod_data$temp_C)
   upper <- max(mod_data$temp_C)
 
   output <- list(data = mod_data,
                  mass_init = init_mass,
-                 bounds = c(lower, upper))
+                 temp_range = c(lower, upper))
 
   class(output) <- 'process'
   output
 
 }
-
