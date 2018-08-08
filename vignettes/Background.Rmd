@@ -52,7 +52,8 @@ We pyrolysed 10--20 mg subsamles of dry, ground litter in an N$_2$ environment f
 
 ```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 1.** Mass loss across temperature for *Juncus amabilis*.'}
 library(mixchar)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 plot(tmp, plot_type = 'mass')
 ```
 
@@ -70,7 +71,8 @@ After we've loaded our data, we need to calculate the rate of mass loss across t
 
 ```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 2.** DTG curve for *Juncus amabilis*. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 on represent mass loss phases.'}
 library(mixchar)
-tmp <- process(juncus, 'temp_C', 'mass_loss', 18.96)
+tmp <- process(juncus, init_mass = 18.96,
+               temp = 'temp_C', mass_loss = 'mass_loss')
 plot(tmp, plot_type = 'rate')
 segments(x0 = 40, y0 = 0.0018, x1 = 40, y1 = 0.002, lwd = 3, col = 'darkgrey')
 segments(x0 = 40, y0 = 0.002, x1 = 120, y1 = 0.002, lwd = 3, col = 'darkgrey')
