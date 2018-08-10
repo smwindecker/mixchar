@@ -12,8 +12,8 @@
 
 print.process <- function (x, ...) {
 
-  cat(paste('Derivative thermogravimetry data (DTG)
-            calculated for\n', nrow(x$data), 'datapoints from',
+  cat(paste('Derivative thermogravimetry data (DTG) calculated for\n',
+            nrow(x$data), 'datapoints from',
             round(x$temp_range[1], 2), 'to',
             round(x$temp_range[2], 2), 'degrees C.'))
 
