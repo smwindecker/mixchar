@@ -48,9 +48,9 @@ Dry litter must be ground in order to be used in thermogravimetric analysis. We 
 # Thermogravimetric analysis
 `r icon::fa('box', size = 2)` ***Pyrolyse samples***
 
-We pyrolysed 10--20 mg subsamles of dry, ground litter in an N$_2$ environment from 30--800 &deg;C at a temperature ramp of 10 &deg;C/min using a Netzsch TGA-FTIR thermogravimetric analyser (Department of Biomedical Engineering, University of Melbourne). The resulting data is mass loss against temperature (Fig. 1).
+We pyrolysed 10--20 mg subsamples of dry, ground litter in an N$_2$ environment from 30--800 &deg;C at a temperature ramp of 10 &deg;C/min using a Netzsch TGA-FTIR thermogravimetric analyser (Department of Biomedical Engineering, University of Melbourne). The resulting data is mass against temperature (Fig. 1).
 
-```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 1.** Mass loss across temperature for *Juncus amabilis*.'}
+```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 1.** Mass across temperature for *Juncus amabilis*.'}
 library(mixchar)
 tmp <- process(juncus, init_mass = 18.96,
                temp = 'temp_C', mass_loss = 'mass_loss')
@@ -63,13 +63,13 @@ plot(tmp, plot_type = 'mass')
 
 ## Calculate rate of mass loss
 
-After we've loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative of the mass across temperature. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases [@orfao2001]:
+After we've loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases [@orfao2001]:
 
   1. A short period with a pronounced peak of moisture evolution, up until approximately 120 &deg;C.
   2. A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120--650 &deg;C.
   3. A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 &deg;C.
 
-```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 2.** DTG curve for *Juncus amabilis*. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 on represent mass loss phases.'}
+```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 2.** DTG curve for *Juncus amabilis*. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 represent mass loss phases.'}
 library(mixchar)
 tmp <- process(juncus, init_mass = 18.96,
                temp = 'temp_C', mass_loss = 'mass_loss')
@@ -92,7 +92,7 @@ text(x = ((790-650)/2+650), y = 0.0014, '3', cex = 2, col = 'darkgrey')
 
 ## Crop DTG data
 
-Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest [@hu2016], we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (120--650 &deg;C). `deconvolve()` in the `mixchar` package defaults to cropping at 120 &deg;C and 700 &deg;C, but these can be modified with the `lower_temp` and `upper_temp` arguments.
+Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest [@hu2016], we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (roughly 120--650 &deg;C). 
 
 ## Non-linear mixture model
 
@@ -107,7 +107,7 @@ Biomass components decompose relatively independently because they do not intera
 
 where mass ($m$) is expressed as a fraction of mass at temperature $T$ ($M_T$) of the initial sample mass ($M_0$), $c_i$ is the mass of component $i$ that is decayed, and the mass loss curve of each individual component ($\frac{d\alpha_{i}}{dT}$) is the derivative of $\alpha_i$, the conversion of mass at a given temperature ($M_{Ti}$), from the initial ($M_{0i}$), given total mass lost between the initial and final ($M_{\infty i}$) temperature for each curve.
 
-Although most of our results can be described with only $n = 3$ peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in $n = 4$ independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures [see also @chen2017; @mullerhagedorn2007]. `deconvolve()` will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 &deg;C. Upon inspection of your curve you can override this by modifying the `n_curves` argument.
+Although most of our results can be described with only $n = 3$ peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in $n = 4$ independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures [see also @chen2017; @mullerhagedorn2007]. 
 
 In order to fit the mixture model, we must determine the shape of the individual curves ($\frac{d\alpha_{i}}{dT}$) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian [@sun2015], logistic [@barbadillo2007], Weibull [@cai2007], asymmetric double sigmoidal [@chen2017], and the Fraser-Suzuki function [@perejon2011; @hu2016]. Comparisons of several techniques [@svoboda2013; @perejon2011; @cheng2015] found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 3). We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:
 
@@ -115,9 +115,9 @@ In order to fit the mixture model, we must determine the shape of the individual
 	\frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
 \end{gather}
 
-where T is temperature (&deg;C), and the parameters $h_i$, $s_i$, $p_i$, and $w_i$ are height, skew, position, and width of the curve, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
+where T is temperature (&deg;C), and the parameters $h_i$, $s_i$, $p_i$, and $w_i$ are height, skew, position, and width of curve $i$, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
 
-```{r, echo = FALSE, out.width = '75%', fig.align='center', fig.cap = '**Figure 3.** Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: (a) Effect of modifying height; (b) skew; (c) position; and (d) width.'}
+```{r, echo = FALSE, out.width = '75%', fig.align='center', fig.cap = '**Figure 3.** Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: Effect of modifying (a) height; (b) skew; (c) position; and (d) width.'}
 legend_subfig <- function (subfig) {
   legend(200, .01, legend = paste0('(', subfig, ')'), bty = 'n', cex = 1.2)
 }
