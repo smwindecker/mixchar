@@ -1,0 +1,12 @@
+name: mixchar
+title: mixchar
+username:
+account: smwindecker
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 398053
+bundleId: 1528098
+url: https://smwindecker.shinyapps.io/mixchar/
+when: 1533884610.10824
+asMultiple: FALSE
+asStatic: FALSE
