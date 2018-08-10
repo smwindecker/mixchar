@@ -105,7 +105,6 @@
 <h1 class="hasAnchor">
 <a href="#why-deconvolution" class="anchor"></a>Why deconvolution?</h1>
 <p>Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.</p>
-<hr>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
@@ -113,7 +112,6 @@
 <p>You can install <code>mixchar</code> from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"smwindecker/mixchar"</span>)</code></pre></div>
-<hr>
 <p>Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the <a href="http://smwindecker.github.io/Background">website</a>. You can also find a full worked example either on the <a href="http://smwindecker.github.io/mixchar">website</a> or in the vignette that you can access via R as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">browseVignettes</span>(<span class="st">'mixchar'</span>)</code></pre></div>
 </div>
@@ -134,17 +132,12 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tmp &lt;-<span class="st"> </span><span class="kw"><a href="reference/process.html">process</a></span>(juncus, 
                <span class="dt">init_mass =</span> <span class="fl">18.96</span>, 
                <span class="dt">temp =</span> <span class="st">'temp_C'</span>, 
-               <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)
-tmp
-<span class="co">#&gt; Derivative thermogravimetry data (DTG)</span>
-<span class="co">#&gt;             calculated for</span>
-<span class="co">#&gt;  768 datapoints from 31.5 to 798.52 degrees C.</span></code></pre></div>
+               <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)</code></pre></div>
 <p>The default plot function for the derivative data shows you both the mass with temperature curve and the derivative rate of mass loss curve.</p>
 <p>Processed data then needs to be deconvolved into its constituent parts. The deconvolve function takes care of this step, by cropping the derivative data to exclude dehydration and then running the Fraser-Suzuki mixture model and estimating individual curve parameters and weights.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output &lt;-<span class="st"> </span><span class="kw"><a href="reference/deconvolve.html">deconvolve</a></span>(tmp)</code></pre></div>
 <p>Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. The function will decide whether three or four curves are best, but you can override it by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. If you’d like to modify those or the upper and lower bounds for the estimates, you can also do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments to <code><a href="reference/deconvolve.html">deconvolve()</a></code>.</p>
 <p>The <code><a href="reference/deconvolve.html">deconvolve()</a></code> function results in a variety of outputs. You can use a accessor functions to look at these. <code><a href="reference/component_weights.html">component_weights()</a></code> will display the weights of each carbon component, <code><a href="reference/rate_data.html">rate_data()</a></code> will show you the modified dataset used for fitting, <code><a href="reference/model_fit.html">model_fit()</a></code> will show you the model fit, and <code><a href="reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis. You can also plot the resulting output using the default plotting function, which can be in black and white or in colour.</p>
-<hr>
 </div>
 <div id="contribution" class="section level1">
 <h1 class="hasAnchor">
