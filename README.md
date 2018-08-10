@@ -6,7 +6,7 @@
 Why deconvolution?
 ==================
 
-Ecologists are often interested in determining the composition of plant cell wall biomass. Proportions of the primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.
+Plant cell wall biomass is composed of a range of different types of carbon. Proportions of primary carbon types are useful for estimating kinetic decay parameters or for calculation of intrinsic plant traits. Traditional methods for calculation of these components involve wet chemistry methods that can be monetarily and environmentally costly. Thermogravimetric analysis is an alternative method, already in use in the biofuel field, that involves pyrolysing dry, ground plant litter and estimating components from resulting mass decay peaks. Since different carbon types break down relatively independently during different temperature phases, we can separate the multi-peaked rate of mass loss curve into constituent parts using a mixture model. This package conducts this peak separation analysis in a open-source and reproducible way using R. This methodology has been tested on a range of plant litter composed primarily of soluble carbohydrates, hemicellulose, cellulose, and lignin.
 
 Installation
 ============
@@ -18,9 +18,10 @@ install.packages("devtools")
 devtools::install_github("smwindecker/mixchar")
 ```
 
-Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the [website](http://smwindecker.github.io/Background). You can also find a full worked example either on the [website](http://smwindecker.github.io/mixchar) or in the vignette that you can access via R as follows:
+Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the [website](http://smwindecker.github.io/Background). You can also find a full worked example either on the [website](http://smwindecker.github.io/mixchar) or in the vignette that you can access via R by installing with the `build_vignettes` argument as follows:
 
 ``` r
+devtools::install_github("smwindecker/mixchar", build_vignettes = TRUE)
 browseVignettes('mixchar')
 ```
 
