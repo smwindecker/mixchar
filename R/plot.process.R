@@ -64,4 +64,5 @@ plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
     p_dtg(df)
   }
 
+  par(mfrow = c(1,1))
 }
