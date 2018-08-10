@@ -57,9 +57,9 @@ weight_quantiles <- function (output, seed) {
   # weights calculated from the maximum likelihood estimates
   means <- get_weights(est, output)
 
-  all_weights <- rbind(CI_df, means)
+  all_weights <- rbind(means, CI_df)
   all_weights$value_type <- row.names(all_weights)
-  all_weights$value_type[all_weights$value_type == 3] <- 'mean'
+  all_weights$value_type[all_weights$value_type == 1] <- 'mean'
 
   rownames(all_weights) <- c()
 
