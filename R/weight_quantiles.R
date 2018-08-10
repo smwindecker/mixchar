@@ -50,14 +50,18 @@ weight_quantiles <- function (output, seed) {
   # equivalent random draws of weight estimates
   weights_draws <- t(apply(draws, 1, get_weights, output))
 
-  # means and uncertainty intervals of weight estimates
-  CI <- apply(weights_draws, 2, quantile, c(0.025, 0.975))
+  # uncertainty intervals and median of weight estimates
+  CI <- apply(weights_draws, 2, quantile, c(0.025, 0.5, 0.975))
   CI_df <- as.data.frame(CI)
+
+  # standard deviation
+  sd <- apply(weights_draws, 2, sd)
+  sd_df <- as.data.frame(sd)
 
   # weights calculated from the maximum likelihood estimates
   means <- get_weights(est, output)
 
-  all_weights <- rbind(means, CI_df)
+  all_weights <- rbind(means, CI_df, sd)
   all_weights$value_type <- row.names(all_weights)
   all_weights$value_type[all_weights$value_type == 1] <- 'mean'
 
