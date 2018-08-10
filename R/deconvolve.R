@@ -6,13 +6,13 @@
 #' @param lower_temp lower temperature bound to crop dataset, default to 120
 #' @param upper_temp upper temperature bound to crop dataset, default to 700
 #' @param seed random seed for nloptr optimiser
-#' @param n_curves number of curves optional specification
+#' @param n_peaks number of curves optional specification
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
+#' you have selected the number of curves in the n_peaks parameter.
 #' @param lower_vec vector of lower bound values for nls. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
+#' you have selected the number of curves in the n_peaks parameter.
 #' @param upper_vec vector of upper bound values for nls. Only specify this vector if
-#' you have selected the number of curves in the n_curves parameter.
+#' you have selected the number of curves in the n_peaks parameter.
 #' @return decon list containing amended dataframe, temperature bounds,
 #' minpack.lm model fit, the number of curves fit, and estimated component weights
 #' @keywords thermogravimetry fraser-suzuki deconvolution
@@ -25,7 +25,7 @@
 #' my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
 #                       height_2 = 0.006, skew_2 = -0.15, position_2 = 320, width_2 = 30,
 #                       height_3 = 0.001, skew_3 = -0.15, position_3 = 390, width_3 = 200)
-#' output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
+#' output <- deconvolve(tmp, n_peaks = 3, start_vec = my_starting_vec)
 #' }
 #' @export
 
@@ -33,7 +33,7 @@ deconvolve <- function (process_object,
                         lower_temp = 120,
                         upper_temp = 700,
                         seed = 1,
-                        n_curves = NULL,
+                        n_peaks = NULL,
                         start_vec = NULL,
                         lower_vec = NULL,
                         upper_vec = NULL) {
@@ -57,16 +57,16 @@ deconvolve <- function (process_object,
   temp <- mod_df$temp_C
   obs <- mod_df$deriv
 
-  if (is.null(n_curves) & fourth_peak == FALSE) {
+  if (is.null(n_peaks) & fourth_peak == FALSE) {
     n_peaks <- 3
   }
-  if (is.null(n_curves) & fourth_peak == TRUE) {
+  if (is.null(n_peaks) & fourth_peak == TRUE) {
     n_peaks <- 4
   }
-  if (isTRUE(n_curves == 3)) {
+  if (isTRUE(n_peaks == 3)) {
     n_peaks <- 3
   }
-  if (isTRUE(n_curves == 4)) {
+  if (isTRUE(n_peaks == 4)) {
     n_peaks <- 4
   }
 
@@ -135,7 +135,7 @@ deconvolve <- function (process_object,
   output <- list(data = mod_df,
                  temp_bounds = c(lower_temp, upper_temp),
                  model_fit = fit,
-                 n_curves = n_peaks)
+                 n_peaks = n_peaks)
 
   weights <- weight_quantiles(output, seed)
 

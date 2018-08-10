@@ -76,15 +76,15 @@ weight_quantiles <- function (output, seed) {
 
 get_weights <- function (param_vec, output) {
 
-  n_curves <- output$n_curves
+  n_peaks <- output$n_peaks
   lower_temp <- output$temp_bounds[1]
   upper_temp <- output$temp_bounds[2]
 
-  if (n_curves == 3) {
+  if (n_peaks == 3) {
     curve_vec <- 1:3
   }
 
-  if (n_curves == 4) {
+  if (n_peaks == 4) {
     curve_vec <- 0:3
   }
 
