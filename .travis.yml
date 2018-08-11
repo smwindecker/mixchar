@@ -1,6 +1,8 @@
 
 # Header
 language: r
+r:
+  - release 3.2
 sudo: false
 dist: trusty
 cache: packages
