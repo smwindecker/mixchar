@@ -7,7 +7,6 @@ os:
 r:
   - oldrel
   - release
-  - devel
 sudo: false
 dist: trusty
 cache: packages
