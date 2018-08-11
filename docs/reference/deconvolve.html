@@ -135,7 +135,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>deconvolve</span>(<span class='no'>process_object</span>, <span class='kw'>lower_temp</span> <span class='kw'>=</span> <span class='fl'>120</span>, <span class='kw'>upper_temp</span> <span class='kw'>=</span> <span class='fl'>700</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>n_curves</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lower_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>upper_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>n_peaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>start_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>lower_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>upper_vec</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,23 +157,23 @@
       <td><p>random seed for nloptr optimiser</p></td>
     </tr>
     <tr>
-      <th>n_curves</th>
+      <th>n_peaks</th>
       <td><p>number of curves optional specification</p></td>
     </tr>
     <tr>
       <th>start_vec</th>
       <td><p>vector of starting values for nls function. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.</p></td>
+you have selected the number of curves in the n_peaks parameter.</p></td>
     </tr>
     <tr>
       <th>lower_vec</th>
       <td><p>vector of lower bound values for nls. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.</p></td>
+you have selected the number of curves in the n_peaks parameter.</p></td>
     </tr>
     <tr>
       <th>upper_vec</th>
       <td><p>vector of upper bound values for nls. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.</p></td>
+you have selected the number of curves in the n_peaks parameter.</p></td>
     </tr>
     </table>
     
@@ -190,7 +190,7 @@ tmp <- process(juncus, init_mass = 18.96,
                temp = 'temp_C', mass_loss = 'mass_loss')
 output <- deconvolve(tmp)
 my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
-output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
+output <- deconvolve(tmp, n_peaks = 3, start_vec = my_starting_vec)
 # }
 </pre>
   </div>

@@ -5,7 +5,7 @@
 \title{Deconvolves Thermogravimetric Data}
 \usage{
 deconvolve(process_object, lower_temp = 120, upper_temp = 700, seed = 1,
-  n_curves = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL)
+  n_peaks = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
@@ -16,16 +16,16 @@ deconvolve(process_object, lower_temp = 120, upper_temp = 700, seed = 1,
 
 \item{seed}{random seed for nloptr optimiser}
 
-\item{n_curves}{number of curves optional specification}
+\item{n_peaks}{number of curves optional specification}
 
 \item{start_vec}{vector of starting values for nls function. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.}
+you have selected the number of curves in the n_peaks parameter.}
 
 \item{lower_vec}{vector of lower bound values for nls. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.}
+you have selected the number of curves in the n_peaks parameter.}
 
 \item{upper_vec}{vector of upper bound values for nls. Only specify this vector if
-you have selected the number of curves in the n_curves parameter.}
+you have selected the number of curves in the n_peaks parameter.}
 }
 \value{
 decon list containing amended dataframe, temperature bounds,
@@ -41,7 +41,7 @@ tmp <- process(juncus, init_mass = 18.96,
                temp = 'temp_C', mass_loss = 'mass_loss')
 output <- deconvolve(tmp)
 my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
-output <- deconvolve(tmp, n_curves = 3, start_vec = my_starting_vec)
+output <- deconvolve(tmp, n_peaks = 3, start_vec = my_starting_vec)
 }
 }
 \keyword{deconvolution}

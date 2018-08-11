@@ -164,10 +164,10 @@ deriv_marsilea</code></pre></div>
 <div id="deconvolve-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#deconvolve-data" class="anchor"></a>4. <code>deconvolve</code> data</h2>
-<p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 <span class="math inline">\(^{\circ}\)</span>C and 700 <span class="math inline">\(^{\circ}\)</span>C. These can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose curve in the low temperature range. <code>deconvolve</code> will decide whether three or four curves are best using an internal function that determines if there is a peak below 220 <span class="math inline">\(^{\circ}\)</span>C. Upon inspection of your curve you can override this by modifying the <code>n_curves</code> argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or you would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
+<p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. To do so it first crops to the second phase, as mentioned above, to default temperature bounds of 120 <span class="math inline">\(^{\circ}\)</span>C and 700 <span class="math inline">\(^{\circ}\)</span>C. These can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments. Although most biomass samples have only three main components (corresponding to hemicellulose, cellulose, and lignin), some have a second hemicellulose peak in the low temperature range. <code>deconvolve</code> will decide whether three or four peaks are best using an internal function that determines if there is a peak below 220 <span class="math inline">\(^{\circ}\)</span>C. Upon inspection of your curve you can override this by modifying the <code>n_peaks</code> argument. The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or you would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">output_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_juncus)
 output_juncus</code></pre></div>
-<pre><code>## Deconvolution by 3-part Fraser-Suzuki mixture model fitted to 
+<pre><code>## Deconvolution by -part Fraser-Suzuki mixture model fitted to 
 ## 580 datapoints from 120 to 700 degrees C.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here's an example of specifying your starting vector. </span>
 <span class="co"># the order of values is height, skew, position, then width</span>
@@ -177,10 +177,10 @@ my_starting_vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span cl
                      <span class="dt">height_2 =</span> <span class="fl">0.006</span>, <span class="dt">skew_2 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_2 =</span> <span class="dv">320</span>, <span class="dt">width_2 =</span> <span class="dv">30</span>,
                      <span class="dt">height_3 =</span> <span class="fl">0.001</span>, <span class="dt">skew_3 =</span> <span class="op">-</span><span class="fl">0.15</span>, <span class="dt">position_3 =</span> <span class="dv">390</span>, <span class="dt">width_3 =</span> <span class="dv">200</span>)
 
-output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea, <span class="dt">n_curves =</span> <span class="dv">4</span>, <span class="dt">start_vec =</span> my_starting_vec)
+output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea, <span class="dt">n_peaks =</span> <span class="dv">4</span>, <span class="dt">start_vec =</span> my_starting_vec)
 
 output_marsilea</code></pre></div>
-<pre><code>## Deconvolution by 4-part Fraser-Suzuki mixture model fitted to 
+<pre><code>## Deconvolution by -part Fraser-Suzuki mixture model fitted to 
 ## 580 datapoints from 120 to 700 degrees C.</code></pre>
 <hr>
 </div>
@@ -206,7 +206,7 @@ output_marsilea</code></pre></div>
 <pre><code>## [1] 120 700</code></pre>
 <ul>
 <li>
-<code><a href="../reference/model_fit.html">model_fit()</a></code> will show you the output of the mixture model and estimated parameter values for height, skew, position, and width for each curve. Curve 1 is hemicellulose, curve 2 is cellulose, and curve 3 is lignin. If present, the optional fourth curve located at the lowest temperature interval will be listed as curve 0:</li>
+<code><a href="../reference/model_fit.html">model_fit()</a></code> will show you the output of the mixture model and estimated parameter values for height, skew, position, and width for each peak. Peak 1 is hemicellulose, peak 2 is cellulose, and peak 3 is lignin. If present, the optional fourth peak located at the lowest temperature interval will be listed as peak 0:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)</code></pre></div>
 <pre><code>## Nonlinear regression model
@@ -239,31 +239,35 @@ output_marsilea</code></pre></div>
 <code><a href="../reference/component_weights.html">component_weights()</a></code> will display the mean, upper, and lower confidence intervals for each estimated component:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_juncus)</code></pre></div>
-<pre><code>##         HC       CL       LG value_type
-## 1 21.56004 17.67487 30.66299       mean
-## 2 20.43273 16.64336 29.52019       2.5%
-## 3 22.75751 18.67005 31.83022      97.5%</code></pre>
+<pre><code>##          HC         CL         LG value_type
+## 1 21.560043 17.6748678 30.6629878       mean
+## 2 20.432730 16.6433644 29.5201885       2.5%
+## 3 21.598042 17.6367413 30.6535146        50%
+## 4 22.757509 18.6700531 31.8302165      97.5%
+## 5  0.597823  0.5128314  0.5914669          5</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_marsilea)</code></pre></div>
-<pre><code>##       HC_1      HC_2        CL       LG value_type
-## 1 4.625424 16.281260 11.601421 31.00922       mean
-## 2 2.664669  9.124988  3.885893 24.84061       2.5%
-## 3 6.922566 27.118057 22.561010 36.14057      97.5%</code></pre>
+<pre><code>##       HC_1      HC_2        CL        LG value_type
+## 1 4.625424 16.281260 11.601421 31.009216       mean
+## 2 2.664669  9.124988  3.885893 24.840613       2.5%
+## 3 4.555857 16.317489 11.763706 31.052828        50%
+## 4 6.922566 27.118057 22.561010 36.140566      97.5%
+## 5 1.114594  4.434649  4.829690  3.013464          5</code></pre>
 <hr>
 </div>
 <div id="plot-deconvolved-curves" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-deconvolved-curves" class="anchor"></a>6. Plot deconvolved curves</h2>
-<p>The default plotting function for the output of the <code>deconvolve</code> function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component curves using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly viridis colours by specifying <code>bw = FALSE</code>.</p>
+<p>The default plotting function for the output of the <code>deconvolve</code> function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component peaks using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly viridis colours by specifying <code>bw = FALSE</code>.</p>
 <p>Take a look at your plot. Do the estimates seem reasonable?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(output_juncus, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="mixchar_files/figure-html/unnamed-chunk-15-1.png" width="80%"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(output_marsilea, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="mixchar_files/figure-html/unnamed-chunk-16-1.png" width="80%"></p>
-<p>If the estimated curves do not match your data well, it may be that your sample is a bit different than those used to develop the package. That’s not a problem, but you may need to try the deconvolution again with different starting values. If you aren’t managing to produce reasonable estimates, get in touch with us via the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
+<p>If the estimated peaks do not match your data well, it may be that your sample is a bit different than those used to develop the package. That’s not a problem, but you may need to try the deconvolution again with different starting values. If you aren’t managing to produce reasonable estimates, get in touch with us via the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
 <p>If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)
 params &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(fit_juncus)<span class="op">$</span>coefficients[,<span class="dv">1</span>])</code></pre></div>
-<p>and use <code><a href="../reference/fs_function.html">fs_function()</a></code> to plot individual component curves, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
+<p>and use <code><a href="../reference/fs_function.html">fs_function()</a></code> to plot individual component peaks, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
 <hr>
 <p>To read more about the methodology, check out the Detailed Methodology <a href="http://smwindecker.github.io/Background.html">article</a>.</p>
 </div>
