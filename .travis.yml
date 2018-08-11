@@ -2,11 +2,11 @@
 # Header
 language: r
 r:
-  - release 3.2
+- oldrelease
 sudo: false
 dist: trusty
 cache: packages
-warnings_are_errors: false
+warnings_are_errors: true
 
 #env
 env:
