@@ -2,7 +2,7 @@
 # Header
 language: r
 r:
-- oldrelease
+  - oldrel
 sudo: false
 dist: trusty
 cache: packages
