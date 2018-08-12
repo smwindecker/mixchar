@@ -1,18 +1,16 @@
 ---
 title: "Workflow for thermal decay deconvolution with mixchar"
-output: 
+output:
   html_document:
     css: mixchar.css
+    fig_caption: yes
     theme: lumen
     toc: yes
     toc_float:
       collapsed: no
       toc_depth: 4
-    fig_caption: yes
-vignette: >
-  %\VignetteIndexEntry{Workflow for thermal decay deconvolution with mixchar}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+vignette: |
+  %\VignetteIndexEntry{Workflow for thermal decay deconvolution with mixchar} %\VignetteEngine{knitr::rmarkdown} %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -182,4 +180,4 @@ and use `fs_function()` to plot individual component peaks, and `fs_mixture` fun
 
 <hr>
 
-To read more about the methodology, check out the Detailed Methodology [article](http://smwindecker.github.io/Background.html).
+To read more about the methodology, check out the Detailed Methodology [article](http://smwindecker.github.io/mixchar/articles/Background.html).

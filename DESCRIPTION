@@ -21,8 +21,8 @@ Imports:
     zoo,
     tmvtnorm
 License: MIT + file LICENSE
-URL: https://github.com/smwindecker/mixchar
-BugReports: https://github.com/smwindecker/mixchar/issues
+URL: http://github.com/smwindecker/mixchar
+BugReports: http://github.com/smwindecker/mixchar/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

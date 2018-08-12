@@ -7,8 +7,8 @@
   "identifier": "mixchar",
   "description": "Deconvolution of thermal decay curves allows you to quantify \n    proportions of biomass components in plant litter. Thermal decay curves\n    derived from thermogravimetric analysis (TGA) are imported, modified, and \n    then modelled in a three- or four- part  mixture model using the \n    Fraser-Suzuki function. The output is estimates for weights of \n    pseudo-components corresponding to hemicellulose, cellulose, and lignin.",
   "name": "mixchar: Mixture Model for the Deconvolution of Thermal Decay Curves",
-  "codeRepository": "https://github.com/smwindecker/mixchar",
-  "issueTracker": "https://github.com/smwindecker/mixchar/issues",
+  "codeRepository": "http://github.com/smwindecker/mixchar",
+  "issueTracker": "http://github.com/smwindecker/mixchar/issues",
   "license": "https://spdx.org/licenses/MIT",
   "version": "0.1.0.0",
   "programmingLanguage": {
@@ -169,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "1557.349KB",
+  "fileSize": "648.376KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"
