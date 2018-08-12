@@ -9,8 +9,10 @@ output:
     toc_float:
       collapsed: no
       toc_depth: 4
-vignette: |
-  %\VignetteIndexEntry{Workflow for thermal decay deconvolution with mixchar} %\VignetteEngine{knitr::rmarkdown} %\usepackage[utf8]{inputenc}
+vignette: >
+  %\VignetteIndexEntry{Workflow for thermal decay deconvolution with mixchar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
