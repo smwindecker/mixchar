@@ -450,7 +450,7 @@ All the functions of \verb|mixchar| were tested to see if they produced the desi
 \section*{(2) Availability}
 \vspace{0.5cm}
 \section*{Operating system}
-The package can work with either Windows, Mac OS X, or Linux.
+The package was tested on Windows, Mac OS X, and Linux.
 
 \section*{Programming language}
 R version 3.2.0 or higher.
@@ -466,22 +466,22 @@ This package was created by Saras Windecker and Dr. Nick Golding.
 
 \section*{Software location:}
 
-{\bf Archive} (e.g. institutional repository, general repository) (required – please see instructions on journal website for depositing archive copy of software in a suitable repository)
+{\bf Archive}
 
 \begin{description}[noitemsep,topsep=0pt]
-	\item[Name:] The name of the archive.
+	\item[Name:] CRAN
 	\item[Persistent identifier:] e.g. DOI, handle, PURL, etc.
 	\item[Licence:] Open license under which the software is licensed.
 	\item[Publisher:] Name of the person who deposited the software.
-	\item[Version published:] The version number of the software archived.
+	\item[Version published:] 0.1.0
 	\item[Date published:] dd/mm/yy
 \end{description}
 
 
-{\bf Code repository} GitHub
+{\bf Code repository}
 
 \begin{description}[noitemsep,topsep=0pt]
-	\item[Name:] \url{https://github.com/smwindecker/mixchar/}
+	\item[Name:] Github \url{https://github.com/smwindecker/mixchar/}
 	\item[Persistent identifier:] DOI:10.5281/zenodo.1343849 https://doi.org/10.5281/zenodo.1343849
 	\item[Licence:] MIT and open license as found on https://github.com/smwindecker/mixchar/releases/tag/v0.1.0.
 	\item[Date published:] 11/08/2018
