@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mixchar</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.0</span>
       </span>
     </div>
 
@@ -66,7 +66,14 @@
   <a href="../reference/index.html">
     <span class="fa fa-file-code-o"></span>
      
-    functions
+    Functions
+  </a>
+</li>
+<li>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    News
   </a>
 </li>
 <li>
@@ -102,8 +109,8 @@
 <div id="background" class="section level1">
 <h1 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h1>
-<p>Plant cell wall biomass is composed of a range of different types of carbon. Ecologists can use these proportions of biomass carbon to make generalisations about species’ effects on ecosystem processes such as litter decomposition, which links plant biomass to the global carbon cycle <span class="citation">(W. K. Cornwell et al. 2008)</span>. Biofuels researchers use proportions of biomass carbon types to estimate kinetic decay parameters of species’ tissue. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry assays for carbon component analysis, which are time-consuming and adversely impact the environment through use of sulfuric acid and acetic anhydride, among other chemicals. Thermogravimetric analysis (TGA) is an alternative method, already in use among biofuels researchers, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a <span class="math inline">\(N_2\)</span> environment, termed pyrolysis).</p>
-<p>Mass loss during pyrolysis can be regarded as the sum of the degradation of the main components of the sample — hemicelluloses, cellulose, and lignin <span class="citation">(Hu et al. 2016; Cheng et al. 2015; Perejón et al. 2011; Órfão and Figueiredo 2001; Müller-Hagedorn and Bockhorn 2007)</span>. Therefore, the multi-peaked rate of mass loss curve can be mathematically separated into constituent parts with a mixture model — termed deconvolution. By integrating under these individual peaks, we can estimate the contribution of each component to the overall initial sample. This method has been validated by studies comparing estimates to experimental measurements <span class="citation">(Yang et al. 2006)</span>. Plant trait measurement is guided by the principle of standardised, widely reproducible methods <span class="citation">(N. Pérez-Harguindeguy et al. 2013)</span>, but much of the published literature use commercial software to deconvolve the rate of mass loss curve, for example OriginPro <span class="citation">(C. Chen et al. 2017)</span>, PeakFit <span class="citation">(Perejón et al. 2011)</span>, Fityk <span class="citation">(Perejón et al. 2011)</span>, or Datafit <span class="citation">(Cheng et al. 2015)</span>. Software accessibility and reproducibility may be one reason why thermogravimetric analysis for carbon type estimation has not yet been widely adopted by functional ecologists, despite being previously used to identify plant species’ recalcitrance, for example in marine and coastal macrophytes <span class="citation">(Trevathan-Tackett et al. 2015)</span>, and eucaplyts <span class="citation">(Órfão and Figueiredo 2001)</span>. In addition, proprietary software inhibits researchers already conducting this type of analysis from making their analyses independently reproducible.</p>
+<p>Plant cell wall biomass is composed of a range of different types of carbon. Ecologists can use these proportions of biomass carbon to make generalisations about species’ effects on ecosystem processes such as litter decomposition, which links plant biomass to the global carbon cycle <span class="citation">(Cornwell et al. 2008)</span>. Biofuels researchers use proportions of biomass carbon types to estimate kinetic decay parameters of species’ tissue. Traditional methods for calculation of lignocellulosic biomass involve wet chemistry assays for carbon component analysis, which are time-consuming and adversely impact the environment through use of sulfuric acid and acetic anhydride, among other chemicals. Thermogravimetric analysis (TGA) is an alternative method, already in use among biofuels researchers, to approximate these carbon compounds from mass loss data obtained by heating a biomass sample (in a <span class="math inline">\(N_2\)</span> environment, termed pyrolysis).</p>
+<p>Mass loss during pyrolysis can be regarded as the sum of the degradation of the main components of the sample — hemicelluloses, cellulose, and lignin <span class="citation">(Hu et al. 2016; Cheng et al. 2015; Perejón et al. 2011; Órfão and Figueiredo 2001; Müller-Hagedorn and Bockhorn 2007)</span>. Therefore, the multi-peaked rate of mass loss curve can be mathematically separated into constituent parts with a mixture model — termed deconvolution. By integrating under these individual peaks, we can estimate the contribution of each component to the overall initial sample. This method has been validated by studies comparing estimates to experimental measurements <span class="citation">(Yang et al. 2006)</span>. Plant trait measurement is guided by the principle of standardised, widely reproducible methods <span class="citation">(Pérez-Harguindeguy et al. 2013)</span>, but much of the published literature use commercial software to deconvolve the rate of mass loss curve, for example OriginPro <span class="citation">(Chen et al. 2017)</span>, PeakFit <span class="citation">(Perejón et al. 2011)</span>, Fityk <span class="citation">(Perejón et al. 2011)</span>, or Datafit <span class="citation">(Cheng et al. 2015)</span>. Software accessibility and reproducibility may be one reason why thermogravimetric analysis for carbon type estimation has not yet been widely adopted by functional ecologists, despite being previously used to identify plant species’ recalcitrance, for example in marine and coastal macrophytes <span class="citation">(Trevathan-Tackett et al. 2015)</span>, and eucaplyts <span class="citation">(Órfão and Figueiredo 2001)</span>. In addition, proprietary software inhibits researchers already conducting this type of analysis from making their analyses independently reproducible.</p>
 <p>The <code>mixchar</code> package provides an open-source set of functions to perform this deconvolution. Although the nonlinear mixture model used for peak separation at the core of this package could be used for many different purposes, <code>mixchar</code> provides specific guidelines related to thermal decay curve analysis and carbon component estimation.</p>
 <hr>
 </div>
@@ -157,18 +164,18 @@
 <h2 class="hasAnchor">
 <a href="#non-linear-mixture-model" class="anchor"></a>Non-linear mixture model</h2>
 <p>Biomass components decompose relatively independently because they do not interact much during thermal volatilisation <span class="citation">(Yang et al. 2006)</span>. Therefore, the cropped DTG curve can be mathematically deconvolved into constituent parts using a mixture model. The derivative rate of mass loss equation (<span class="math inline">\(\frac{dm}{dT}\)</span>) can be expressed as the sum of <span class="math inline">\(n\)</span> independent reactions, as follows <span class="citation">(Órfão and Figueiredo 2001)</span>:</p>
-<span class="math display">\[\begin{align}
+<p><span class="math display">\[\begin{align}
     -\frac{dm}{dT} &amp;= \sum\limits_{i=1}^n c_i\frac{d\alpha_{i}}{dT} \label{eqn:mixture_model} \\
     m &amp;= \frac{M_T}{M_0} \label{eqn:fraction} \\
     c_i &amp;= M_{0i} - M_{\infty i} \label{eqn:decayed_mass} \\
     \alpha_i &amp;= \frac{M_{0i} - M_{Ti}}{M_{0i} - M_{\infty i}} \label{eqn:alpha}
-\end{align}\]</span>
+\end{align}\]</span></p>
 <p>where mass (<span class="math inline">\(m\)</span>) is expressed as a fraction of mass at temperature <span class="math inline">\(T\)</span> (<span class="math inline">\(M_T\)</span>) of the initial sample mass (<span class="math inline">\(M_0\)</span>), <span class="math inline">\(c_i\)</span> is the mass of component <span class="math inline">\(i\)</span> that is decayed, and the mass loss curve of each individual component (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) is the derivative of <span class="math inline">\(\alpha_i\)</span>, the conversion of mass at a given temperature (<span class="math inline">\(M_{Ti}\)</span>), from the initial (<span class="math inline">\(M_{0i}\)</span>), given total mass lost between the initial and final (<span class="math inline">\(M_{\infty i}\)</span>) temperature for each curve.</p>
-<p>Although most of our results can be described with only <span class="math inline">\(n = 3\)</span> peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in <span class="math inline">\(n = 4\)</span> independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures <span class="citation">(see also C. Chen et al. 2017; Müller-Hagedorn and Bockhorn 2007)</span>.</p>
-<p>In order to fit the mixture model, we must determine the shape of the individual curves (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian <span class="citation">(Sun et al. 2015)</span>, logistic <span class="citation">(Barbadillo et al. 2007)</span>, Weibull <span class="citation">(J. Cai and Liu 2007)</span>, asymmetric double sigmoidal <span class="citation">(C. Chen et al. 2017)</span>, and the Fraser-Suzuki function <span class="citation">(Perejón et al. 2011; Hu et al. 2016)</span>. Comparisons of several techniques <span class="citation">(Svoboda and Málek 2013; Perejón et al. 2011; Cheng et al. 2015)</span> found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 3). We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:</p>
-<span class="math display">\[\begin{gather}\label{eqn:fs_function}
+<p>Although most of our results can be described with only <span class="math inline">\(n = 3\)</span> peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in <span class="math inline">\(n = 4\)</span> independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures <span class="citation">(see also Chen et al. 2017; Müller-Hagedorn and Bockhorn 2007)</span>.</p>
+<p>In order to fit the mixture model, we must determine the shape of the individual curves (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian <span class="citation">(Sun et al. 2015)</span>, logistic <span class="citation">(Barbadillo et al. 2007)</span>, Weibull <span class="citation">(Cai and Liu 2007)</span>, asymmetric double sigmoidal <span class="citation">(Chen et al. 2017)</span>, and the Fraser-Suzuki function <span class="citation">(Perejón et al. 2011; Hu et al. 2016)</span>. Comparisons of several techniques <span class="citation">(Svoboda and Málek 2013; Perejón et al. 2011; Cheng et al. 2015)</span> found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 3). We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:</p>
+<p><span class="math display">\[\begin{gather}\label{eqn:fs_function}
     \frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
-\end{gather}\]</span>
+\end{gather}\]</span></p>
 <p>where T is temperature (°C), and the parameters <span class="math inline">\(h_i\)</span>, <span class="math inline">\(s_i\)</span>, <span class="math inline">\(p_i\)</span>, and <span class="math inline">\(w_i\)</span> are height, skew, position, and width of curve <span class="math inline">\(i\)</span>, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the <a href="https://smwindecker.shinyapps.io/mixchar/">shiny app</a>.</p>
 <div class="figure" style="text-align: center">
 <img src="Background_files/figure-html/unnamed-chunk-4-1.png" alt="**Figure 3.** Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: Effect of modifying (a) height; (b) skew; (c) position; and (d) width." width="75%"><p class="caption">
@@ -186,9 +193,9 @@
 <h2 class="hasAnchor">
 <a href="#component-weights" class="anchor"></a>Component weights</h2>
 <p>Once overall curve parameters are fit, we can pass each components’s parameter estimates to a single Fraser-Suzuki function, and calculate the weight of the component in the overall sample by integrating the area under the peak. To estimate the uncertainty of the weight predictions, <code><a href="../reference/deconvolve.html">deconvolve()</a></code> will calculate the 95% interval of the weight estimates across a random sample of parameter estimates, drawn in proportion to their likelihood. We assume a truncated multivariate normal distribution, since the parameters are constrained to positive values, using the modelling package <code>tmvtnorm</code> <span class="citation">(Wilhelm and G 2015)</span>.</p>
-<span class="math display">\[\begin{gather}\label{eqn:integration}
+<p><span class="math display">\[\begin{gather}\label{eqn:integration}
     \alpha_i = \int_{120}^{650} h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\} dT
-\end{gather}\]</span>
+\end{gather}\]</span></p>
 <p>We interpret that the peak located around 250–270 °C corresponds to primary hemicelluloses, around 310–330 °C to cellulose, and around 330–350 °C to lignin. If present, the fourth peak located below 200 °C corresponds to the most simple hemicelluloses. The second dataset included in the package, <code>marsilea</code>, is an example of a four-peak deconvolution.</p>
 <hr>
 </div>
@@ -204,43 +211,43 @@
 <p>Cai, J., and R. Liu. 2007. “Parametric Study of the Nonisothermal N Th-Order Distributed Activation Energy Model Involved the Weibull Distribution for Biomass Pyrolysis.” <em>Journal of Thermal Analysis and Calorimetry</em> 89 (3): 971–75.</p>
 </div>
 <div id="ref-chen2017">
-<p>Chen, Chuihan, Wei Miao, Cheng Zhou, and Hongjuan Wu. 2017. “Thermogravimetric Pyrolysis Kinetics of Bamboo Waste via Asymmetric Double Sigmoidal (Asym2sig) Function Deconvolution.” <em>Bioresource Technology</em> 225 (February): 48–57. doi:<a href="https://doi.org/10.1016/j.biortech.2016.11.013">10.1016/j.biortech.2016.11.013</a>.</p>
+<p>Chen, Chuihan, Wei Miao, Cheng Zhou, and Hongjuan Wu. 2017. “Thermogravimetric Pyrolysis Kinetics of Bamboo Waste via Asymmetric Double Sigmoidal (Asym2sig) Function Deconvolution.” <em>Bioresource Technology</em> 225 (February): 48–57. <a href="https://doi.org/10.1016/j.biortech.2016.11.013" class="uri">https://doi.org/10.1016/j.biortech.2016.11.013</a>.</p>
 </div>
 <div id="ref-cheng2015">
-<p>Cheng, Zhicai, Weixuan Wu, Peng Ji, Xiaotong Zhou, Ronghou Liu, and Junmeng Cai. 2015. “Applicability of Fraser Function in Kinetic Analysis of DAEM Processes and Lignocellulosic Biomass Pyrolysis Processes.” <em>Journal of Thermal Analysis and Calorimetry</em> 119 (2): 1429–38. doi:<a href="https://doi.org/10.1007/s10973-014-4215-3">10.1007/s10973-014-4215-3</a>.</p>
+<p>Cheng, Zhicai, Weixuan Wu, Peng Ji, Xiaotong Zhou, Ronghou Liu, and Junmeng Cai. 2015. “Applicability of Fraser Function in Kinetic Analysis of DAEM Processes and Lignocellulosic Biomass Pyrolysis Processes.” <em>Journal of Thermal Analysis and Calorimetry</em> 119 (2): 1429–38. <a href="https://doi.org/10.1007/s10973-014-4215-3" class="uri">https://doi.org/10.1007/s10973-014-4215-3</a>.</p>
 </div>
 <div id="ref-cornwell2008">
-<p>Cornwell, William K., Johannes H. C. Cornelissen, Kathryn Amatangelo, Ellen Dorrepaal, Valerie T. Eviner, Oscar Godoy, Sarah E. Hobbie, et al. 2008. “Plant Species Traits Are the Predominant Control on Litter Decomposition Rates Within Biomes Worldwide.” <em>Ecology Letters</em> 11 (10): 1065–71. doi:<a href="https://doi.org/10.1111/j.1461-0248.2008.01219.x">10.1111/j.1461-0248.2008.01219.x</a>.</p>
+<p>Cornwell, William K., Johannes H. C. Cornelissen, Kathryn Amatangelo, Ellen Dorrepaal, Valerie T. Eviner, Oscar Godoy, Sarah E. Hobbie, et al. 2008. “Plant Species Traits Are the Predominant Control on Litter Decomposition Rates Within Biomes Worldwide.” <em>Ecology Letters</em> 11 (10): 1065–71. <a href="https://doi.org/10.1111/j.1461-0248.2008.01219.x" class="uri">https://doi.org/10.1111/j.1461-0248.2008.01219.x</a>.</p>
 </div>
 <div id="ref-minpack-lm">
 <p>Elzhov, Timur V., Katharine M. Mullen, Andrej-Nikolai Spiess, and Ben Bolker. 2016. <em>Minpack.lm: R Interface to the Levenberg-Marquardt Nonlinear Least-Squares Algorithm Found in Minpack, Plus Support for Bounds</em>. <a href="https://CRAN.R-project.org/package=minpack.lm" class="uri">https://CRAN.R-project.org/package=minpack.lm</a>.</p>
 </div>
 <div id="ref-hu2016">
-<p>Hu, Mian, Zhihua Chen, Shengkai Wang, Dabin Guo, Caifeng Ma, Yan Zhou, Jian Chen, et al. 2016. “Thermogravimetric Kinetics of Lignocellulosic Biomass Slow Pyrolysis Using Distributed Activation Energy Model, Fraser Deconvolution, and Iso-Conversional Method.” <em>Energy Conversion and Management</em> 118 (June): 1–11. doi:<a href="https://doi.org/10.1016/j.enconman.2016.03.058">10.1016/j.enconman.2016.03.058</a>.</p>
+<p>Hu, Mian, Zhihua Chen, Shengkai Wang, Dabin Guo, Caifeng Ma, Yan Zhou, Jian Chen, et al. 2016. “Thermogravimetric Kinetics of Lignocellulosic Biomass Slow Pyrolysis Using Distributed Activation Energy Model, Fraser Deconvolution, and Iso-Conversional Method.” <em>Energy Conversion and Management</em> 118 (June): 1–11. <a href="https://doi.org/10.1016/j.enconman.2016.03.058" class="uri">https://doi.org/10.1016/j.enconman.2016.03.058</a>.</p>
 </div>
 <div id="ref-nloptr">
 <p>Johnson, Steven G. n.d. “The Nlopt Nonlinear-Optimization Package.” <a href="http://ab-initio.mit.edu/nlopt" class="uri">http://ab-initio.mit.edu/nlopt</a>.</p>
 </div>
 <div id="ref-mullerhagedorn2007">
-<p>Müller-Hagedorn, M., and H. Bockhorn. 2007. “Pyrolytic Behaviour of Different Biomasses (Angiosperms) (Maize Plants, Straws, and Wood) in Low Temperature Pyrolysis.” <em>Journal of Analytical and Applied Pyrolysis</em> 79 (1-2): 136–46. doi:<a href="https://doi.org/10.1016/j.jaap.2006.12.008">10.1016/j.jaap.2006.12.008</a>.</p>
+<p>Müller-Hagedorn, M., and H. Bockhorn. 2007. “Pyrolytic Behaviour of Different Biomasses (Angiosperms) (Maize Plants, Straws, and Wood) in Low Temperature Pyrolysis.” <em>Journal of Analytical and Applied Pyrolysis</em> 79 (1-2): 136–46. <a href="https://doi.org/10.1016/j.jaap.2006.12.008" class="uri">https://doi.org/10.1016/j.jaap.2006.12.008</a>.</p>
 </div>
 <div id="ref-orfao2001">
-<p>Órfão, J. J. M, and J. L Figueiredo. 2001. “A Simplified Method for Determination of Lignocellulosic Materials Pyrolysis Kinetics from Isothermal Thermogravimetric Experiments.” <em>Thermochimica Acta</em> 380 (1): 67–78. doi:<a href="https://doi.org/10.1016/S0040-6031(01)00634-7">10.1016/S0040-6031(01)00634-7</a>.</p>
+<p>Órfão, J. J. M, and J. L Figueiredo. 2001. “A Simplified Method for Determination of Lignocellulosic Materials Pyrolysis Kinetics from Isothermal Thermogravimetric Experiments.” <em>Thermochimica Acta</em> 380 (1): 67–78. <a href="https://doi.org/10.1016/S0040-6031(01)00634-7" class="uri">https://doi.org/10.1016/S0040-6031(01)00634-7</a>.</p>
 </div>
 <div id="ref-perejon2011">
-<p>Perejón, Antonio, Pedro E. Sánchez-Jiménez, José M. Criado, and Luis A. Pérez-Maqueda. 2011. “Kinetic Analysis of Complex Solid-State Reactions. A New Deconvolution Procedure.” <em>The Journal of Physical Chemistry B</em> 115 (8): 1780–91. doi:<a href="https://doi.org/10.1021/jp110895z">10.1021/jp110895z</a>.</p>
+<p>Perejón, Antonio, Pedro E. Sánchez-Jiménez, José M. Criado, and Luis A. Pérez-Maqueda. 2011. “Kinetic Analysis of Complex Solid-State Reactions. A New Deconvolution Procedure.” <em>The Journal of Physical Chemistry B</em> 115 (8): 1780–91. <a href="https://doi.org/10.1021/jp110895z" class="uri">https://doi.org/10.1021/jp110895z</a>.</p>
 </div>
 <div id="ref-perezharguindeguy2013">
-<p>Pérez-Harguindeguy, N., S. Díaz, E. Garnier, S. Lavorel, H. Poorter, P. Jaureguiberry, M. S. Bret-Harte, et al. 2013. “New Handbook for Standardised Measurement of Plant Functional Traits Worldwide.” <em>Australian Journal of Botany</em> 61 (3): 167. doi:<a href="https://doi.org/10.1071/BT12225">10.1071/BT12225</a>.</p>
+<p>Pérez-Harguindeguy, N., S. Díaz, E. Garnier, S. Lavorel, H. Poorter, P. Jaureguiberry, M. S. Bret-Harte, et al. 2013. “New Handbook for Standardised Measurement of Plant Functional Traits Worldwide.” <em>Australian Journal of Botany</em> 61 (3): 167. <a href="https://doi.org/10.1071/BT12225" class="uri">https://doi.org/10.1071/BT12225</a>.</p>
 </div>
 <div id="ref-bobyqa">
-<p>Powell, M.J.D. 2009. “The Bobyqa Algorithm for Bound Constrained Optimization Wihtout Derivatives.” <em>Department of Applied Mathematics and Theoretical Physics, Cambridge England, Technical Report Na2009/06</em>.</p>
+<p>Powell, M.J.D. 2009. “The Bobyqa Algorithm for Bound Constrained Optimization Wihtout Derivatives.” <em>Department of Applied Mathematics and Theoretical Physics, Cambridge England, Technical Report NA2009/06</em>.</p>
 </div>
 <div id="ref-sun2015">
-<p>Sun, Youhong, Fengtian Bai, Xiaoshu Lü, Chunxia Jia, Qing Wang, Mingyi Guo, Qiang Li, and Wei Guo. 2015. “Kinetic Study of Huadian Oil Shale Combustion Using a Multi-Stage Parallel Reaction Model.” <em>Energy</em> 82 (March): 705–13. doi:<a href="https://doi.org/10.1016/j.energy.2015.01.080">10.1016/j.energy.2015.01.080</a>.</p>
+<p>Sun, Youhong, Fengtian Bai, Xiaoshu Lü, Chunxia Jia, Qing Wang, Mingyi Guo, Qiang Li, and Wei Guo. 2015. “Kinetic Study of Huadian Oil Shale Combustion Using a Multi-Stage Parallel Reaction Model.” <em>Energy</em> 82 (March): 705–13. <a href="https://doi.org/10.1016/j.energy.2015.01.080" class="uri">https://doi.org/10.1016/j.energy.2015.01.080</a>.</p>
 </div>
 <div id="ref-svoboda2013">
-<p>Svoboda, Roman, and Jiří Málek. 2013. “Applicability of Fraser Function in Kinetic Analysis of Complex Crystallization Processes.” <em>Journal of Thermal Analysis and Calorimetry</em> 111 (2): 1045–56. doi:<a href="https://doi.org/10.1007/s10973-012-2445-9">10.1007/s10973-012-2445-9</a>.</p>
+<p>Svoboda, Roman, and Jiří Málek. 2013. “Applicability of Fraser Function in Kinetic Analysis of Complex Crystallization Processes.” <em>Journal of Thermal Analysis and Calorimetry</em> 111 (2): 1045–56. <a href="https://doi.org/10.1007/s10973-012-2445-9" class="uri">https://doi.org/10.1007/s10973-012-2445-9</a>.</p>
 </div>
 <div id="ref-trevathantackett2015">
 <p>Trevathan-Tackett, Stacey M., Jeffrey Kelleway, Peter I. Macreadie, John Beardall, Peter Ralph, and Alecia Bellgrove. 2015. “Comparison of Marine Macrophytes for Their Contributions to Blue Carbon Sequestration.” <em>Ecology</em> 96 (11): 3043–57.</p>
@@ -249,7 +256,7 @@
 <p>Wilhelm, Stefan, and Manjunath B G. 2015. <em>tmvtnorm: Truncated Multivariate Normal and Student T Distribution</em>. <a href="http://CRAN.R-project.org/package=tmvtnorm" class="uri">http://CRAN.R-project.org/package=tmvtnorm</a>.</p>
 </div>
 <div id="ref-yang2006">
-<p>Yang, Haiping, Rong Yan, Hanping Chen, Chuguang Zheng, Dong Ho Lee, and David Tee Liang. 2006. “In-Depth Investigation of Biomass Pyrolysis Based on Three Major Components: Hemicellulose, Cellulose and Lignin.” <em>Energy &amp; Fuels</em> 20 (1): 388–93. doi:<a href="https://doi.org/10.1021/ef0580117">10.1021/ef0580117</a>.</p>
+<p>Yang, Haiping, Rong Yan, Hanping Chen, Chuguang Zheng, Dong Ho Lee, and David Tee Liang. 2006. “In-Depth Investigation of Biomass Pyrolysis Based on Three Major Components: Hemicellulose, Cellulose and Lignin.” <em>Energy &amp; Fuels</em> 20 (1): 388–93. <a href="https://doi.org/10.1021/ef0580117" class="uri">https://doi.org/10.1021/ef0580117</a>.</p>
 </div>
 </div>
 </div>

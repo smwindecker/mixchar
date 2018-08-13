@@ -66,8 +66,11 @@ navbar:
       - text: Workflow with mixchar
         href: articles/mixchar.html
     - icon: fa-file-code-o
-      text: "functions"
+      text: "Functions"
       href: reference/index.html
+    - icon: fa-newspaper-o
+      text: "News"
+      href: news/index.html
     - icon: fa-github fa-lg
       text: "github"
       href: https://github.com/smwindecker/mixchar
