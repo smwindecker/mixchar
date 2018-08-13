@@ -5,8 +5,9 @@
 \title{Fraser-Suzuki mixture model}
 \usage{
 fs_mixture(temp, height_1, skew_1, position_1, width_1, height_2, skew_2,
-  position_2, width_2, height_3, skew_3, position_3, width_3, height_0 = NULL,
-  skew_0 = NULL, position_0 = NULL, width_0 = NULL)
+  position_2, width_2, height_3, skew_3, position_3, width_3,
+  height_0 = NULL, skew_0 = NULL, position_0 = NULL,
+  width_0 = NULL)
 }
 \arguments{
 \item{temp}{temperature values}

@@ -14,10 +14,10 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.5.0",
+    "version": "3.5.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.5.0 (2018-04-23)",
+  "runtimePlatform": "R version 3.5.1 (2018-07-02)",
   "author": [
     {
       "@type": "Person",
@@ -169,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "648.376KB",
+  "fileSize": "648.431KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"

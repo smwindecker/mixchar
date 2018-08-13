@@ -4,8 +4,9 @@
 \alias{deconvolve}
 \title{Deconvolves Thermogravimetric Data}
 \usage{
-deconvolve(process_object, lower_temp = 120, upper_temp = 700, seed = 1,
-  n_peaks = NULL, start_vec = NULL, lower_vec = NULL, upper_vec = NULL)
+deconvolve(process_object, lower_temp = 120, upper_temp = 700,
+  seed = 1, n_peaks = NULL, start_vec = NULL, lower_vec = NULL,
+  upper_vec = NULL)
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
