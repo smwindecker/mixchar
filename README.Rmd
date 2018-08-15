@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
 [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-
 [![DOI](https://zenodo.org/badge/103010631.svg)](https://zenodo.org/badge/latestdoi/103010631)
 
 # Why deconvolution?
@@ -33,7 +32,9 @@ install.packages("devtools")
 devtools::install_github("smwindecker/mixchar")
 ```
 
-Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the [website](http://smwindecker.github.io/mixchar/articles/Background.html). You can also find a full worked example on the [website](http://smwindecker.github.io/mixchar/articles/mixchar.html).
+Below we will show a basic implementation of the package. For a detailed step by step workflow, see the [workflow vignette on the website](http://smwindecker.github.io/mixchar/articles/mixchar.html).
+
+For a detailed discussion of the methodology, please see the [methodology vignette on the website](http://smwindecker.github.io/mixchar/articles/Background.html). 
 
 # Basic use
 
@@ -71,5 +72,4 @@ This is still a work in progress! If you see any mistakes, or find that the code
 
 # Acknowledgements
 
-Thank you to Nick Tierney and David Wilkinson for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project. 
-
+Thank you to Nick Tierney and David Wilkinson for valuable feedback during development. Thanks to the Holsworth Wildlife Reseach Endowment & The Ecological Society of Australia for support on this project.
