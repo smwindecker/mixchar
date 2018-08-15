@@ -61,9 +61,45 @@ plot(tmp, plot_type = 'mass')
 
 # Deconvolution
 
-## Calculate rate of mass loss
+## 1. Load data
 
-After we've loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases [@orfao2001]:
+The first step is to load the data derived from the thermogravimetric analysis into R. This step will vary depending on the format of your exported data. Two of many options for reading data are `read.csv()` for .csv files and `read.table()` for .txt files. Both of these functions also have a `skip` argument, in which you can tell R to begin reading data from a certain line, useful if the exported data has several lines of metadata at the top. You may also then have to assign column names. For example:
+
+``` {r, eval = FALSE}
+my_data <- read.csv('your_file_path_here.csv', header = FALSE, skip = 15)
+colnames(c('temperature_C', 'mass_mg'))
+```
+
+More information about reading data into R can be found [here](http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions). 
+
+This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. The `juncus` dataset contains theromogravimetric data for a sample of the freshwater reed, *Juncus amabilis*, and `marsilea` contains data for the freshwater fern, *Marsilea drumondii*. 
+
+``` {r}
+library(mixchar)
+head(juncus)
+```
+
+<hr>
+
+## 2. Calculate rate of mass loss
+
+After we've loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. We use the `process` function to take the derivative, resulting in rate of mass loss over temperature data. The `process` function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass column (mg). Mass might be recorded in your exported dataset in different ways:
+
+  * If you have *mass loss of sample*, such as in the `juncus` dataset, you can specify the column name using the `mass_loss` argument.
+  * If you have *mass remaining of sample*, you specify the column name using the `mass` argument.
+  * **You only need to specify one of these columns for the `process` function.** But make sure the argument matches the kind of data!
+
+The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument `temp_units = 'K'`. 
+
+```{r}
+deriv_juncus <- process(juncus,                          # dataframe name
+                        init_mass = 18.96,
+                        temp = 'temp_C',                 # column name for temperature
+                        mass_loss = 'mass_loss')         # column name for mass loss data
+deriv_juncus
+```
+
+If you `plot()` the output of the `process` function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you're only interested in one plot, you can specify `plot_type = 'mass'` or `plot_type = 'rate'`. You can also specify a size factor using `cex`. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases [@orfao2001]:
 
   1. A short period with a pronounced peak of moisture evolution, up until approximately 120 &deg;C.
   2. A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120--650 &deg;C.
@@ -90,11 +126,17 @@ segments(x0 = 790, y0 = 0.0008, x1 = 790, y1 = 0.001, lwd = 3, col = 'darkgrey')
 text(x = ((790-650)/2+650), y = 0.0014, '3', cex = 2, col = 'darkgrey')
 ```
 
-## Crop DTG data
+In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 $^{\circ}$C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step. 
 
-Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest [@hu2016], we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (roughly 120--650 &deg;C). 
+<hr>
 
-## Non-linear mixture model
+## 3. `deconvolve` data
+
+### Crop mass loss data
+
+The `decovolve` function takes care of modelling the rate of mass loss data with the nonlinear mixture model. Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest [@hu2016], we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (roughly 120--650 &deg;C). The default temperature bounds are 120 $^{\circ}$C and 700 $^{\circ}$C, but can be modified with the `lower_temp` and `upper_temp` arguments. 
+
+### Non-linear mixture model
 
 Biomass components decompose relatively independently because they do not interact much during thermal volatilisation [@yang2006]. Therefore, the cropped DTG curve can be mathematically deconvolved into constituent parts using a mixture model. The derivative rate of mass loss equation ($\frac{dm}{dT}$) can be expressed as the sum of $n$ independent reactions, as follows [@orfao2001]:
 
@@ -107,9 +149,9 @@ Biomass components decompose relatively independently because they do not intera
 
 where mass ($m$) is expressed as a fraction of mass at temperature $T$ ($M_T$) of the initial sample mass ($M_0$), $c_i$ is the mass of component $i$ that is decayed, and the mass loss curve of each individual component ($\frac{d\alpha_{i}}{dT}$) is the derivative of $\alpha_i$, the conversion of mass at a given temperature ($M_{Ti}$), from the initial ($M_{0i}$), given total mass lost between the initial and final ($M_{\infty i}$) temperature for each curve.
 
-Although most of our results can be described with only $n = 3$ peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in $n = 4$ independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures [see also @chen2017; @mullerhagedorn2007]. 
+Although most of our results can be described with only $n = 3$ peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in $n = 4$ independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures [see also @chen2017; @mullerhagedorn2007]. `deconvolve` will decide whether three or four peaks are best using an internal function that determines if there is a peak below 220 $^{\circ}$C. Upon inspection of your curve you can override this by modifying the `n_peaks` argument. 
 
-In order to fit the mixture model, we must determine the shape of the individual curves ($\frac{d\alpha_{i}}{dT}$) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian [@sun2015], logistic [@barbadillo2007], Weibull [@cai2007], asymmetric double sigmoidal [@chen2017], and the Fraser-Suzuki function [@perejon2011; @hu2016]. Comparisons of several techniques [@svoboda2013; @perejon2011; @cheng2015] found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 3). We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:
+In order to fit the mixture model, we must determine the shape of the individual curves ($\frac{d\alpha_{i}}{dT}$) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian [@sun2015], logistic [@barbadillo2007], Weibull [@cai2007], asymmetric double sigmoidal [@chen2017], and the Fraser-Suzuki function [@perejon2011; @hu2016]. Comparisons of several techniques [@svoboda2013; @perejon2011; @cheng2015] found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry. We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:
 
 \begin{gather}\label{eqn:fs_function}
 	\frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
@@ -117,137 +159,37 @@ In order to fit the mixture model, we must determine the shape of the individual
 
 where T is temperature (&deg;C), and the parameters $h_i$, $s_i$, $p_i$, and $w_i$ are height, skew, position, and width of curve $i$, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the [shiny app](https://smwindecker.shinyapps.io/mixchar/). 
 
-```{r, echo = FALSE, out.width = '75%', fig.align='center', fig.cap = '**Figure 3.** Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: Effect of modifying (a) height; (b) skew; (c) position; and (d) width.'}
-legend_subfig <- function (subfig) {
-  legend(200, .01, legend = paste0('(', subfig, ')'), bty = 'n', cex = 1.2)
-}
-
-simulate_fraser_suzuki <- function () {
-
-  x <- seq(200, 700)
-  h1 <- mixchar::fs_function(x, 0.004, -0.25, 400, 60)
-  h2 <- mixchar::fs_function(x, 0.006, -0.25, 400, 60)
-  h3 <- mixchar::fs_function(x, 0.008, -0.25, 400, 60)
-  h4 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
-
-  s1 <- mixchar::fs_function(x, 0.010, -0.55, 400, 60)
-  s2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
-  s3 <- mixchar::fs_function(x, 0.010, 0.25, 400, 60)
-  s4 <- mixchar::fs_function(x, 0.010, 0.55, 400, 60)
-
-  p1 <- mixchar::fs_function(x, 0.010, -0.25, 350, 60)
-  p2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
-  p3 <- mixchar::fs_function(x, 0.010, -0.25, 450, 60)
-  p4 <- mixchar::fs_function(x, 0.010, -0.25, 500, 60)
-
-  w1 <- mixchar::fs_function(x, 0.010, -0.25, 400, 30)
-  w2 <- mixchar::fs_function(x, 0.010, -0.25, 400, 60)
-  w3 <- mixchar::fs_function(x, 0.010, -0.25, 400, 90)
-  w4 <- mixchar::fs_function(x, 0.010, -0.25, 400, 120)
-
-  par(oma = c(4, 3, 0, 1), mar = c(1, 2, 1, 0), mfrow = c(2, 2))
-
-  plot(x, h4, type = 'l', lty = 4, xaxt = 'n', yaxt = 'n', cex = 1.6,
-       xlab = '',
-       ylab = '')
-  axis(side = 2, at = c(0, 0.005, 0.010), cex.axis = 1.2,
-       labels = c(0, 0.005, 0.010))
-  lines(x, h2, lty = 2)
-  lines(x, h3, lty = 3)
-  lines(x, h1, lty = 1)
-  legend_subfig('a')
-  legend('topright', legend = c(expression(paste('h = 0.004 C'^'-1')),
-                                expression(paste('h = 0.006 C'^'-1')),
-                                expression(paste('h = 0.008 C'^'-1')),
-                                expression(paste('h = 0.010 C'^'-1')),
-                                's = -0.25',
-                                'p = 400 C',
-                                'w = 60 C'),
-         bty = 'n', cex = 0.8,
-         lty = c(1, 2, 3, 4, NA, NA, NA)
-  )
-
-  plot(x, s1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
-       xlab = '',
-       ylab = '')
-  lines(x, s2, lty = 2)
-  lines(x, s3, lty = 3)
-  lines(x, s4, lty = 4)
-  legend_subfig('b')
-  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
-                                's = -0.5',
-                                's = -0.25',
-                                's = 0.25',
-                                's = 0.55',
-                                'p = 400 C',
-                                'w = 60 C'),
-         bty = 'n', cex = 0.8,
-         lty = c(NA, 1, 2, 3, 4, NA, NA)
-  )
-
-  plot(x, p1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
-       xlab = '',
-       ylab = '')
-  axis(side = 1, at = c(200, 325, 450, 575, 700), cex.axis = 1.2,
-       labels = c(200, 325, 450, 575, 700))
-  axis(side = 2, at = c(0, 0.005, 0.010), cex.axis = 1.2,
-       labels = c(0, 0.005, 0.010))
-  lines(x, p2, lty = 2)
-  lines(x, p3, lty = 3)
-  lines(x, p4, lty = 4)
-  legend_subfig('c')
-  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
-                                's = -0.25',
-                                'p = 350 C',
-                                'p = 400 C',
-                                'p = 450 C',
-                                'p = 500 C',
-                                'w = 60 C'),
-         bty = 'n', cex = 0.8,
-         lty = c(NA, NA, 1, 2, 3, 4, NA)
-  )
-
-  plot(x, w1, type = 'l', lty = 1, xaxt = 'n', yaxt = 'n', cex = 1.6,
-       xlab = '',
-       ylab = '')
-  axis(side = 1, at = c(200, 325, 450, 575, 700), cex.axis = 1.2,
-       labels = c(200, 325, 450, 575, 700))
-  lines(x, w2, lty = 2)
-  lines(x, w3, lty = 3)
-  lines(x, w4, lty = 4)
-  legend_subfig('d')
-  legend('topright', legend = c(expression(paste('h = 0.010 C'^'-1')),
-                                's = -0.25',
-                                'p = 400 C',
-                                'w = 30 C',
-                                'w = 60 C',
-                                'w = 90 C',
-                                'w = 120'),
-         bty = 'n', cex = 0.8,
-         lty = c(NA, NA, NA, 1, 2, 3, 4))
-
-  mtext(text = 'Temperature (C)',
-        side = 1,
-        line = 2.1,
-        outer = TRUE,
-        cex = 1.3)
-  mtext(text = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
-        side = 2,
-        line = 0.9,
-        outer = TRUE,
-        cex = 1.3)
-}
-simulate_fraser_suzuki()
-```
-
 `deconvolve()` uses non-linear optimisation with residual sum of squares to fit the rate expression [as in @cheng2015]. Starting values were selected based on curves depicted in the literature [@mullerhagedorn2007] and from the results of running an identical deconvolution on pure cellulose and lignin samples. Hemicelluloses decay in a reasonably narrow band beginning at a lower temperature [@mullerhagedorn2007], so we used 270 for position and 50 for width. Linear cellulose crystals decay at a higher temperature, but decay more rapidly after peak temperatures are reached, so starting position was set to 310 and width to 30. Lignin typically decays beginning at a high temperature and over a wide interval [@mullerhagedorn2007], so position and width began at 410 and 200, respectively. These starting values can also be modified in the `deconvolve()` function with the `start_vec`, `lower_vec`, and `upper_vec` arguments. These initial starting values are optimised before model fitting using the `NLOPTR_LN_BOBYQA` algorithm [@bobyqa] within the `nloptr` [@nloptr] package. Finally, optimised starting values are fit to the non-linear mixture model using `nlsLM()` in the `minpack.lm` [@minpack.lm] package.
 
-```{r, echo = FALSE, out.width = '60%', fig.align='center', fig.cap = '**Figure 4.** DTG curve overlaid with output of deconvolution.'}
-output <- deconvolve(tmp)
-plot(output, bw = FALSE)
+The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or you would like to play with the effect of changing them, you can do so with the `start_vec`, `lower_vec`, and `upper_vec` arguments. 
+
+```{r}
+output_juncus <- deconvolve(deriv_juncus)
+output_juncus
 ```
 
-## Component weights
+```{r, echo = FALSE}
+deriv_marsilea <- process(marsilea, 
+                          init_mass = 15.29,
+                          temp = 'temp_C', 
+                          mass_loss = 'mass_loss')
+```
+
+```{r}
+# here's an example of specifying your starting vector. 
+# the order of values is height, skew, position, then width
+
+my_starting_vec <- c(height_0 = 0.002, skew_0 = -0.15, position_0 = 210, width_0 = 50,
+                     height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
+                     height_2 = 0.006, skew_2 = -0.15, position_2 = 320, width_2 = 30,
+                     height_3 = 0.001, skew_3 = -0.15, position_3 = 390, width_3 = 200)
+
+output_marsilea <- deconvolve(deriv_marsilea, n_peaks = 4, start_vec = my_starting_vec)
+
+output_marsilea
+```
+
+### Component weights
 
 Once overall curve parameters are fit, we can pass each components's parameter estimates to a single Fraser-Suzuki function, and calculate the weight of the component in the overall sample by integrating the area under the peak. To estimate the uncertainty of the weight predictions, `deconvolve()` will calculate the 95% interval of the weight estimates across a random sample of parameter estimates, drawn in proportion to their likelihood. We assume a truncated multivariate normal distribution, since the parameters are constrained to positive values, using the modelling package `tmvtnorm` [@tmvtnorm].
 
@@ -256,6 +198,69 @@ Once overall curve parameters are fit, we can pass each components's parameter e
 \end{gather}
 
 We interpret that the peak located around 250--270 &deg;C corresponds to primary hemicelluloses, around 310--330 &deg;C to cellulose, and around 330--350 &deg;C to lignin. If present, the fourth peak located below 200 &deg;C corresponds to the most simple hemicelluloses. The second dataset included in the package, `marsilea`, is an example of a four-peak deconvolution.
+
+## 5. Examine outputs
+
+`deconvolve` results in a few different outputs that you can retrieve with accessor functions.
+
+  * `rate_data()` will show you the processed dataset that results from the `process` function, useful if you want to play around with other modelling approaches or plotting options:
+
+```{r}
+juncus_rate <- rate_data(output_juncus)
+head(juncus_rate)
+```
+
+  *`temp_bounds()` will print the temperature values at which the data were cropped for analysis:
+  
+```{r}
+temp_bounds(output_juncus)
+```
+
+  * `model_fit()` will show you the output of the mixture model and estimated parameter values for height, skew, position, and width for each peak. Peak 1 is hemicellulose, peak 2 is cellulose, and peak 3 is lignin. If present, the optional fourth peak located at the lowest temperature interval will be listed as peak 0:
+  
+```{r}
+model_fit(output_juncus)
+```
+
+```{r}
+model_fit(output_marsilea)
+```
+
+  * `component_weights()` will display the mean, upper, and lower confidence intervals for each estimated component:
+  
+```{r}
+component_weights(output_juncus)
+```
+
+```{r}
+component_weights(output_marsilea)
+```
+
+<hr>
+
+## 6. Plot deconvolved curves
+
+The default plotting function for the output of the `deconvolve` function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component peaks using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly viridis colours by specifying `bw = FALSE`.
+
+Take a look at your plot. Do the estimates seem reasonable? 
+
+```{r, out.width = '80%'}
+plot(output_juncus)
+```
+
+```{r, out.width = '80%'}
+plot(output_marsilea, bw = FALSE)
+```
+
+If the estimated peaks do not match your data well, it may be that your sample is a bit different than those used to develop the package. That's not a problem, but you may need to try the deconvolution again with different starting values. If you aren't managing to produce reasonable estimates, get in touch with us via the [issues page](http://www.github.com/smwindecker/mixchar/issues).
+
+If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows: 
+
+```{r}
+juncus_parameters <- model_parameters(output_juncus)
+```
+
+and use `fs_function()` to plot individual component peaks, and `fs_mixture` function to plot the overall mixture curve. 
 
 <hr>
 
