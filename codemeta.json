@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "mixchar",
-  "description": "Deconvolution of thermal decay curves allows you to quantify \n    proportions of biomass components in plant litter. Thermal decay curves\n    derived from thermogravimetric analysis (TGA) are imported, modified, and \n    then modelled in a three- or four- part  mixture model using the \n    Fraser-Suzuki function. The output is estimates for weights of \n    pseudo-components corresponding to hemicellulose, cellulose, and lignin.",
+  "description": "Deconvolution of thermal decay curves allows you to quantify \n    proportions of biomass components in plant litter. Thermal decay curves\n    derived from thermogravimetric analysis (TGA) are imported, modified, and \n    then modelled in a three- or four- part  mixture model using the \n    Fraser-Suzuki function. The output is estimates for weights of \n    pseudo-components corresponding to hemicellulose, cellulose, and lignin.\n    M\\\"{u}ller-Hagedorn, M. and Bockhorn, H. (2007) \n        <doi:10.1016/j.jaap.2006.12.008>.\n    \\'{O}rf\\~{a}o, J. J. M. and Figueiredo, J. L. (2001) \n        <doi:10.1016/S0040-6031(01)00634-7>.\n    Yang, H. and Yan, R. and Chen, H. and Zheng, C. and Lee, \n        D. H. and Liang, D. T. (2006) <doi:10.1021/ef0580117>.",
   "name": "mixchar: Mixture Model for the Deconvolution of Thermal Decay Curves",
   "codeRepository": "http://github.com/smwindecker/mixchar",
   "issueTracker": "http://github.com/smwindecker/mixchar/issues",
@@ -169,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "648.433KB",
+  "fileSize": "648.972KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"
@@ -178,5 +178,6 @@
     "thermogravimetry",
     "decay",
     "traits"
-  ]
+  ],
+  "releaseNotes": "https://github.com/smwindecker/mixchar/blob/master/NEWS.md"
 }
