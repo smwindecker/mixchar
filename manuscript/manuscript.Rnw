@@ -118,7 +118,7 @@ plot(tmp, plot_type = 'mass')
 
 \textbf{\textit{Deconvolution}}\\
 \textit{Rate of mass loss}\\
-After we've loaded our data, we need to calculate the rate of mass loss by taking the derivative. The \verb|process| function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of the mass column (mg).
+After we've loaded our data, we need to calculate the rate of mass loss by taking the derivative. The \verb|process| function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of the mass column (mg), which can be specified either as mass loss data with the \verb|mass_loss| argument or as mass data with the \verb|mass| argument.
 
 <<>>=
 deriv_juncus <- process(juncus,
@@ -129,7 +129,7 @@ deriv_juncus <- process(juncus,
 deriv_juncus
 @
 
-The output of the \verb|process| function is a list of three items: the modified dataframe including the derivative thermogravimetric rate of mass loss data (DTG), the initial mass value that was supplied, and the maximum and minimum temperature of values in the data. Plotting this output will results in two curves: the mass of sample across temperature and the rate of mass loss curve (Fig.~\ref{Fig:rateloss}). The rate of mass loss curve is a multi-peaked curve encompassing three main phases \citep{orfao2001}:
+The output of the \verb|process| function is a list of three items: the modified dataframe including the derivative thermogravimetric rate of mass loss data (DTG), the initial mass value that was supplied, and the maximum and minimum temperature of values in the data. Plotting this output results in two curves: the mass of sample across temperature and the rate of mass loss (Fig.~\ref{Fig:rateloss}). The rate of mass loss is a multi-peaked curve encompassing three main phases \citep{orfao2001}:
 
 \begin{enumerate}
 	\item A short period with a pronounced peak of moisture evolution, up until approximately 120 $^{\circ}$C.
@@ -154,7 +154,6 @@ segments(x0 = 650, y0 = 0.001, x1 = 790, y1 = 0.001, lwd = 3, col = 'darkgrey')
 segments(x0 = 790, y0 = 0.0008, x1 = 790, y1 = 0.001, lwd = 3, col = 'darkgrey')
 text(x = ((790-650)/2+650), y = 0.0014, '3', cex = 2, col = 'darkgrey')
 @
-
 
 \textit{Crop DTG data}\\
 Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest \citep{hu2016}, we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (120\textendash650 $^{\circ}$C). The \verb|deconvolve| function defaults to cropping at 120 $^{\circ}$C and 700 $^{\circ}$C, but these can be modified with the \verb|lower_temp| and \verb|upper_temp| arguments.\\
@@ -304,12 +303,17 @@ simulate_fraser_suzuki <- function () {
 simulate_fraser_suzuki()
 @
 
-\verb|deconvolve| uses non-linear optimisation with residual sum of squares to fit the rate expression \citetext{as in \citealp{cheng2015}}. Starting values for all parameters were selected based on curves depicted in the literature \citep{muller-hagedorn2007} and from the results of running an identical deconvolution on pure cellulose and lignin samples. Hemicelluloses decay in a reasonably narrow band beginning at a lower temperature \citep{muller-hagedorn2007}, so we used 270 for position and 50 for width. Linear cellulose crystals decay at a higher temperature, but decay more rapidly after peak temperatures are reached, so starting position was set to 310 and width to 30. Lignin typically decays beginning at a high temperature and over a wide interval \citep{chen2015}, so position and width began at 410 and 200, respectively. These starting values can also be modified in the \verb|deconvolve| function with the \verb|start_vec|, \verb|lower_vec|, and \verb|upper_vec| arguments.
+\verb|deconvolve| uses non-linear optimisation with residual sum of squares to fit the rate expression \citetext{as in \citealp{cheng2015}}. Starting values for all parameters were selected based on curves depicted in the literature \citep{muller-hagedorn2007} and from the results of running an identical deconvolution on pure cellulose and lignin samples. Hemicelluloses decay in a reasonably narrow band beginning at a lower temperature \citep{muller-hagedorn2007}, so we used 270 for position and 50 for width. Linear cellulose crystals decay at a higher temperature, but decay more rapidly after peak temperatures are reached, so starting position was set to 310 and width to 30. Lignin typically decays beginning at a high temperature and over a wide interval \citep{chen2015}, so position and width began at 410 and 200, respectively. Default starting values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, they can also be modified with the \verb|start_vec|, \verb|lower_vec|, and \verb|upper_vec| arguments if needed.
 
 Mixture modelling is hard, and very sensitive to  starting values. therefore one needs good starting values for the non-kinear mxture model step. but one cannt just give a all round set of these. instead by intersting a good routine to find good starting values, we use an optimisation.
 
 These initial starting values are optimised before model fitting using the \verb|NLOPTR_LN_BOBYQA| algorithm \citep{bobyqa} within the \verb|nloptr| \citep{nloptr} package. Finally, optimised starting values are fit to the non-linear mixture model using \verb|nlsLM()| in the \verb|minpack.lm| \citep{minpack.lm} package.\\
 \\
+
+<<>>=
+output_juncus <- deconvolve(deriv_juncus)
+output_juncus
+@
 
 \textit{Component weights}\\
 Once overall curve parameters are fit, we can pass each component's parameter estimates to a single Fraser-Suzuki function, and calculate the weight of the component in the overall sample by integrating under the peak (Eq.~\ref{eqn:integration}). To estimate the uncertainty of the weight predictions, \verb|deconvolve| will calculate the 95\% interval of the weight estimates across a random sample of parameter estimates, drawn in proportion to their likelihood. We assume a truncated multivariate normal distribution, since the parameters are constrained to positive values, using the modelling package \verb|tmvtnorm| \citep{tmvtnorm}.
@@ -320,26 +324,22 @@ Once overall curve parameters are fit, we can pass each component's parameter es
 
 We interpret that the peak located around 250\textendash270 $^\circ$C corresponds to primary hemicelluloses (HC), around 310\textendash330 $^\circ$C to cellulose (CL), and around 330\textendash350 $^\circ$C to lignin (LG). If present, the fourth peak located below 200 $^\circ$C corresponds to the most simple hemicelluloses (HC-1). The second dataset included in the package, \verb|marsilea|, provides an example of a four-peak deconvolution. A worked example can be found in the package vignettes.
 
-<<>>=
-output_juncus <- deconvolve(deriv_juncus)
-output_juncus
-@
-
-The output of the \verb|deconvolve| function is a list of five items:
+\textbf{\textit{Package outputs}}\\
+The output of the \verb|deconvolve| function is a list of five items that can be retrieved with accessor functions:
 \begin{enumerate}
-\item{the data used to fit the function,
+\item{the processed dataset that results from the \verb|process| function, useful if for playing around with other modelling approaches or plotting options, and accessed with \verb|rate_data()|:
 <<>>=
 DTG_data <- rate_data(output_juncus)
 head(DTG_data)
 @
 }
-\item{the upper and lower temperature bounds to which the data were cropped,
+\item{the temperature values at which the data were cropped for analysis, accessed with \verb|temp_bounds()|:
 <<>>=
 temp_bounds(output_juncus)
 @
 
 }
-\item{the model fit including parameter estimates,
+\item{the output of the mixture model and estimated parameter values for height, skew, position, and width for each peak. Peak 1 is hemicellulose, peak 2 is cellulose, and peak 3 is lignin. If present, the optional fourth peak located at the lowest temperature interval will be listed as peak 0. Accessed with \verb|model_fit()|:
 <<eval = FALSE>>=
 model_fit(output_juncus)
 @
@@ -359,28 +359,28 @@ cat(paste0('Nonlinear regression model\n',
           'Achieved convergence tolerance: 1.49e-08'))
 @
 }
-\item{the number of peaks,
+\item{the number of peaks:
 <<>>=
 output_juncus$n_peaks
 @
 }
-\item{and the mean, 2.5\% and 97.5\% estimates, median, and standard deviation of the weight of each component.
+\item{and the mean, 2.5\% and 97.5\% estimates, median, and standard deviation of the weight of each component that can be accessed with \verb|component_weights()|:
 <<>>=
 component_weights(output_juncus)
 @
 }
 \end{enumerate}
-If you \verb|plot()| the output of the \verb|deconvolve| function you will see the result of the deconvolution (Fig.~\ref{Fig:decon}). This default plot shows the underlying DTG data, the overall mixture model curve, as well as the components peaks. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly \verb|viridis| colours \citep{viridis} by specifying \verb|bw = FALSE|.
+
+Plotting the output of the \verb|deconvolve| function shows the underlying DTG data, the overall mixture model curve, as well as the components peaksof the deconvolution (Fig.~\ref{Fig:decon}). The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly \verb|viridis| colours \citep{viridis} by specifying \verb|bw = FALSE|.
 
 <<fig.cap = '\\label{Fig:decon} Deconvolution of \\textit{Juncus amabilis} example dataset. Mass loss data overlaid with output of deconvolution. Rate of mass loss scaled by initial mass of sample.', out.width = '0.7\\linewidth', asp = 1, fig.align = 'center'>>=
 plot(output_juncus, bw = FALSE)
 @
 
-The Fraser-Suzuki family of functions are exported to allow users to create their own plots from the model outputs. Detailed descriptions of how to do so are included in the package vignettes.
+The Fraser-Suzuki family of functions are exported to allow users to create their own plots from the model outputs. You can use these in conjunction with the parameter estimates, accessed as follows:
 
 <<>>=
-stt <- read.table("../mixchar.notes/USATtLeaf_data.txt", fill = TRUE, header = FALSE, skip = 46, skipNul = TRUE, fileEncoding="UTF-16LE")
-colnames(stt) <- c("time", "temp", "weight", "deriv")
+juncus_parameters <- model_parameters(output_juncus)
 @
 
 \begin{table}[!ht]
@@ -412,6 +412,7 @@ colnames(stt) <- c("time", "temp", "weight", "deriv")
 \end{table}
 
 
+The package was developed using thermogravimetric data for 29 different wetland plant species, as well as pure samples of cellulose (carboxy-methyl cellulose) and lignin (alkali lignin from Sigma Aldrich). These data came from the same TGA-FTIR machine and were exported in the same format. For this reason, the package was also tested on thermogravimetric data exported from a different machine in a different format, on different species and plant parts in order to test behaviour of the package.
 1. How robust is this (testing with Stacy’s data)
 show with a few samples
 - to show different machine
@@ -420,32 +421,92 @@ how to include these in the manuscript?
 Discuss limitations of estimates
 how reliable are they?
 
-3. Mixture modelling is hard, with a large statistical literature. Google Geoff Maclachlan. He has written the seminal text Finite mixture models https://scholar.google.com/citations?user=1bYCHtsAAAAJ&hl=en
--- add a bit of a discussion section at end.
-Discuss nature of statistical inference of mixture models.
-quite tricky in general
-ref paper slike McLachlan and Peele
-requires good starting points
-many combinations of peaks create the same overall curve
-to use the package well, different starting values should be tested out.
 
-4. Future work
-The package was developed using thermogravimetric data for 29 different wetland plant species, as well as pure samples of cellulose (carboxy-methyl cellulose) and lignin (alkali lignin from Sigma Aldrich). These data came from the same TGA-FTIR machine and were exported in the same format. For this reason, the package was also tested on thermogravimetric data exported from a different machine in a different format, on different species and plant parts in order to test behaviour of the package.
-
-Below we present results from
-
-add in discussion that happy to develop for data of other machines/in other formats
-
-
-tools that already exist
-mixtools
-how does my approach compare with traditional mixture model estimation?
-
-
-Statistical inference of mixture models
 
 \section*{Quality control}
-All the functions of \verb|mixchar| were tested to see if they produced the desired output.
+Something about passing CRAN check with no errors or warnings, or notes.
+
+All the functions of \verb|mixchar| were tested to see if they produced the desired output. The workflow was tested on thermogravimetric data from two different TGA-FTIR machines, and on samples outside those used to build the package.
+
+
+
+\textit{Seagrass blade}
+<<echo = FALSE>>=
+source('stt_analysis.R')
+sg_leaf <- process_data('data/seagrass_leaf.txt')
+@
+
+
+after loading the data, and using the process function, we can inspect the plots:
+<<>>=
+plot(sg_leaf)
+@
+
+we can determine that this sample needs a fourth peak, and the lower and upper bounds modified.
+<<>>=
+sg_out <- deconvolve(sg_leaf,
+                     n_peaks = 4,
+                     lower_temp = 150,
+                     upper_temp = 600)
+plot(sg_out, bw = FALSE)
+@
+the outcome looks good.
+
+\textit{Seagrass rhizome}
+similarly needed 4 peaks specified and bounds.
+<<echo = FALSE>>=
+sg_rhiz <- process_data('data/seagrass_rhizome.txt')
+@
+
+<<>>=
+sg_rh_out <- deconvolve(sg_rhiz,
+                        n_peaks = 4,
+                        lower_temp = 150,
+                        upper_temp = 600)
+plot(sg_rh_out, bw = FALSE)
+@
+
+
+\textit{Seagrass root}
+<<echo = FALSE>>=
+sg_root <- process_data('data/seagrass_root.txt')
+@
+
+<<>>=
+sg_root_out <- deconvolve(sg_root,
+                          lower_temp = 150,
+                          upper_temp = 600)
+plot(sg_root_out, bw = FALSE)
+@
+
+\textit{Macroalgae}
+<<echo = FALSE>>=
+ma_leaf <- process_data('data/macroalgae_leaf.txt')
+@
+
+<<>>=
+plot(ma_leaf)
+@
+
+
+<<>>=
+start_vec <- c(0.002, -0.15, 250, 50,
+               0.003, -0.15, 310, 50,
+               0.006, -0.15, 350, 30,
+               0.001, -0.15, 410, 200)
+ub <- c(2, 0.2, 260, 80,
+        2, 0.2, 330, 90,
+        2, 0.2, 380, 50,
+        2, 0.2, 430, 250)
+ma_out <- deconvolve(ma_leaf,
+                     n_peaks = 4,
+                     start_vec = start_vec,
+                     upper_vec = ub,
+                     lower_temp = 150,
+                     upper_temp = 600)
+plot(ma_out, bw = FALSE)
+@
+
 
 \section*{(2) Availability}
 \vspace{0.5cm}
@@ -493,10 +554,20 @@ R
 \section*{(3) Reuse potential}
 This package was designed with both the user and developer in mind. There are several vignettes available with the package and on the package website (\url{https://smwindecker.github.io/mixchar/}) facilitating exploration of package functionality. We expect that this package will be useful to researchers already using thermogravimetric analysis for carbon component estimation, as well as to functional ecologists seeking to test out this approach as an alternative to wet chemistry methods. For all users, this method provides a significant improvement on most current softwares available, as it allows fully open-source and transparent analyses.
 
-For those that wish to contribute to the package, it is hosted on Github. Contributors can log issues via the issues tracker (\url{https://github.com/smwindecker/mixchar/issues}) or submit a pull request to add functionality to the package.
+
+3. Mixture modelling is hard, with a large statistical literature. Google Geoff Maclachlan. He has written the seminal text Finite mixture models https://scholar.google.com/citations?user=1bYCHtsAAAAJ&hl=en
+-- add a bit of a discussion section at end.
+Discuss nature of statistical inference of mixture models.
+quite tricky in general
+ref paper slike McLachlan and Peele
+requires good starting points
+many combinations of peaks create the same overall curve
+to use the package well, different starting values should be tested out.
+
+For those that wish to contribute to the package, it is hosted on Github. Contributors can log issues, for example with alternative data foramts, via the issues tracker (\url{https://github.com/smwindecker/mixchar/issues}) or submit a pull request to add functionality to the package.
 
 \section*{Acknowledgements}
-The authors would like to thank Dr. Nick Tierney and David Wilkinson for reviewing an early version of the package. We would like to thank volunteers Paula Sanchez, Abbey Kinnish, Kelsey Johnson, Madeline Brenker, and Urtzi Enriquez Urzelai for assistance in the field collecting plant specimens. We would like to thank the University of Melbourne Department of Chemical and Biomolecular Engineering for access to and training on the TGA-FTIR. Vegetation collection for data used to build and verify the model was conducted under Victorian Department of Environment, Land, Water and Planning Permit No 10007429.
+The authors would like to thank Dr. Nick Tierney and David Wilkinson for reviewing an early version of the package as well as CRAN reviewers for useful additions. We would like to thank volunteers Paula Sanchez, Abbey Kinnish, Kelsey Johnson, Madeline Brenker, and Urtzi Enriquez Urzelai for assistance in the field collecting plant specimens. We would like to thank the University of Melbourne Department of Chemical and Biomolecular Engineering for access to and training on the TGA-FTIR. Vegetation collection for data used to build and verify the model was conducted under Victorian Department of Environment, Land, Water and Planning Permit No 10007429.
 
 \section*{Funding statement}
 The authors would like to acknowledge support from the Australian Research Council Centre of Excellence for Environmental Decisions, the Holsworth Wildlife Reseach Endowment \& The Ecological Society of Australia, and the Melbourne International Research Scholarship and Melbourne International Fee Remission Scholarship from University of Melbourne.
