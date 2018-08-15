@@ -72,7 +72,7 @@ colnames(c('temperature_C', 'mass_mg'))
 
 More information about reading data into R can be found [here](http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions). 
 
-This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. The `juncus` dataset contains theromogravimetric data for a sample of the freshwater reed, *Juncus amabilis*, and `marsilea` contains data for the freshwater fern, *Marsilea drumondii*. 
+This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. 
 
 ``` {r}
 library(mixchar)
