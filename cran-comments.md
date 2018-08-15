@@ -1,3 +1,14 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* added references for the methodology in the description file
+
+* replaced \dontrun{} with \donttest{} for example
+chunks that take >5 sec to run.
+
+* rebuilt the man/deconvolve.Rd file in attempt to fix 
+'unexecutable' error.
+
 ## Test environments
 * OS X (on travis-ci) - release and oldrelease
 * ubuntu 14.04 (on travis-ci) - devel, release, and oldrelease
