@@ -19,7 +19,6 @@ There were no ERRORs or WARNINGs.
 
 NOTE:
 Maintainer: ‘Saras Windecker <saras.windecker@gmail.com>’
-New submission
 Version contains leading zeroes (0.1.0)
 
 ## Downstream dependencies
