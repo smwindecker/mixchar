@@ -55,10 +55,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Background.html">Detailed methodology</a>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
     <li>
-      <a href="../articles/mixchar.html">Workflow with mixchar</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
     </li>
   </ul>
 </li>
@@ -140,29 +140,68 @@
 <div id="deconvolution" class="section level1">
 <h1 class="hasAnchor">
 <a href="#deconvolution" class="anchor"></a>Deconvolution</h1>
+<div id="load-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#load-data" class="anchor"></a>1. Load data</h2>
+<p>The first step is to load the data derived from the thermogravimetric analysis into R. This step will vary depending on the format of your exported data. Two of many options for reading data are <code>read.csv()</code> for .csv files and <code>read.table()</code> for .txt files. Both of these functions also have a <code>skip</code> argument, in which you can tell R to begin reading data from a certain line, useful if the exported data has several lines of metadata at the top. You may also then have to assign column names. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">my_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'your_file_path_here.csv'</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>, <span class="dt">skip =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">colnames</span>(<span class="kw">c</span>(<span class="st">'temperature_C'</span>, <span class="st">'mass_mg'</span>))</a></code></pre></div>
+<p>More information about reading data into R can be found <a href="http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions">here</a>.</p>
+<p>This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called <code>juncus</code> and <code>marsilea</code>, that we will use for this demonstration. The <code>juncus</code> dataset contains theromogravimetric data for a sample of the freshwater reed, <em>Juncus amabilis</em>, and <code>marsilea</code> contains data for the freshwater fern, <em>Marsilea drumondii</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(mixchar)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">head</span>(juncus)</a></code></pre></div>
+<pre><code>##   temp_C mass_loss
+## 1 31.453 -0.000931
+## 2 31.452 -0.001340
+## 3 31.450 -0.001350
+## 4 31.450 -0.001660
+## 5 31.450 -0.001680
+## 6 31.450 -0.001800</code></pre>
+<hr>
+</div>
 <div id="calculate-rate-of-mass-loss" class="section level2">
 <h2 class="hasAnchor">
-<a href="#calculate-rate-of-mass-loss" class="anchor"></a>Calculate rate of mass loss</h2>
-<p>After we’ve loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases <span class="citation">(Órfão and Figueiredo 2001)</span>:</p>
+<a href="#calculate-rate-of-mass-loss" class="anchor"></a>2. Calculate rate of mass loss</h2>
+<p>After we’ve loaded our data, we need to calculate the rate of mass loss across temperature by taking the derivative. We use the <code>process</code> function to take the derivative, resulting in rate of mass loss over temperature data. The <code>process</code> function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass column (mg). Mass might be recorded in your exported dataset in different ways:</p>
+<ul>
+<li>If you have <em>mass loss of sample</em>, such as in the <code>juncus</code> dataset, you can specify the column name using the <code>mass_loss</code> argument.</li>
+<li>If you have <em>mass remaining of sample</em>, you specify the column name using the <code>mass</code> argument.</li>
+<li>
+<strong>You only need to specify one of these columns for the <code>process</code> function.</strong> But make sure the argument matches the kind of data!</li>
+</ul>
+<p>The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument <code>temp_units = 'K'</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">deriv_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/process.html">process</a></span>(juncus,                          <span class="co"># dataframe name</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">                        <span class="dt">init_mass =</span> <span class="fl">18.96</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                        <span class="dt">temp =</span> <span class="st">'temp_C'</span>,                 <span class="co"># column name for temperature</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                        <span class="dt">mass_loss =</span> <span class="st">'mass_loss'</span>)         <span class="co"># column name for mass loss data</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">deriv_juncus</a></code></pre></div>
+<pre><code>## Derivative thermogravimetry data (DTG) calculated for
+##  768 datapoints from 31.5 to 798.52 degrees C.</code></pre>
+<p>If you <code>plot()</code> the output of the <code>process</code> function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you’re only interested in one plot, you can specify <code>plot_type = 'mass'</code> or <code>plot_type = 'rate'</code>. You can also specify a size factor using <code>cex</code>. The rate of mass loss curve is a multi-peaked curve (Fig. 2) encompassing three main phases <span class="citation">(Órfão and Figueiredo 2001)</span>:</p>
 <ol style="list-style-type: decimal">
 <li>A short period with a pronounced peak of moisture evolution, up until approximately 120 °C.</li>
 <li>A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120–650 °C.</li>
 <li>A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 °C.</li>
 </ol>
 <div class="figure" style="text-align: center">
-<img src="Background_files/figure-html/unnamed-chunk-3-1.png" alt="**Figure 2.** DTG curve for *Juncus amabilis*. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 represent mass loss phases." width="60%"><p class="caption">
+<img src="Background_files/figure-html/unnamed-chunk-6-1.png" alt="**Figure 2.** DTG curve for *Juncus amabilis*. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 represent mass loss phases." width="60%"><p class="caption">
 <strong>Figure 2.</strong> DTG curve for <em>Juncus amabilis</em>. Rate of mass loss value scaled by initial mass of sample. Line segments 1, 2, and 3 represent mass loss phases.
 </p>
 </div>
+<p>In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 <span class="math inline">\(^{\circ}\)</span>C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step.</p>
+<hr>
 </div>
-<div id="crop-dtg-data" class="section level2">
+<div id="deconvolve-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#crop-dtg-data" class="anchor"></a>Crop DTG data</h2>
-<p>Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest <span class="citation">(Hu et al. 2016)</span>, we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (roughly 120–650 °C).</p>
+<a href="#deconvolve-data" class="anchor"></a>3. <code>deconvolve</code> data</h2>
+<div id="crop-mass-loss-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#crop-mass-loss-data" class="anchor"></a>Crop mass loss data</h3>
+<p>The <code>decovolve</code> function takes care of modelling the rate of mass loss data with the nonlinear mixture model. Since the overall DTG curve thus represents the loss of extractives, water, inorganic matter, and volatiles in addition to our components of interest <span class="citation">(Hu et al. 2016)</span>, we isolate mass loss from our primary biomass components by cropping the DTG data to Phase 2 (roughly 120–650 °C). The default temperature bounds are 120 <span class="math inline">\(^{\circ}\)</span>C and 700 <span class="math inline">\(^{\circ}\)</span>C, but can be modified with the <code>lower_temp</code> and <code>upper_temp</code> arguments.</p>
 </div>
-<div id="non-linear-mixture-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#non-linear-mixture-model" class="anchor"></a>Non-linear mixture model</h2>
+<div id="non-linear-mixture-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#non-linear-mixture-model" class="anchor"></a>Non-linear mixture model</h3>
 <p>Biomass components decompose relatively independently because they do not interact much during thermal volatilisation <span class="citation">(Yang et al. 2006)</span>. Therefore, the cropped DTG curve can be mathematically deconvolved into constituent parts using a mixture model. The derivative rate of mass loss equation (<span class="math inline">\(\frac{dm}{dT}\)</span>) can be expressed as the sum of <span class="math inline">\(n\)</span> independent reactions, as follows <span class="citation">(Órfão and Figueiredo 2001)</span>:</p>
 <p><span class="math display">\[\begin{align}
     -\frac{dm}{dT} &amp;= \sum\limits_{i=1}^n c_i\frac{d\alpha_{i}}{dT} \label{eqn:mixture_model} \\
@@ -171,32 +210,125 @@
     \alpha_i &amp;= \frac{M_{0i} - M_{Ti}}{M_{0i} - M_{\infty i}} \label{eqn:alpha}
 \end{align}\]</span></p>
 <p>where mass (<span class="math inline">\(m\)</span>) is expressed as a fraction of mass at temperature <span class="math inline">\(T\)</span> (<span class="math inline">\(M_T\)</span>) of the initial sample mass (<span class="math inline">\(M_0\)</span>), <span class="math inline">\(c_i\)</span> is the mass of component <span class="math inline">\(i\)</span> that is decayed, and the mass loss curve of each individual component (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) is the derivative of <span class="math inline">\(\alpha_i\)</span>, the conversion of mass at a given temperature (<span class="math inline">\(M_{Ti}\)</span>), from the initial (<span class="math inline">\(M_{0i}\)</span>), given total mass lost between the initial and final (<span class="math inline">\(M_{\infty i}\)</span>) temperature for each curve.</p>
-<p>Although most of our results can be described with only <span class="math inline">\(n = 3\)</span> peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in <span class="math inline">\(n = 4\)</span> independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures <span class="citation">(see also Chen et al. 2017; Müller-Hagedorn and Bockhorn 2007)</span>.</p>
-<p>In order to fit the mixture model, we must determine the shape of the individual curves (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian <span class="citation">(Sun et al. 2015)</span>, logistic <span class="citation">(Barbadillo et al. 2007)</span>, Weibull <span class="citation">(Cai and Liu 2007)</span>, asymmetric double sigmoidal <span class="citation">(Chen et al. 2017)</span>, and the Fraser-Suzuki function <span class="citation">(Perejón et al. 2011; Hu et al. 2016)</span>. Comparisons of several techniques <span class="citation">(Svoboda and Málek 2013; Perejón et al. 2011; Cheng et al. 2015)</span> found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry (a parametric examination of the Fraser-Suzuki function can be found in Fig. 3). We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:</p>
+<p>Although most of our results can be described with only <span class="math inline">\(n = 3\)</span> peaks, corresponding to a single curve each of hemicelluose, cellulose, and lignin, some species yield a second hemicellulose peak at a lower temperature, resulting in <span class="math inline">\(n = 4\)</span> independent curves. This is because the soluble carbohydrates in plant tissue can take many forms, including xylan, amylose, etc., which apparently degrade at different temperatures <span class="citation">(see also Chen et al. 2017; Müller-Hagedorn and Bockhorn 2007)</span>. <code>deconvolve</code> will decide whether three or four peaks are best using an internal function that determines if there is a peak below 220 <span class="math inline">\(^{\circ}\)</span>C. Upon inspection of your curve you can override this by modifying the <code>n_peaks</code> argument.</p>
+<p>In order to fit the mixture model, we must determine the shape of the individual curves (<span class="math inline">\(\frac{d\alpha_{i}}{dT}\)</span>) that are summed to produce it. Many different functions have been proposed: the asymmetric bi-Gaussian <span class="citation">(Sun et al. 2015)</span>, logistic <span class="citation">(Barbadillo et al. 2007)</span>, Weibull <span class="citation">(Cai and Liu 2007)</span>, asymmetric double sigmoidal <span class="citation">(Chen et al. 2017)</span>, and the Fraser-Suzuki function <span class="citation">(Perejón et al. 2011; Hu et al. 2016)</span>. Comparisons of several techniques <span class="citation">(Svoboda and Málek 2013; Perejón et al. 2011; Cheng et al. 2015)</span> found that the Fraser-Suzuki function best fit these kinetic curves, since it allows for asymmetry. We therefore use the Fraser-Suzuki function to describe the rate expression of a single curve as follows:</p>
 <p><span class="math display">\[\begin{gather}\label{eqn:fs_function}
     \frac{d\alpha_i}{dT} = h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\}
 \end{gather}\]</span></p>
 <p>where T is temperature (°C), and the parameters <span class="math inline">\(h_i\)</span>, <span class="math inline">\(s_i\)</span>, <span class="math inline">\(p_i\)</span>, and <span class="math inline">\(w_i\)</span> are height, skew, position, and width of curve <span class="math inline">\(i\)</span>, respectively. In total, our model estimates 12 or 16 parameters, one for each parameter for either 3 or 4 primary components. You can play around with changing individual parameters for each curve, and check out the effect on the overall decay curve, using the <a href="https://smwindecker.shinyapps.io/mixchar/">shiny app</a>.</p>
-<div class="figure" style="text-align: center">
-<img src="Background_files/figure-html/unnamed-chunk-4-1.png" alt="**Figure 3.** Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: Effect of modifying (a) height; (b) skew; (c) position; and (d) width." width="75%"><p class="caption">
-<strong>Figure 3.</strong> Parametric study of the Fraser-Suzuki function for deconvolution of derivative thermogravimetric biomass curves: Effect of modifying (a) height; (b) skew; (c) position; and (d) width.
-</p>
-</div>
 <p><code><a href="../reference/deconvolve.html">deconvolve()</a></code> uses non-linear optimisation with residual sum of squares to fit the rate expression <span class="citation">(as in Cheng et al. 2015)</span>. Starting values were selected based on curves depicted in the literature <span class="citation">(Müller-Hagedorn and Bockhorn 2007)</span> and from the results of running an identical deconvolution on pure cellulose and lignin samples. Hemicelluloses decay in a reasonably narrow band beginning at a lower temperature <span class="citation">(Müller-Hagedorn and Bockhorn 2007)</span>, so we used 270 for position and 50 for width. Linear cellulose crystals decay at a higher temperature, but decay more rapidly after peak temperatures are reached, so starting position was set to 310 and width to 30. Lignin typically decays beginning at a high temperature and over a wide interval <span class="citation">(Müller-Hagedorn and Bockhorn 2007)</span>, so position and width began at 410 and 200, respectively. These starting values can also be modified in the <code><a href="../reference/deconvolve.html">deconvolve()</a></code> function with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments. These initial starting values are optimised before model fitting using the <code>NLOPTR_LN_BOBYQA</code> algorithm <span class="citation">(Powell 2009)</span> within the <code>nloptr</code> <span class="citation">(Johnson, n.d.)</span> package. Finally, optimised starting values are fit to the non-linear mixture model using <code>nlsLM()</code> in the <code>minpack.lm</code> <span class="citation">(Elzhov et al. 2016)</span> package.</p>
-<div class="figure" style="text-align: center">
-<img src="Background_files/figure-html/unnamed-chunk-5-1.png" alt="**Figure 4.** DTG curve overlaid with output of deconvolution." width="60%"><p class="caption">
-<strong>Figure 4.</strong> DTG curve overlaid with output of deconvolution.
-</p>
+<p>The function also has built in starting values for the nonlinear optimisation. These values were tested on litter from 30 plant species, encompassing herbaceous, graminoid, as well as woody species. However, if they do not work for your sample, or you would like to play with the effect of changing them, you can do so with the <code>start_vec</code>, <code>lower_vec</code>, and <code>upper_vec</code> arguments.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">output_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_juncus)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">output_juncus</a></code></pre></div>
+<pre><code>## Deconvolution by -part Fraser-Suzuki mixture model fitted to 
+## 580 datapoints from 120 to 700 degrees C.</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># here's an example of specifying your starting vector. </span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># the order of values is height, skew, position, then width</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">my_starting_vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">height_0 =</span> <span class="fl">0.002</span>, <span class="dt">skew_0 =</span> <span class="fl">-0.15</span>, <span class="dt">position_0 =</span> <span class="dv">210</span>, <span class="dt">width_0 =</span> <span class="dv">50</span>,</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                     <span class="dt">height_1 =</span> <span class="fl">0.003</span>, <span class="dt">skew_1 =</span> <span class="fl">-0.15</span>, <span class="dt">position_1 =</span> <span class="dv">250</span>, <span class="dt">width_1 =</span> <span class="dv">50</span>,</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">                     <span class="dt">height_2 =</span> <span class="fl">0.006</span>, <span class="dt">skew_2 =</span> <span class="fl">-0.15</span>, <span class="dt">position_2 =</span> <span class="dv">320</span>, <span class="dt">width_2 =</span> <span class="dv">30</span>,</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">                     <span class="dt">height_3 =</span> <span class="fl">0.001</span>, <span class="dt">skew_3 =</span> <span class="fl">-0.15</span>, <span class="dt">position_3 =</span> <span class="dv">390</span>, <span class="dt">width_3 =</span> <span class="dv">200</span>)</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">output_marsilea &lt;-<span class="st"> </span><span class="kw"><a href="../reference/deconvolve.html">deconvolve</a></span>(deriv_marsilea, <span class="dt">n_peaks =</span> <span class="dv">4</span>, <span class="dt">start_vec =</span> my_starting_vec)</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">output_marsilea</a></code></pre></div>
+<pre><code>## Deconvolution by -part Fraser-Suzuki mixture model fitted to 
+## 580 datapoints from 120 to 700 degrees C.</code></pre>
 </div>
-</div>
-<div id="component-weights" class="section level2">
-<h2 class="hasAnchor">
-<a href="#component-weights" class="anchor"></a>Component weights</h2>
+<div id="component-weights" class="section level3">
+<h3 class="hasAnchor">
+<a href="#component-weights" class="anchor"></a>Component weights</h3>
 <p>Once overall curve parameters are fit, we can pass each components’s parameter estimates to a single Fraser-Suzuki function, and calculate the weight of the component in the overall sample by integrating the area under the peak. To estimate the uncertainty of the weight predictions, <code><a href="../reference/deconvolve.html">deconvolve()</a></code> will calculate the 95% interval of the weight estimates across a random sample of parameter estimates, drawn in proportion to their likelihood. We assume a truncated multivariate normal distribution, since the parameters are constrained to positive values, using the modelling package <code>tmvtnorm</code> <span class="citation">(Wilhelm and G 2015)</span>.</p>
 <p><span class="math display">\[\begin{gather}\label{eqn:integration}
     \alpha_i = \int_{120}^{650} h_i\ exp\bigg\{-\frac{ln2}{s_i^2}\Big[ln\Big(1 + 2s_i \frac{T - p_i}{w_i}\Big)\Big]^2\bigg\} dT
 \end{gather}\]</span></p>
 <p>We interpret that the peak located around 250–270 °C corresponds to primary hemicelluloses, around 310–330 °C to cellulose, and around 330–350 °C to lignin. If present, the fourth peak located below 200 °C corresponds to the most simple hemicelluloses. The second dataset included in the package, <code>marsilea</code>, is an example of a four-peak deconvolution.</p>
+</div>
+</div>
+<div id="examine-outputs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#examine-outputs" class="anchor"></a>5. Examine outputs</h2>
+<p><code>deconvolve</code> results in a few different outputs that you can retrieve with accessor functions.</p>
+<ul>
+<li>
+<code><a href="../reference/rate_data.html">rate_data()</a></code> will show you the processed dataset that results from the <code>process</code> function, useful if you want to play around with other modelling approaches or plotting options:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">juncus_rate &lt;-<span class="st"> </span><span class="kw"><a href="../reference/rate_data.html">rate_data</a></span>(output_juncus)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">head</span>(juncus_rate)</a></code></pre></div>
+<pre><code>##       temp_C        deriv   mass_T
+## 5325 120.514 9.570652e-05 17.91630
+## 5384 121.501 9.885901e-05 17.91445
+## 5445 122.515 1.003878e-04 17.91252
+## 5505 123.514 9.133606e-05 17.91079
+## 5565 124.513 6.493836e-05 17.90956
+## 5625 125.509 8.578618e-05 17.90794</code></pre>
+<p>*<code><a href="../reference/temp_bounds.html">temp_bounds()</a></code> will print the temperature values at which the data were cropped for analysis:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/temp_bounds.html">temp_bounds</a></span>(output_juncus)</a></code></pre></div>
+<pre><code>## [1] 120 700</code></pre>
+<ul>
+<li>
+<code><a href="../reference/model_fit.html">model_fit()</a></code> will show you the output of the mixture model and estimated parameter values for height, skew, position, and width for each peak. Peak 1 is hemicellulose, peak 2 is cellulose, and peak 3 is lignin. If present, the optional fourth peak located at the lowest temperature interval will be listed as peak 0:</li>
+</ul>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)</a></code></pre></div>
+<pre><code>## Nonlinear regression model
+##   model: deriv ~ fs_mixture(temp_C, height_1, skew_1, position_1, width_1,     height_2, skew_2, position_2, width_2, height_3, skew_3,     position_3, width_3)
+##    data: dataframe
+##   height_1     skew_1 position_1    width_1   height_2     skew_2 
+##  3.944e-03  1.258e-01  2.662e+02  5.106e+01  5.793e-03  1.344e-02 
+## position_2    width_2   height_3     skew_3 position_3    width_3 
+##  3.173e+02  2.866e+01  1.163e-03  1.085e-01  3.300e+02  2.500e+02 
+##  residual sum-of-squares: 9.299e-06
+## 
+## Number of iterations to convergence: 23 
+## Achieved convergence tolerance: 1.49e-08</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_marsilea)</a></code></pre></div>
+<pre><code>## Nonlinear regression model
+##   model: deriv ~ fs_mixture(temp_C, height_1, skew_1, position_1, width_1,     height_2, skew_2, position_2, width_2, height_3, skew_3,     position_3, width_3, height_0, skew_0, position_0, width_0)
+##    data: dataframe
+##   height_0     skew_0 position_0    width_0   height_1     skew_1 
+##   0.000816  -0.232926 187.779162  53.030500   0.002695  -0.330000 
+## position_1    width_1   height_2     skew_2 position_2    width_2 
+## 278.179206  54.575596   0.003670  -0.055013 317.234476  29.662293 
+##   height_3     skew_3 position_3    width_3 
+##   0.001160   0.200000 330.000000 250.000000 
+##  residual sum-of-squares: 6.336e-06
+## 
+## Number of iterations to convergence: 25 
+## Achieved convergence tolerance: 1.49e-08</code></pre>
+<ul>
+<li>
+<code><a href="../reference/component_weights.html">component_weights()</a></code> will display the mean, upper, and lower confidence intervals for each estimated component:</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_juncus)</a></code></pre></div>
+<pre><code>##          HC         CL         LG value_type
+## 1 21.560043 17.6748678 30.6629878       mean
+## 2 20.432730 16.6433644 29.5201885       2.5%
+## 3 21.598042 17.6367413 30.6535146        50%
+## 4 22.757509 18.6700531 31.8302165      97.5%
+## 5  0.597823  0.5128314  0.5914669          5</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="../reference/component_weights.html">component_weights</a></span>(output_marsilea)</a></code></pre></div>
+<pre><code>##       HC_1      HC_2        CL        LG value_type
+## 1 4.625424 16.281260 11.601421 31.009216       mean
+## 2 2.664669  9.124988  3.885893 24.840613       2.5%
+## 3 4.555857 16.317489 11.763706 31.052828        50%
+## 4 6.922566 27.118057 22.561010 36.140566      97.5%
+## 5 1.114594  4.434649  4.829690  3.013464          5</code></pre>
+<hr>
+</div>
+<div id="plot-deconvolved-curves" class="section level2">
+<h2 class="hasAnchor">
+<a href="#plot-deconvolved-curves" class="anchor"></a>6. Plot deconvolved curves</h2>
+<p>The default plotting function for the output of the <code>deconvolve</code> function shows you your raw mass data, the estimated full curve from the mixture model, and also plots the individual component peaks using their parameter estimates from the model. The default plot is in black and white, but you can plot a colour version that uses colour-blind friendly viridis colours by specifying <code>bw = FALSE</code>.</p>
+<p>Take a look at your plot. Do the estimates seem reasonable?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">plot</span>(output_juncus)</a></code></pre></div>
+<p><img src="Background_files/figure-html/unnamed-chunk-16-1.png" width="80%"></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">plot</span>(output_marsilea, <span class="dt">bw =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="Background_files/figure-html/unnamed-chunk-17-1.png" width="80%"></p>
+<p>If the estimated peaks do not match your data well, it may be that your sample is a bit different than those used to develop the package. That’s not a problem, but you may need to try the deconvolution again with different starting values. If you aren’t managing to produce reasonable estimates, get in touch with us via the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
+<p>If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">juncus_parameters &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_parameters.html">model_parameters</a></span>(output_juncus)</a></code></pre></div>
+<p>and use <code><a href="../reference/fs_function.html">fs_function()</a></code> to plot individual component peaks, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
 <hr>
 </div>
 </div>
@@ -272,10 +404,11 @@
       <li><a href="#thermogravimetric-analysis">Thermogravimetric analysis</a></li>
       <li>
 <a href="#deconvolution">Deconvolution</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#calculate-rate-of-mass-loss">Calculate rate of mass loss</a></li>
-      <li><a href="#crop-dtg-data">Crop DTG data</a></li>
-      <li><a href="#non-linear-mixture-model">Non-linear mixture model</a></li>
-      <li><a href="#component-weights">Component weights</a></li>
+<li><a href="#load-data">1. Load data</a></li>
+      <li><a href="#calculate-rate-of-mass-loss">2. Calculate rate of mass loss</a></li>
+      <li><a href="#deconvolve-data">3. <code>deconvolve</code> data</a></li>
+      <li><a href="#examine-outputs">5. Examine outputs</a></li>
+      <li><a href="#plot-deconvolved-curves">6. Plot deconvolved curves</a></li>
       </ul>
 </li>
       <li><a href="#references">References</a></li>

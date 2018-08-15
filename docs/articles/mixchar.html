@@ -55,10 +55,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Background.html">Detailed methodology</a>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
     <li>
-      <a href="../articles/mixchar.html">Workflow with mixchar</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
     </li>
   </ul>
 </li>
@@ -156,11 +156,11 @@
 <a href="#plot-mass-loss-and-rate-of-mass-loss-curves" class="anchor"></a>3. Plot mass loss and rate of mass loss curves</h2>
 <p>At this point we can take a look at what we’ve done so far using the default plotting option for the processed data. If you <code>plot()</code> the output of the <code>process</code> function, you will get two curves: the mass of sample across time and the rate of mass loss curve. If you’re only interested in one plot, you can specify <code>plot_type = 'mass'</code> or <code>plot_type = 'rate'</code>. You can also specify a size factor using <code>cex</code>.</p>
 <p>The rate of mass loss curve helps us to visualise the three stages of mass loss:</p>
-<ul>
-<li>Phase 1: A short period with of dehydration, up until approximately 120 <span class="math inline">\(^{\circ}\)</span>C.</li>
-<li>Phase 2: A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120 – 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
-<li>Phase 3: A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
-</ul>
+<ol style="list-style-type: decimal">
+<li>A short period with of dehydration, up until approximately 120 <span class="math inline">\(^{\circ}\)</span>C.</li>
+<li>A wide mid-range of high mass loss, caused by devolatilisation of primary biomass carbon components, between approximately 120 – 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
+<li>A final period of little mass loss when carbonaceous material associated with the inorganic fraction decomposes, after approximately 650 <span class="math inline">\(^{\circ}\)</span>C.</li>
+</ol>
 <p>In the next step we will crop the data to include only phase 2, so visualising your own data is important to check that the default temperature bounds will be suitable, in case for example the dehydration phase extends past 120 <span class="math inline">\(^{\circ}\)</span>C or ends earlier. Comparing the plots for the two species we can see similarities in the shape and location of the peaks of the overall rate of mass loss curve, but also subtle differences. It is these characteristics we will tease apart using the nonlinear mixture model in the next step.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(deriv_juncus, <span class="dt">cex =</span> <span class="fl">0.9</span>)</a></code></pre></div>
 <p><img src="mixchar_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
@@ -272,8 +272,7 @@
 <p><img src="mixchar_files/figure-html/unnamed-chunk-16-1.png" width="80%"></p>
 <p>If the estimated peaks do not match your data well, it may be that your sample is a bit different than those used to develop the package. That’s not a problem, but you may need to try the deconvolution again with different starting values. If you aren’t managing to produce reasonable estimates, get in touch with us via the <a href="http://www.github.com/smwindecker/mixchar/issues">issues page</a>.</p>
 <p>If you want to modify the aesthetics of this plot for your own work, then you can access the parameter estimates as follows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">fit_juncus &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_fit.html">model_fit</a></span>(output_juncus)</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">params &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(fit_juncus)<span class="op">$</span>coefficients[,<span class="dv">1</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">juncus_parameters &lt;-<span class="st"> </span><span class="kw"><a href="../reference/model_parameters.html">model_parameters</a></span>(output_juncus)</a></code></pre></div>
 <p>and use <code><a href="../reference/fs_function.html">fs_function()</a></code> to plot individual component peaks, and <code>fs_mixture</code> function to plot the overall mixture curve.</p>
 <hr>
 <p>To read more about the methodology, check out the Detailed Methodology <a href="http://smwindecker.github.io/mixchar/articles/Background.html">article</a>.</p>

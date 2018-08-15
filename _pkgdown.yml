@@ -27,12 +27,12 @@ reference:
     - '`rate_data`'
     - '`model_fit`'
     - '`component_weights`'
+    - '`model_parameters`'
   - title: Fraser-Suzuki equation functions
     desc: Used to customise plotting methods
     contents:
     - '`fs_function`'
     - '`fs_mixture`'
-    - '`fs_model`'
   - title: S3 methods
     desc: Default print and plot methods
     contents:
@@ -44,6 +44,7 @@ reference:
     desc: Internal functions and helpers
     contents:
     - '`inflection`'
+    - '`fs_model`'
     - '`get_weights`'
     - '`objective`'
     - '`param_select`'
@@ -61,10 +62,10 @@ navbar:
     - text: "Articles"
       icon: fas fa-book
       menu:
-      - text: Detailed methodology
-        href: articles/Background.html
       - text: Workflow with mixchar
         href: articles/mixchar.html
+      - text: Detailed methodology
+        href: articles/Background.html
     - icon: fa-file-code-o
       text: "Functions"
       href: reference/index.html

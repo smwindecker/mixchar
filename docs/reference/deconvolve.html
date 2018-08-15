@@ -90,10 +90,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Background.html">Detailed methodology</a>
+      <a href="../articles/mixchar.html">Workflow with mixchar</a>
     </li>
     <li>
-      <a href="../articles/mixchar.html">Workflow with mixchar</a>
+      <a href="../articles/Background.html">Detailed methodology</a>
     </li>
   </ul>
 </li>
@@ -192,15 +192,14 @@ minpack.lm model fit, the number of curves fit, and estimated component weights<
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"># NOT RUN {
-data(juncus)
-tmp <- process(juncus, init_mass = 18.96,
-               temp = 'temp_C', mass_loss = 'mass_loss')
-output <- deconvolve(tmp)
-my_starting_vec <- c(height_1 = 0.003, skew_1 = -0.15, position_1 = 250, width_1 = 50,
-output <- deconvolve(tmp, n_peaks = 3, start_vec = my_starting_vec)
-# }
-</pre>
+    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>juncus</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='process.html'>process</a></span>(<span class='no'>juncus</span>, <span class='kw'>init_mass</span> <span class='kw'>=</span> <span class='fl'>18.96</span>,
+               <span class='kw'>temp</span> <span class='kw'>=</span> <span class='st'>'temp_C'</span>, <span class='kw'>mass_loss</span> <span class='kw'>=</span> <span class='st'>'mass_loss'</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>deconvolve</span>(<span class='no'>tmp</span>)
+<span class='no'>my_starting_vec</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='kw'>height_1</span> <span class='kw'>=</span> <span class='fl'>0.003</span>, <span class='kw'>skew_1</span> <span class='kw'>=</span> -<span class='fl'>0.15</span>, <span class='kw'>position_1</span> <span class='kw'>=</span> <span class='fl'>250</span>, <span class='kw'>width_1</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+                     <span class='kw'>height_2</span> <span class='kw'>=</span> <span class='fl'>0.006</span>, <span class='kw'>skew_2</span> <span class='kw'>=</span> -<span class='fl'>0.15</span>, <span class='kw'>position_2</span> <span class='kw'>=</span> <span class='fl'>320</span>, <span class='kw'>width_2</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+                     <span class='kw'>height_3</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>skew_3</span> <span class='kw'>=</span> -<span class='fl'>0.15</span>, <span class='kw'>position_3</span> <span class='kw'>=</span> <span class='fl'>390</span>, <span class='kw'>width_3</span> <span class='kw'>=</span> <span class='fl'>200</span>)
+<span class='no'>output</span> <span class='kw'>&lt;-</span> <span class='fu'>deconvolve</span>(<span class='no'>tmp</span>, <span class='kw'>n_peaks</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>start_vec</span> <span class='kw'>=</span> <span class='no'>my_starting_vec</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

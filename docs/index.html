@@ -16,7 +16,13 @@
     derived from thermogravimetric analysis (TGA) are imported, modified, and 
     then modelled in a three- or four- part  mixture model using the 
     Fraser-Suzuki function. The output is estimates for weights of 
-    pseudo-components corresponding to hemicellulose, cellulose, and lignin.">
+    pseudo-components corresponding to hemicellulose, cellulose, and lignin.
+    M\&quot;{u}ller-Hagedorn, M. and Bockhorn, H. (2007) 
+        &lt;doi:10.1016/j.jaap.2006.12.008&gt;.
+    \'{O}rf\~{a}o, J. J. M. and Figueiredo, J. L. (2001) 
+        &lt;doi:10.1016/S0040-6031(01)00634-7&gt;.
+    Yang, H. and Yan, R. and Chen, H. and Zheng, C. and Lee, 
+        D. H. and Liang, D. T. (2006) &lt;doi:10.1021/ef0580117&gt;.">
 <meta property="og:image" content="http://smwindecker.github.io/mixchar/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -60,10 +66,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Background.html">Detailed methodology</a>
+      <a href="articles/mixchar.html">Workflow with mixchar</a>
     </li>
     <li>
-      <a href="articles/mixchar.html">Workflow with mixchar</a>
+      <a href="articles/Background.html">Detailed methodology</a>
     </li>
   </ul>
 </li>
@@ -108,7 +114,6 @@
 <a href="#section" class="anchor"></a><img src="reference/figures/logo.png" height="80" width="350">
 </h1></div>
 
-<p><a href="https://zenodo.org/badge/latestdoi/103010631"><img src="https://zenodo.org/badge/103010631.svg" alt="DOI"></a></p>
 </div>
 <div id="why-deconvolution" class="section level1">
 <h1 class="hasAnchor">
@@ -121,7 +126,8 @@
 <p>You can install <code>mixchar</code> from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"smwindecker/mixchar"</span>)</a></code></pre></div>
-<p>Below we will show a basic implementation of the package. For a detailed discussion of the methodology, please see the <a href="http://smwindecker.github.io/mixchar/articles/Background.html">website</a>. You can also find a full worked example on the <a href="http://smwindecker.github.io/mixchar/articles/mixchar.html">website</a>.</p>
+<p>Below we will show a basic implementation of the package. For a detailed step by step workflow, see the <a href="http://smwindecker.github.io/mixchar/articles/mixchar.html">workflow vignette on the website</a>.</p>
+<p>For a detailed discussion of the methodology, please see the <a href="http://smwindecker.github.io/mixchar/articles/Background.html">methodology vignette on the website</a>.</p>
 </div>
 <div id="basic-use" class="section level1">
 <h1 class="hasAnchor">
@@ -193,6 +199,7 @@
 <li><a href="https://travis-ci.org/smwindecker/mixchar"><img src="https://travis-ci.com/smwindecker/mixchar.svg?branch=master" alt="Build Status"></a></li>
 <li><a href="https://codecov.io/gh/smwindecker/mixchar"><img src="https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="http://www.repostatus.org/#active"><img src="http://www.repostatus.org/badges/latest/active.svg" alt="repo status"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/103010631"><img src="https://zenodo.org/badge/103010631.svg" alt="DOI"></a></li>
 </ul>
 </div>
 </div>
