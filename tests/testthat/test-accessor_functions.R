@@ -11,4 +11,8 @@ test_that("accessor functions return correct values", {
   expect_identical(model_fit(tmp), tmp$minpack.lm)
   expect_identical(component_weights(output), output$weights)
 
+
+  params <- as.data.frame(summary(output$model_fit)$coefficients[,1])
+  expect_identical(model_parameters(output), params)
+
 })
