@@ -26,8 +26,8 @@ test_that("correct weights returned", {
                height_3 = .15, skew_3 = .26, position_3 = 600, width_3 = 200,
                height_0 = .08, skew_0 = .22, position_0 = 180, width_0 = 150)
 
-  output3 <- list(n_curves = 3, bounds = c(120, 700))
-  output4 <- list(n_curves = 4, bounds = c(120, 700))
+  output3 <- list(n_peaks = 3, temp_bounds = c(120, 700))
+  output4 <- list(n_peaks = 4, temp_bounds = c(120, 700))
 
   expect_equal(get_weights(params3, output3), c(HC = 1096.957, CL = 1306.482, LG = 2603.153), tolerance = 1e-3)
   expect_equal(get_weights(params4, output4), c(HC_1 = 1155.978, HC_2 = 1096.957, CL = 1306.482, LG = 2603.153), tolerance = 1e-3)
