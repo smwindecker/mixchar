@@ -16,7 +16,7 @@ $minpack.lm of the object
 Accessor function to extract model fit
 }
 \examples{
-\dontrun{
+\donttest{
 data(juncus)
 tmp <- process(juncus, init_mass = 18.96,
                temp = 'temp_C', mass_loss = 'mass_loss')
