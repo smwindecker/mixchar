@@ -6,8 +6,8 @@ This is a resubmission. In this version I have:
 * replaced \dontrun{} with \donttest{} for example
 chunks that take >5 sec to run.
 
-* rebuilt the man/deconvolve.Rd file in attempt to fix 
-'unexecutable' error.
+* fixed yaml in deconvolve.R in attempt to fix 'unexecutable' error
+in man/deconvolve.Rd file.
 
 ## Test environments
 * OS X (on travis-ci) - release and oldrelease
