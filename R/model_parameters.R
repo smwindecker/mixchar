@@ -14,6 +14,12 @@
 #' @export
 
 model_parameters <- function (object) {
-  fit <- object$model_fit
-  as.data.frame(summary(fit)$coefficients[,1])
+
+  params <- as.data.frame(summary(object$model_fit)$coefficients[,1])
+  colnames(params) <- 'parameter_value'
+  params$parameter_name <- row.names(params)
+  row.names(params) <- c()
+  params <- params[,c(2,1)]
+
+  params
 }
