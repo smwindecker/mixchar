@@ -7,6 +7,7 @@ Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://tr
 [![repo
 status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/103010631.svg)](https://zenodo.org/badge/latestdoi/103010631)
+[![](http://www.r-pkg.org/badges/version/mixchar)
 
 Why deconvolution?
 ==================
