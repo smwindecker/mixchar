@@ -64,6 +64,7 @@ weight_quantiles <- function (output, seed) {
   all_weights <- rbind(means, CI_df, sd)
   all_weights$value_type <- row.names(all_weights)
   all_weights$value_type[all_weights$value_type == 1] <- 'mean'
+  all_weights$value_type[all_weights$value_type == 5] <- 'sd'
 
   rownames(all_weights) <- c()
 
