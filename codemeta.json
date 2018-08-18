@@ -10,7 +10,7 @@
   "codeRepository": "http://github.com/smwindecker/mixchar",
   "issueTracker": "http://github.com/smwindecker/mixchar/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0",
+  "version": "0.1.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -169,7 +169,7 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "649.082KB",
+  "fileSize": "649.154KB",
   "contIntegration": [
     "https://travis-ci.org/smwindecker/mixchar",
     "https://codecov.io/gh/smwindecker/mixchar"
@@ -179,5 +179,11 @@
     "decay",
     "traits"
   ],
-  "releaseNotes": "https://github.com/smwindecker/mixchar/blob/master/NEWS.md"
+  "releaseNotes": "https://github.com/smwindecker/mixchar/blob/master/NEWS.md",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  }
 }

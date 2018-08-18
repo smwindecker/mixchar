@@ -1,13 +1,13 @@
 <img src = "man/figures/logo.png" height="80" width="350" />
 ============================================================
 
+[![CRAN](http://www.r-pkg.org/badges/version/mixchar)
 [![Build
 Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
 [![repo
 status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/103010631.svg)](https://zenodo.org/badge/latestdoi/103010631)
-[![](http://www.r-pkg.org/badges/version/mixchar)
 
 Why deconvolution?
 ==================
@@ -31,7 +31,14 @@ and lignin.
 Installation
 ============
 
-You can install `mixchar` from [GitHub](https://github.com/) with:
+You can install `mixchar` by:
+
+``` r
+install.packages("mixchar")
+```
+
+or install the development version from [GitHub](https://github.com/)
+with:
 
 ``` r
 install.packages("devtools")
