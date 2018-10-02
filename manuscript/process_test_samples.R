@@ -1,6 +1,6 @@
 
 # assuming all your data is in the same format
-process_data <- function (file) {
+process_test_samples <- function (file) {
 
   # this is the line you're already familiar with that reads in your data
   df <- read.table(file, fill = TRUE, header = FALSE, skip = 46,
