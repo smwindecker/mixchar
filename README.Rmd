@@ -2,7 +2,7 @@
 title: "mixchar"
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 ```{r setup, include = FALSE}
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # <img src = "man/figures/logo.png" height="80" width="350" />
 
-[![CRAN](http://www.r-pkg.org/badges/version/mixchar)
+[![CRAN](http://www.r-pkg.org/badges/version/mixchar)](https://cran.r-project.org/package=mixchar)
 [![Build Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
 [![repo status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
