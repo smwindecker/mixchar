@@ -1,7 +1,6 @@
 # <img src = "man/figures/logo.png" height="80" width="350" />
 
-\[![CRAN](http://www.r-pkg.org/badges/version/mixchar) [![CRAN
-status](https://www.r-pkg.org/badges/version/mixchar)](https://CRAN.R-project.org/package=mixchar)
+[![CRAN](http://www.r-pkg.org/badges/version/mixchar)](https://cran.r-project.org/package=mixchar)
 [![Build
 Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)

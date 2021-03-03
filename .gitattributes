@@ -1,0 +1,3 @@
+*.css linguist-vendored
+*.bib linguist-documentation
+manuscript/* linguist-documentation
