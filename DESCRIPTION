@@ -1,7 +1,7 @@
 Package: mixchar
 Title: Mixture Model for the Deconvolution of Thermal Decay Curves
-Version: 0.1.0.9000
-Date: 2018-08-11
+Version: 0.1.1.0000
+Date: 2021-03-03
 Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"), 
                     email = "saras.windecker@gmail.com"),
              person("Nick", "Golding", role = "aut",
@@ -28,7 +28,7 @@ URL: http://github.com/smwindecker/mixchar
 BugReports: http://github.com/smwindecker/mixchar/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.1
 Suggests:
     knitr,
     rmarkdown,

@@ -10,14 +10,13 @@
   "codeRepository": "http://github.com/smwindecker/mixchar",
   "issueTracker": "http://github.com/smwindecker/mixchar/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0.9000",
+  "version": "0.1.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.5.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.5.1 (2018-07-02)",
+  "runtimePlatform": "R version 4.0.4 (2021-02-15)",
   "author": [
     {
       "@type": "Person",
@@ -169,11 +168,8 @@
     }
   ],
   "readme": "https://github.com/smwindecker/mixchar/blob/master/README.md",
-  "fileSize": "649.154KB",
-  "contIntegration": [
-    "https://travis-ci.org/smwindecker/mixchar",
-    "https://codecov.io/gh/smwindecker/mixchar"
-  ],
+  "fileSize": "5349.229KB",
+  "contIntegration": ["https://travis-ci.org/smwindecker/mixchar", "https://codecov.io/gh/smwindecker/mixchar"],
   "keywords": [
     "thermogravimetry",
     "decay",
@@ -185,5 +181,9 @@
     "@type": "Organization",
     "name": "Comprehensive R Archive Network (CRAN)",
     "url": "https://cran.r-project.org"
-  }
+  },
+  "contributor": {},
+  "copyrightHolder": {},
+  "funder": {},
+  "developmentStatus": "http://www.repostatus.org/#active"
 }

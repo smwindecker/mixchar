@@ -1,7 +1,7 @@
-<img src = "man/figures/logo.png" height="80" width="350" />
-============================================================
+# <img src = "man/figures/logo.png" height="80" width="350" />
 
-[![CRAN](http://www.r-pkg.org/badges/version/mixchar)
+\[![CRAN](http://www.r-pkg.org/badges/version/mixchar) [![CRAN
+status](https://www.r-pkg.org/badges/version/mixchar)](https://CRAN.R-project.org/package=mixchar)
 [![Build
 Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://travis-ci.org/smwindecker/mixchar)
 [![codecov](https://codecov.io/gh/smwindecker/mixchar/branch/master/graph/badge.svg)](https://codecov.io/gh/smwindecker/mixchar)
@@ -9,8 +9,7 @@ Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://tr
 status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/103010631.svg)](https://zenodo.org/badge/latestdoi/103010631)
 
-Why deconvolution?
-==================
+# Why deconvolution?
 
 Plant cell wall biomass is composed of a range of different types of
 carbon. Proportions of primary carbon types are useful for estimating
@@ -28,8 +27,7 @@ way using R. This methodology has been tested on a range of plant litter
 composed primarily of soluble carbohydrates, hemicellulose, cellulose,
 and lignin.
 
-Installation
-============
+# Installation
 
 You can install `mixchar` by:
 
@@ -53,8 +51,7 @@ For a detailed discussion of the methodology, please see the
 [methodology vignette on the
 website](http://smwindecker.github.io/mixchar/articles/Background.html).
 
-Basic use
-=========
+# Basic use
 
 Data from thermogravimetric analysis is usually exported in one of two
 forms: as mass loss or mass remaining (mg) by temperature. An example
@@ -122,16 +119,14 @@ which the data were cropped for analysis. You can also plot the
 resulting output using the default plotting function, which can be in
 black and white or in colour.
 
-Contribution
-============
+# Contribution
 
 This is still a work in progress! If you see any mistakes, or find that
 the code is not functioning well on your data, let us know by logging a
 bug on the [issues
 page](http://www.github.com/smwindecker/mixchar/issues).
 
-Acknowledgements
-================
+# Acknowledgements
 
 Thank you to Nick Tierney and David Wilkinson for valuable feedback
 during development. Thanks to the Holsworth Wildlife Reseach Endowment &
