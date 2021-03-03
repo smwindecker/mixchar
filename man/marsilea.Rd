@@ -4,7 +4,9 @@
 \name{marsilea}
 \alias{marsilea}
 \title{Thermogravimetric data for Marsilea drumondii}
-\format{An object of class \code{'cross'}}
+\format{
+An object of class \code{'cross'}
+}
 \source{
 Saras M Windecker
 }

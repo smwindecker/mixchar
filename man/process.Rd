@@ -4,8 +4,7 @@
 \alias{process}
 \title{Calculates the derivative rate of mass loss of thermogravimetric data}
 \usage{
-process(data, init_mass, temp, mass_loss = NULL, mass = NULL,
-  temp_units = "C")
+process(data, init_mass, temp, mass_loss = NULL, mass = NULL, temp_units = "C")
 }
 \arguments{
 \item{data}{dataframe}

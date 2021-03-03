@@ -35,6 +35,11 @@ process <- function (data, init_mass, temp,
          data column name')
   }
 
+  # check that initial mass is positive
+  if (init_mass < 0) {
+    stop('Initial mass must be positive')
+  }
+
   # check temperature inputs
   temp_measures <- c('C', 'Celsius', 'K', 'Kelvin')
 

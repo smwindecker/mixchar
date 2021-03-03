@@ -4,7 +4,9 @@
 \name{juncus}
 \alias{juncus}
 \title{Thermogravimetric data for Juncus amabilis}
-\format{An object of class \code{'cross'}}
+\format{
+An object of class \code{'cross'}
+}
 \source{
 Saras M Windecker
 }
