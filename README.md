@@ -8,6 +8,9 @@ Status](https://travis-ci.com/smwindecker/mixchar.svg?branch=master)](https://tr
 status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![DOI](https://zenodo.org/badge/103010631.svg)](https://zenodo.org/badge/latestdoi/103010631)
 
+Please cite [Windecker et al,
+2021](https://openresearchsoftware.metajnl.com/articles/10.5334/jors.249)
+
 # Why deconvolution?
 
 Plant cell wall biomass is composed of a range of different types of

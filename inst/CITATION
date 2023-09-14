@@ -1,0 +1,11 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "Mixchar: An R Package for the Deconvolution of Thermal Decay Curves",
+  author   = "Windecker, Saras M. and Vesk, Peter A. and Trevathan-Tackett, Stacey M. and Golding, Nick",
+  journal  = "Journal of Open Research Software",
+  year     = "2021",
+  volume   = "9",
+  number   = "1",
+  pages    = "27",
+  doi      = "10.5334/jors.249"
+)
