@@ -15,8 +15,9 @@
 
 plot.decon <- function (x, bw = TRUE, ...) {
 
-  temp <- seq(x$temp_bounds[1], x$temp_bounds[2], length.out = nrow(x$data))
-  data <- x$data
+  temp <- seq(x$pyrolysis_temp_range[1], x$pyrolysis_temp_range[2],
+              length.out = nrow(x$pyrolysis_data))
+  data <- x$pyrolysis_data
   fit <- x$model_fit
 
   params <- as.data.frame(summary(fit)$coefficients[,1])
