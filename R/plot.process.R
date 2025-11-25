@@ -16,28 +16,55 @@
 
 plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
 
-  df <- x$data
-
   p_massloss <- function (data) {
-    plot(data$temp_C, data$mass_T, xlab = 'Temperature (C)',
-         ylim = c(0, max(data$mass_T) + 0.5),
+    max_mass <- max(data$mass_T)
+
+    plot(data$time, data$mass_T, xlab = 'Time (min)',
+         ylim = c(0, max_mass + max_mass*.22),
          yaxt = 'n',
          xaxt = 'n',
          ylab = 'Mass remaining (mg)', pch = 20, cex = 0.7*cex,
          cex.lab = 1.2*cex)
     axis(side = 1, at = c(100, 300, 500, 700), cex.axis = cex,
          labels = c(100, 300, 500, 700))
-    top_y <- round(max(data$mass_T), 0)
+    top_y <- round(max_mass, 0)
     mid_y <- top_y/2
     axis(side = 2, at = c(0, mid_y, top_y), cex.axis = cex,
          labels = c(0, mid_y, top_y))
+
+    m1 <- min(data$time[data$stage == 'moisture_content'])
+    m2 <- max(data$time[data$stage == 'moisture_content'])
+    y_m.1 <- max_mass + max_mass*.1
+    y_m.2 <- max_mass + max_mass*.2
+    segments(x0 = m1, y0 = y_m.1, x1 = m2, y1 = y_m.1, lwd = 3, col = 'darkgrey')
+    text(x = ((m2-m1)/2+m1), adj = 0.5, y = y_m.2, 'moisture\ncontent',
+         cex = 1, col = 'darkgrey')
+
+    p1 <- min(data$time[data$stage == 'volatile_matter'])
+    p2 <- max(data$time[data$stage == 'volatile_matter'])
+    max_p <- max(data$mass_T[data$stage == 'volatile_matter'])
+    y_p.1 <- max_p + max_mass*.1
+    y_p.2 <- max_p + max_mass*.16
+    segments(x0 = p1, y0 = y_p.1, x1 = p2, y1 = y_p.1, lwd = 3, col = 'darkgrey')
+    text(x = ((p2-p1)/2+p1), adj = 0.5, y = y_p.2, 'volatile\nmatter\npyrolysis',
+         cex = 1, col = 'darkgrey')
+
+    max_f <- max(data$mass_T[data$stage == 'fixed_carbon'])
+    y_f.1 <- max_f + max_mass*.1
+    y_f.2 <- max_f + max_mass*.2
+    f1 <- min(data$time[data$stage == 'fixed_carbon'])
+    f2 <- max(data$time[data$stage == 'fixed_carbon'])
+    segments(x0 = f1, y0 = y_f.1, x1 = f2, y1 = y_f.1, lwd = 3, col = 'darkgrey')
+    text(x = ((f2-f1)/2+f1), adj = 0.5, y = y_f.2, 'fixed\ncarbon',
+         cex = 1, col = 'darkgrey')
+
   }
 
   p_dtg <- function (data) {
-    plot(data$temp_C, data$deriv,
-         xlab = 'Temperature (C)',
+    plot(data$time, data$deriv,
+         xlab = 'Time (min)',
          ylim = c(0, max(data$deriv) + .0003),
-         ylab = expression(paste('Rate of mass loss (-dm/dT) (C'^'-1', ')')),
+         ylab = expression(paste('Rate of mass loss\nduring pyrolysis (-dm/dT) (C'^'-1', ')')),
          pch = 20, cex = 0.7*cex,
          cex.lab = 1.2*cex,
          yaxt = 'n', xaxt = 'n')
@@ -52,16 +79,16 @@ plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
 
   if (!is.null(plot_type) & isTRUE(plot_type == 'mass')) {
     par(mar = c(5, 5, 1, 1))
-    p_massloss(df)
+    p_massloss(x$all_data)
   }
   if (!is.null(plot_type) & isTRUE(plot_type == 'rate')) {
     par(mar = c(5, 5, 1, 1))
-    p_dtg(df)
+    p_dtg(x$pyrolysis_data)
   }
   if (is.null(plot_type)) {
     par(mfrow = c(1,2), mar = c(5, 5, 1, 1))
-    p_massloss(df)
-    p_dtg(df)
+    p_massloss(x$all_data)
+    p_dtg(x$pyrolysis_data)
   }
 
   par(mfrow = c(1,1))
