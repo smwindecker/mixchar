@@ -3,8 +3,6 @@
 #' This function deconvolves thermogravimetric data using a Fraser-Suzuki mixture model
 #'
 #' @param process_object process object obtained from process function
-#' @param lower_temp lower temperature bound to crop dataset, default to 120
-#' @param upper_temp upper temperature bound to crop dataset, default to 700
 #' @param seed random seed for nloptr optimiser
 #' @param n_peaks number of curves optional specification
 #' @param start_vec vector of starting values for nls function. Only specify this vector if
@@ -30,8 +28,6 @@
 #' @export
 
 deconvolve <- function (process_object,
-                        lower_temp = 120,
-                        upper_temp = 700,
                         seed = 1,
                         n_peaks = NULL,
                         start_vec = NULL,
@@ -41,11 +37,7 @@ deconvolve <- function (process_object,
   set.seed(seed)
 
   # identify dataframe
-  mod_df <- process_object$data
-
-  # crop dataset at bounds
-  mod_df <- mod_df[!(mod_df$temp_C < lower_temp |
-                       mod_df$temp_C > upper_temp),]
+  mod_df <- process_object$pyrolysis_data
 
   # figure out peaks
   x <- mod_df$temp_C[mod_df$temp_C < 220]
@@ -132,8 +124,9 @@ deconvolve <- function (process_object,
   fit <- fs_model(mod_df, params_opt, lb, ub)
 
   # output
-  output <- list(data = mod_df,
-                 temp_bounds = c(lower_temp, upper_temp),
+  output <- list(all_data = process_object$all_data,
+                 pyrolysis_data = mod_df,
+                 pyrolysis_temp_range = process_object$pyrolysis_temp_range,
                  model_fit = fit,
                  n_peaks = n_peaks)
 
