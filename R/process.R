@@ -3,11 +3,15 @@
 #' This function processes thermogravimetric data by calculating
 #' the derivative of mass loss
 #'
-#' @param data dataframe
+#' @param data dataframe with thermogravimetric analysis output
 #' @param init_mass numeric value of initial sample mass in mg
 #' @param temp column name containing temperature values
 #' @param mass_loss column name containing mass loss values in mg
-#' @param mass column name containing mass values in mg
+#' @param time index column of time
+#' @param pyrolysis_start_time value from `time` column that indicates when
+#'   the pyrolysis period begins
+#' @param pyrolysis_end_time value from `time` column that indicates when
+#'   the pyrolysis period ends
 #' @param temp_units specify units of temperature, default = Celsius.
 #' Can specify 'K' or 'Kelvin' if in Kelvin
 #' @return process list containing modified dataframe, initial mass
@@ -16,24 +20,19 @@
 #' @examples
 #' data(juncus)
 #' tmp <- process(juncus, init_mass = 18.96,
-#'                temp = 'temp_C', mass_loss = 'mass_loss')
+#'                temp = 'temp_C', mass_loss = 'mass_loss'
+#'                time,
+#'                )
 #'
 #' @export
-
 process <- function (data, init_mass, temp,
-                     mass_loss = NULL,
-                     mass = NULL,
-                     temp_units = 'C') {
+                     mass_loss, time,
+                     pyrolysis_start_time, pyrolysis_end_time,
+                     temp_units = c('C', 'K')) {
 
   # subset provided data to avoid presence of
   # other columns with conflicting names
-  subset <- data[, c(temp, mass_loss, mass)]
-
-  # check that mass data is provided
-  if (is.null(mass_loss) & is.null(mass)) {
-    stop('Specify either mass or mass loss
-         data column name')
-  }
+  subset <- data[, c(temp, mass_loss, time)]
 
   # check that initial mass is positive
   if (init_mass < 0) {
@@ -41,63 +40,62 @@ process <- function (data, init_mass, temp,
   }
 
   # check temperature inputs
-  temp_measures <- c('C', 'Celsius', 'K', 'Kelvin')
+  valid_temps <- c('C', 'K')
+  temp_units <- rlang::arg_match(
+    arg = temp_units,
+    values = valid_temps
+  )
 
-  if (!isTRUE(is.element(temp_units, temp_measures))) {
-    stop('Specify temperature either in Celsius or Kelvin')
-  }
-
-  if (temp_units == 'K' | temp_units == 'Kelvin') {
+  if (temp_units == 'K') {
     subset$temp_C <- subset[, temp] - 273
   }
 
-  if (temp_units == 'C' | temp_units == 'Celsius') {
+  if (temp_units == 'C') {
     subset$temp_C <- subset[, temp]
   }
 
-  if (subset[1, 'temp_C']%%1 != 0) {
-    subset$roundC <- round(subset$temp_C, 0)
-    subset_1 <- subset[!duplicated(subset$roundC),]
-  }
-  if (subset[1, 'temp_C']%%1 == 0) {
-    subset_1 <- subset[!duplicated(subset$temp_C),]
-  }
+  subset$mass_T <- subset[, mass_loss] + init_mass
 
-  # calculate mass_T
-  if (!is.null(mass)) {
-    subset_1$mass_T <- subset_1[, mass]
-  }
+  m_pyrolysis_start <- subset$mass_T[subset$time == pyrolysis_start_time]
+  moisture_loss_stage <- subset$time < pyrolysis_start_time
+  pyrolysis_stage <- subset$time >= pyrolysis_start_time &
+    subset$time <= pyrolysis_end_time
+  combustion_stage <- subset$time > pyrolysis_end_time
 
-  if (is.null(mass)) {
-    subset_1$mass_T <- subset_1[, mass_loss] + init_mass
-  }
+  subset$stage[moisture_loss_stage] <- 'moisture_content'
+  subset$stage[pyrolysis_stage] <- 'volatile_matter'
+  subset$stage[combustion_stage] <- 'fixed_carbon'
 
-  # calculate adjusted mass loss given initial mass
-  if (!is.null(mass_loss)) {
-    subset_1$adj_massloss <- subset_1[, mass_loss] / init_mass
-  }
+  pyrolysis <- subset[subset$stage == 'volatile_matter', ]
+  pyrolysis$adj_massloss <- (pyrolysis$mass_T - m_pyrolysis_start) /
+    m_pyrolysis_start
 
-  if (is.null(mass_loss)) {
-    subset_1$mass_loss <- subset_1[, mass] - init_mass
-    subset_1$adj_massloss <- subset_1$mass_loss / init_mass
+  if (pyrolysis[1, 'temp_C']%%1 != 0) {
+    pyrolysis$roundC <- round(pyrolysis$temp_C, 0)
+    pyrolysis_1 <- pyrolysis[!duplicated(pyrolysis$roundC),]
+  }
+  if (pyrolysis[1, 'temp_C']%%1 == 0) {
+    pyrolysis_1 <- pyrolysis[!duplicated(pyrolysis$temp_C),]
   }
 
   # calculate the derivative
-  d <- -as.data.frame(diff(subset_1$adj_massloss)/diff(subset_1$temp_C))
+  d <- -as.data.frame(diff(pyrolysis_1$adj_massloss)/diff(pyrolysis_1$temp_C))
   x <- rep(NA, ncol(d))
   deriv <- rbind(x, d)
   colnames(deriv) <- 'deriv'
-  subset_2 <- cbind(subset_1, deriv)
-  subset_2 <- subset_2[-1,]
+  pyrolysis_2 <- cbind(pyrolysis_1, deriv)
+  pyrolysis_2 <- pyrolysis_2[-1,]
 
-  mod_data <- subset_2[,c('temp_C', 'deriv', 'mass_T')]
+  mod_data <- pyrolysis_2[, c('temp_C', 'time', 'deriv', 'mass_T')]
+  all_data <- subset[, c('temp_C', 'time', 'mass_T', 'stage')]
 
   lower <- min(mod_data$temp_C)
   upper <- max(mod_data$temp_C)
 
-  output <- list(data = mod_data,
+  output <- list(pyrolysis_data = mod_data,
+                 all_data = all_data,
                  mass_init = init_mass,
-                 temp_range = c(lower, upper))
+                 pyrolysis_temp_range = c(lower, upper))
 
   class(output) <- 'process'
   output
