@@ -12,10 +12,10 @@
 
 print.decon <- function (x, ...) {
 
-  cat(paste0('Deconvolution by ',
-             x$n_curves,
+  cat(paste0('Deconvolution by ', x$n_peaks,
              '-part Fraser-Suzuki mixture model fitted to \n',
-             nrow(x$data), ' datapoints from ', x$temp_bounds[1],
-             ' to ', x$temp_bounds[2], ' degrees C.'))
+             nrow(x$pyrolysis_data), ' datapoints from ',
+             x$pyrolysis_temp_range[1], ' to ', x$pyrolysis_temp_range[2],
+             ' degrees C.'))
 
 }

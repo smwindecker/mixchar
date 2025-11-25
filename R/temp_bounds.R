@@ -13,7 +13,7 @@
 
 temp_bounds <- function (object) {
 
-  if (class(object) == 'process') return(object$temp_range)
-  if (class(object) == 'decon') return(object$temp_bounds)
+  if (class(object) == 'process') return(object$pyrolysis_temp_range)
+  if (class(object) == 'decon') return(object$pyrolysis_temp_range)
 
 }

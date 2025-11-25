@@ -82,8 +82,8 @@ weight_quantiles <- function (output, seed) {
 get_weights <- function (param_vec, output) {
 
   n_peaks <- output$n_peaks
-  lower_temp <- output$temp_bounds[1]
-  upper_temp <- output$temp_bounds[2]
+  lower_temp <- output$pyrolysis_temp_range[1]
+  upper_temp <- output$pyrolysis_temp_range[2]
 
   if (n_peaks == 3) {
     curve_vec <- 1:3
