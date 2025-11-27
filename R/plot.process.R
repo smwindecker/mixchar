@@ -129,14 +129,14 @@ plot.process <- function (x, plot_type = NULL, cex = 1, ...) {
 
     text(x = start_time,
          y = offset_y,
-         labels = round(start_time, 2),
+         labels = sprintf("%.2f", start_time),
          col = "red",
          cex = 0.6 * cex,
          xpd = TRUE)
 
     text(x = end_time,
          y = offset_y,
-         labels = round(end_time, 2),
+         labels = sprintf("%.2f", end_time),
          col = "red",
          cex = 0.6 * cex,
          xpd = TRUE)
