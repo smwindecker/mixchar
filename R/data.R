@@ -18,13 +18,14 @@
 
 #' Thermogravimetric analysis of juncus reed data
 #'
-#' TGA of juncus reed sample under a single a dynamic heating protocol (10C/min) from XXXX to 750C under a nitrogen atmosphere.
+#' TGA of Juncus amabilis reed sample under a single a dynamic heating protocol (10C/min) from 31C to 800C under a nitrogen atmosphere.
 #'
 #' @format ## `juncus`
 #' A data frame with 46080 rows and 2 columns:
 #' \describe{
 #'   \item{temp_C}{Numeric, temperature in degrees C}
 #'   \item{mass_loss}{Numeric, mass loss compared to an initial mass of 18.96}
+#'   \item{time}{Numeric, time in minutes}
 #' }
 #' @source <>
 #' @srrstats {G5.1} Dataset `juncus` is exported and described in detail here.
@@ -34,13 +35,14 @@
 
 #' Thermogravimetric analysis of marsilea herb data
 #'
-#' TGA of marsilea herb sample under a single a dynamic heating protocol (10C/min) from XXXX to 750C under a nitrogen atmosphere.
+#' TGA of wetland forb, Marsilea drumondii, sample under a single a dynamic heating protocol (10C/min) from 31C to 800C under a nitrogen atmosphere.
 #'
 #' @format ## `marsilea`
 #' A data frame with 46080 rows and 2 columns:
 #' \describe{
 #'   \item{temp_C}{Numeric, temperature in degrees C}
 #'   \item{mass_loss}{Numeric, mass loss compared to an initial mass of 15.29}
+#'   \item{time}{Numeric, time in minutes}
 #' }
 #' @source <>
 #' @srrstats {G5.1} Dataset `marsilea` is exported and described in detail here.
