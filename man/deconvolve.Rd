@@ -6,8 +6,6 @@
 \usage{
 deconvolve(
   process_object,
-  lower_temp = 120,
-  upper_temp = 700,
   seed = 1,
   n_peaks = NULL,
   start_vec = NULL,
@@ -17,10 +15,6 @@ deconvolve(
 }
 \arguments{
 \item{process_object}{process object obtained from process function}
-
-\item{lower_temp}{lower temperature bound to crop dataset, default to 120}
-
-\item{upper_temp}{upper temperature bound to crop dataset, default to 700}
 
 \item{seed}{random seed for nloptr optimiser}
 

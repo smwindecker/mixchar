@@ -4,10 +4,19 @@
 \alias{process}
 \title{Calculates the derivative rate of mass loss of thermogravimetric data}
 \usage{
-process(data, init_mass, temp, mass_loss = NULL, mass = NULL, temp_units = "C")
+process(
+  data,
+  init_mass,
+  temp,
+  mass_loss,
+  time,
+  pyrolysis_start_time,
+  pyrolysis_end_time,
+  temp_units = c("C", "K")
+)
 }
 \arguments{
-\item{data}{dataframe}
+\item{data}{dataframe with thermogravimetric analysis output}
 
 \item{init_mass}{numeric value of initial sample mass in mg}
 
@@ -15,7 +24,13 @@ process(data, init_mass, temp, mass_loss = NULL, mass = NULL, temp_units = "C")
 
 \item{mass_loss}{column name containing mass loss values in mg}
 
-\item{mass}{column name containing mass values in mg}
+\item{time}{index column of time}
+
+\item{pyrolysis_start_time}{value from `time` column that indicates when
+the pyrolysis period begins}
+
+\item{pyrolysis_end_time}{value from `time` column that indicates when
+the pyrolysis period ends}
 
 \item{temp_units}{specify units of temperature, default = Celsius.
 Can specify 'K' or 'Kelvin' if in Kelvin}
@@ -31,7 +46,9 @@ the derivative of mass loss
 \examples{
 data(juncus)
 tmp <- process(juncus, init_mass = 18.96,
-               temp = 'temp_C', mass_loss = 'mass_loss')
+               temp = 'temp_C', mass_loss = 'mass_loss'
+               time,
+               )
 
 }
 \keyword{deconvolution}
