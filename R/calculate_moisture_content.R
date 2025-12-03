@@ -1,3 +1,11 @@
+#' Calculate moisture content as percent of total sample mass
+#'
+#' @param processed_data thermogravimetric mass loss data processed by
+#'   process() function
+#'
+#' @returns moisture content %
+#' @export
+#'
 calculate_moisture_content <- function (processed_data) {
 
   df <- processed_data$all_data
@@ -7,6 +15,14 @@ calculate_moisture_content <- function (processed_data) {
 
 }
 
+#' Calculate ash content as percent of dry mass of sample
+#'
+#' @param processed_data thermogravimetric mass loss data processed by
+#'   process() function
+#'
+#' @returns ash content %
+#' @export
+#'
 calculate_ash_content <- function (processed_data) {
 
   df <- processed_data$all_data
