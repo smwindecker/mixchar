@@ -1,14 +1,18 @@
-#' Title
+#' Calculate fixed carbon fractions
 #'
-#' @param deconvolution_output
-#' @param dry_basis_fixed_carbon_hemicellulose
-#' @param dry_basis_fixed_carbon_cellulose
-#' @param dry_basis_fixed_carbon_lignin
+#' @param deconvolution_output output from the pyrolysis phase deconvolution
+#' @param dry_basis_fixed_carbon_hemicellulose reference value for proportion
+#'   of pure hemicellulose sample that is fixed carbon
+#' @param dry_basis_fixed_carbon_cellulose reference value for proportion
+#'   of pure cellulose sample that is fixed carbon
+#' @param dry_basis_fixed_carbon_lignin reference value for proportion
+#'   of pure lignin sample that is fixed carbon
 #'
-#' @returns
+#' @returns list of volatile hemicellulose fraction, volatile cellulose
+#'   fraction, volatile lignin fraction, fixed carbon hemicellulose fraction,
+#'   fixed carbon cellulose fraction, and fixed carbon lignin fraction
 #' @export
 #'
-#' @examples
 calculate_fixed_carbon_fractions <- function (
     deconvolution_output,
     dry_basis_fixed_carbon_hemicellulose = 13.8,
@@ -24,7 +28,15 @@ calculate_fixed_carbon_fractions <- function (
 
   # deconvolution of pyrolysis of volatile components
   vol_frac <- deconvolution_output$weights
-  Hvp <- vol_frac$HC[vol_frac$value_type == 'mean']
+
+  if ("HC_1" %in% names(vol_frac)) {
+    H1vp <- vol_frac$HC_1[vol_frac$value_type == 'mean']
+    H2vp <- vol_frac$HC_2[vol_frac$value_type == 'mean']
+    Hvp <- H1vp + H2vp
+  }
+  if ('HC' %in% names(vol_frac)) {
+    Hvp <- vol_frac$HC[vol_frac$value_type == 'mean']
+  }
   Cvp <- vol_frac$CL[vol_frac$value_type == 'mean']
   Lvp <- vol_frac$LG[vol_frac$value_type == 'mean']
   # total volatile component
@@ -53,5 +65,10 @@ calculate_fixed_carbon_fractions <- function (
   Cfp <- Cf2*FC
   Lfp <- Lf2*FC
 
-  list(Hfp = Hfp, Cfp = Cfp, Lfp = Lfp)
+  list(volatile_HC_fraction = Hvp,
+       volatile_CL_fraction = Cvp,
+       volatile_LG_fraction = Lvp,
+       fixed_carbon_HC_fraction = Hfp,
+       fixed_carbon_CL_fraction = Cfp,
+       fixed_carbon_LG_fraction = Lfp)
 }
