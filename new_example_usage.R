@@ -14,6 +14,9 @@ p <- process(data = tga, # dataset
 ## Step 3. Visualise data
 plot(p)
 
+## Step 3b. Visualise temperature program
+plot_temp_program(tga, time_col = "time", temp_col = "temp", stage_col = "stage")
+
 ## Step 4. (Phase II) Model deconvolution
 volatile_fractions <- deconvolve(p)
 
