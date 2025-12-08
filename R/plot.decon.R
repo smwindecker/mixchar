@@ -5,6 +5,7 @@
 #' @param seed optional seed for reproducibility
 #' @param band_alpha alpha for ribbons
 #' @importFrom grDevices adjustcolor
+#' @export
 #' @method plot decon
 plot.decon <- function (x,
                         bw = TRUE,
