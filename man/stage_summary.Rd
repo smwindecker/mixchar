@@ -7,7 +7,7 @@
 stage_summary(process_obj)
 }
 \arguments{
-\item{process_obj}{object from process()}
+\item{process_obj}{object returned from [process()]}
 }
 \value{
 data.frame with stage, time_start/time_end, mass_start/mass_end
