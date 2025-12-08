@@ -247,6 +247,11 @@ server <- function(input, output, session) {
       )
       totals <- mixchar:::calculate_total_fractions(rv$decon, fc)
 
+      # support both abbreviated and verbose fixed carbon names
+      fc_H <- if (!is.null(fc$fixed_carbon_HC_fraction)) fc$fixed_carbon_HC_fraction else fc$Hfp
+      fc_C <- if (!is.null(fc$fixed_carbon_CL_fraction)) fc$fixed_carbon_CL_fraction else fc$Cfp
+      fc_L <- if (!is.null(fc$fixed_carbon_LG_fraction)) fc$fixed_carbon_LG_fraction else fc$Lfp
+
       data.frame(
         Component = c(
           "Moisture", "Ash",
@@ -256,7 +261,7 @@ server <- function(input, output, session) {
         Percent = round(
           c(moisture, ash,
             totals$H_total, totals$C_total, totals$L_total,
-            fc$Hfp, fc$Cfp, fc$Lfp),
+            fc_H, fc_C, fc_L),
           2
         )
       )
