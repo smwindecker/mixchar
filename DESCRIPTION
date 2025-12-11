@@ -5,7 +5,9 @@ Date: 2021-03-03
 Authors@R: c(person("Saras", "Windecker", role = c("aut", "cre"), 
                     email = "saras.windecker@gmail.com"),
              person("Nick", "Golding", role = "aut",
-                    email = "nick.golding.research@gmail.com"))
+                    email = "nick.golding.research@gmail.com"),
+            person("Ryan", "Gong", role = "aut",
+                    email = "shampollkamikaze@gmail.com"))
 Description: Deconvolution of thermal decay curves allows you to quantify proportions 
     of biomass components in plant litter. Thermal decay curves derived from 
     thermogravimetric analysis (TGA) are imported, modified, and then modelled in a 
