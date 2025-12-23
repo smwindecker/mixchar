@@ -11,13 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build WASM binaries
-        uses: r-wasm/actions/build-rwasm@v1
+      - name: Build and upload WASM binaries
+        uses: r-wasm/actions@v1
         with:
           packages: "."
-
-      - name: Upload binaries to release
-        uses: r-wasm/actions/upload-rwasm@v1
-        with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          name: "webr-repo"
