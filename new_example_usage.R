@@ -1,33 +1,34 @@
 ## Step 1. Read data
-tga <- read.csv('beech_example.csv', skip = 40)
+# beech <- read.csv('beech_example.csv', skip = 40)
+# don't need to read this file because it's loaded with the package
 
 ## Step 2. Process data
-p <- process(data = tga, # dataset
-             init_mass = 18.96,
-             temp = 'temp',
-             mass_loss = 'mass_loss',
-             time = 'time',
-             pyrolysis_start_time = 127,
-             pyrolysis_end_time = 191.5,
-             temp_units = 'C')
+processed_data <- process(data = beech, # dataset
+                          init_mass = 10.64,
+                          temp = 'temp',
+                          mass_loss = 'mass_loss',
+                          time = 'time',
+                          pyrolysis_start_time = 127,
+                          pyrolysis_end_time = 191.5,
+                          temp_units = 'C')
 
 ## Step 3. Visualise data
-plot(p)
+plot(processed_data)
 
-## Step 4. (Phase II) Model deconvolution
-volatile_fractions <- deconvolve(p)
+## Step 4. (Phase II) Deconvolution of pyrolysis phase
+volatile_fractions <- deconvolve(processed_data)
 
 ## Step 5. Visualise deconvolution
 plot(volatile_fractions)
 
-
-m <- calculate_moisture_content(p)
-a <- calculate_ash_content(p)
-
+## Step 6. (Phase III) Separate fixed carbon fractions
 fc <- calculate_fixed_carbon_fractions(volatile_fractions)
+
+moisture_fraction <- calculate_moisture_content(processed_data)
+ash_fraction <- calculate_ash_content(p)
+
+## Step 7. Calculate total fractions of the subcomponents
 total <- calculate_total_fractions(volatile_fractions, fc)
-
-
 
 
 
