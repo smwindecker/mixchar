@@ -6,7 +6,7 @@
 #' A data frame with 1544 rows and 4 columns:
 #' \describe{
 #'   \item{time}{Numeric, time in minutes}
-#'   \item{temp}{Numeric, temperature in degrees C}
+#'   \item{temp_C}{Numeric, temperature in degrees C}
 #'   \item{mass_loss}{Numeric, mass loss compared to an initial mass of 10.64}
 #'   \item{stage}{Integer, stage of thermogravimetric analysis}
 #' }
