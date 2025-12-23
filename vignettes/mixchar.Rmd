@@ -30,38 +30,44 @@ colnames(c('temperature_C', 'mass_mg'))
 
 More information about reading data into R can be found [here](http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions). 
 
-This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included two example datasets in this package, called `juncus` and `marsilea`, that we will use for this demonstration. The `juncus` dataset contains theromogravimetric data for a sample of the freshwater reed, *Juncus amabilis*, and `marsilea` contains data for the freshwater fern, *Marsilea drumondii*. 
+This package was developed using data from a Netzsch TGA-FTIR thermogravimetric analyser. We have included three example datasets in this package, `beech`, `juncus`, and `marsilea`. The `beech` dataset contains thermogravimetric data for a sample of beech wood that underwent a non uniform heating program over time; `juncus` and `marsilea` contains theromogravimetric data for a sample of the freshwater reed, *Juncus amabilis*, and a freshwater fern, *Marsilea drumondii*, respectively, over a uniform heating program. 
 
 ``` {r}
 library(mixchar)
-head(juncus)
+plot(beech$time, beech$temp_C)
+plot(marsilea$time, marsilea$temp_C)
 ```
 
 <hr>
 
 ## 2. `process` data
 
-After we've loaded our data, can use the function `process()` to take the derivative of this data, resulting in rate of mass loss over temperature data. This produces the multi-peaked rate of decay curve that we will apply the mixture model to. The `process` function needs the dataset, the initial mass of sample, the name of the temperature data column, and the name of your mass column (mg). Mass might be recorded in your exported dataset in different ways:
-
-  * If you have *mass loss of sample*, such as in the `juncus` dataset, you can specify the column name using the `mass_loss` argument.
-  * If you have *mass remaining of sample*, you specify the column name using the `mass` argument.
-  * **You only need to specify one of these columns for the `process` function.** But make sure the argument matches the kind of data!
+After we've loaded our data, can use the function `process()` to take the derivative of the pyrolysis phase, resulting in rate of mass loss over temperature data. This produces the multi-peaked rate of decay curve that we will apply the mixture model to. The `process` function needs the dataset, the initial mass of sample, the name of the temperature data column, the name of your mass loss column, the name of the time column, and the start and end times for the pyrolysis phase. 
 
 The function defaults to temperature data in Celsius, but you can also modify to indicate the data is provided in Kelvin, by specifying the argument `temp_units = 'K'`. 
 
 ```{r}
-deriv_juncus <- process(juncus,                          # dataframe name
-                        init_mass = 18.96,
-                        temp = 'temp_C',                 # column name for temperature
-                        mass_loss = 'mass_loss')         # column name for mass loss data
-deriv_juncus
+processed_beech <- process(
+  beech,                                # dataframe name
+  init_mass = 10.64,                    # initial mass of sample
+  temp = 'temp_C',                      # col name for temperature data
+  mass_loss = 'mass_loss',              # col name for mass loss data
+  time = 'time',                        # col name for time data
+  pyrolysis_start_time = 127,           # time at which pyrolysis phase began
+  pyrolysis_end_time = 191.5,           # time at which pyrolysis phase ended
+  temp_units = 'C')                     # temperature units
+processed_beech
 ```
 
 ```{r}
 deriv_marsilea <- process(marsilea, 
                           init_mass = 15.29,
                           temp = 'temp_C', 
-                          mass_loss = 'mass_loss')
+                          mass_loss = 'mass_loss', 
+                          time = 'time',
+                          pyrolysis_start_time = 5295,
+                          pyrolysis_end_time = 37109)
+
 deriv_marsilea
 ```
 
