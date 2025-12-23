@@ -14,6 +14,8 @@ processed_data <- process(data = beech, # dataset
 
 ## Step 3. Visualise data
 plot(processed_data)
+## Step 3b. Visualise temperature program
+plot_temp_program(tga, time_col = "time", temp_col = "temp", stage_col = "stage")
 
 ## Step 4. (Phase II) Deconvolution of pyrolysis phase
 volatile_fractions <- deconvolve(processed_data)
@@ -34,18 +36,6 @@ total <- calculate_total_fractions(volatile_fractions, fc)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-# add visual of the temp program to the GUI
 
 
 # H = 29.18689
