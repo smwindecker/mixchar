@@ -1,0 +1,23 @@
+name: Build R-WASM binaries
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build WASM binaries
+        uses: r-wasm/actions/build-rwasm@v1
+        with:
+          packages: "."
+
+      - name: Upload binaries to release
+        uses: r-wasm/actions/upload-rwasm@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          name: "webr-repo"
